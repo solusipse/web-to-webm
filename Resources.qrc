@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/icons/cancel.png</file>
+        <file>resources/icons/convert.png</file>
+        <file>resources/icons/yt-icon.png</file>
+        <file>resources/icons/open.png</file>
+    </qresource>
+</RCC>
