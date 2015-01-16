@@ -33,7 +33,8 @@ void Utilities::setStylesheet() {
                       "QProgressBar::chunk{background:#b31217;}"
                       "QPlainTextEdit{color:#888;}"
                       "QComboBox{height:35px;border:none;background:#888;}"
-                      "QComboBox::down-arrow{display:none;}";
+                      "QComboBox::drop-down{border:none;background:#666;}"
+                      "QComboBox::drop-down::pressed{background:#b31217;}";
 
     qApp->setStyleSheet(css);
 }
@@ -41,6 +42,7 @@ void Utilities::setStylesheet() {
 void Utilities::setCommons() {
     QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled, true);
     utils.ui->player->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
+
 }
 
 void Utilities::setVideoDetails(QString url) {
@@ -128,4 +130,9 @@ void Utilities::downloadProgress() {
         ui->downloadProgressBar->setValue(percent.toInt());
 
     utils.addToLog(buffer);
+}
+
+QVector<QString> Utilities::ytQualityList(QString url) {
+    QVector<QString> list;
+    return list;
 }

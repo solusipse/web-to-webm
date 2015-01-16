@@ -8,37 +8,36 @@
 
 class Utilities : public QObject
 {
-
     Q_OBJECT
 
 public:
     Utilities();
     Ui::MainWindow *ui;
+
     void setTheme();
     void setCommons();
+    void resetInterface();
+    bool startProcedure();
+    void addToLog(QString line);
     void setVideoDetails(QString url);
+
     QString ytVideoTitle(QString url);
     QString ytVideoID(QString url);
     QString currentVideoUrl;
 
+    QVector<QString> ytQualityList(QString url);
+
     QProcess *currentDownloadProcess = new QProcess;
-
-    void resetInterface();
-
-    bool startProcedure();
-    void addToLog(QString line);
 
 private:
     void setStylesheet();
+    void setFilename(QString url);
     QString execBinary(QString bin);
     QString ytPrepareUrl(QString url);
     QString getDefaultFilename(QString url);
-    void setFilename(QString url);
-
 
 public slots:
     void downloadProgress();
-
 
 };
 

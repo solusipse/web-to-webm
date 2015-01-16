@@ -127,7 +127,7 @@
          </property>
          <property name="url">
           <url>
-           <string>https://www.youtube.com/embed/WZciSqztnew</string>
+           <string>https://www.youtube.com/embed/dQw4w9WgXcQ</string>
           </url>
          </property>
         </widget>
@@ -217,9 +217,15 @@
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox">
+           <widget class="QComboBox" name="qualityComboBox">
+            <property name="editable">
+             <bool>false</bool>
+            </property>
             <property name="currentText">
              <string/>
+            </property>
+            <property name="currentIndex">
+             <number>-1</number>
             </property>
            </widget>
           </item>
