@@ -28,8 +28,12 @@ void Utilities::setTheme() {
 void Utilities::setStylesheet() {
     const char *css = "QPushButton:hover{background:#7d1cb4;}"
                       "QWebView{background:#333;} QPlainTextEdit{background:#333;}"
-                      "QLineEdit{background:#888;border:none;height:35px;padding-left:10px;color:#222;}"
-                      "QProgressBar{background:#888; border:none;height:35px;color:#333;} ";
+                      "QLineEdit{background:#888;border:none;height:35px;padding-left:10px;padding-right:10px;color:#222;}"
+                      "QProgressBar{background:#888; border:none;height:35px;color:#333;}"
+                      "QProgressBar::chunk{background:#b31217;}"
+                      "QPlainTextEdit{color:#888;}"
+                      "QComboBox{height:35px;border:none;background:#888;}"
+                      "QComboBox::down-arrow{display:none;}";
 
     qApp->setStyleSheet(css);
 }
@@ -44,12 +48,21 @@ void Utilities::setVideoDetails(QString url) {
 
     if (url == "error") {
         utils.ui->titleEdit->setText("Error: provided url is incorrect.");
+        addToLog("<b>Error:</b> provided url is incorrect.");
+        currentVideoUrl = "";
         return;
     }
+
+    resetInterface();
+
     utils.ui->player->load(url);
     utils.ui->titleEdit->setText(ytVideoTitle(url));
 
     setFilename(url);
+
+    utils.currentVideoUrl = url;
+
+    addToLog("<b>Loaded video:</b><br>" + url);
 }
 
 QString Utilities::execBinary(QString bin) {
@@ -76,6 +89,43 @@ QString Utilities::ytPrepareUrl(QString url) {
 }
 
 void Utilities::setFilename(QString url) {
-    QString ytid = execBinary("youtube-dl.exe --get-id " + url);
+    if (!(utils.ui->filenameEdit->text().length() < 2))
+        return;
+
+    QString ytid = getDefaultFilename(url);
     utils.ui->filenameEdit->setText(QDir().homePath() + "/" + ytid + ".webm");
+}
+
+void Utilities::addToLog(QString line) {
+    utils.ui->logBox->appendHtml(line);
+}
+
+bool Utilities::startProcedure() {
+    if (currentVideoUrl.isEmpty()) {
+        addToLog("Add valid video first.");
+        return false;
+    }
+    addToLog("<br><b>Started downloading video:</b><br>" + utils.ui->urlEdit->text());
+    return true;
+}
+
+void Utilities::resetInterface() {
+    utils.ui->downloadProgressBar->setValue(0);
+}
+
+QString Utilities::getDefaultFilename(QString url) {
+    return QFileInfo(execBinary("youtube-dl --get-filename " + url)).baseName();
+}
+
+void Utilities::downloadProgress() {
+    QString buffer = utils.currentDownloadProcess->readAllStandardOutput();
+
+    // This code if for handling progress bar
+    QRegExp regexp("\\[download\\]\\s+(\\d+)\\.");
+    regexp.indexIn(buffer);
+    QString percent = regexp.capturedTexts()[1];
+    if (percent != "")
+        ui->downloadProgressBar->setValue(percent.toInt());
+
+    utils.addToLog(buffer);
 }

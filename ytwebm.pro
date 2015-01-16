@@ -22,4 +22,4 @@ HEADERS  += src/mainwindow.h \
 FORMS    += src/mainwindow.ui
 
 RESOURCES += \
-    Resources.qrc
+    resources/Resources.qrc

@@ -26,8 +26,8 @@
    <string>ytwebm</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resources.qrc">
-    <normaloff>:/resources/icons/yt-icon.png</normaloff>:/resources/icons/yt-icon.png</iconset>
+   <iconset resource="../resources/Resources.qrc">
+    <normaloff>:/icons/yt-icon.png</normaloff>:/icons/yt-icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -166,23 +166,60 @@
            <number>12</number>
           </property>
           <item>
-           <widget class="QLineEdit" name="lineEdit_3">
-            <property name="placeholderText">
-             <string>Cut from (mm:ss)</string>
+           <widget class="QFrame" name="frame_5">
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="lineEdit_2">
-            <property name="placeholderText">
-             <string>Cut to (mm:ss)</string>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
             </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_3">
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="placeholderText">
+                <string>Cut from</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_2">
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+               </property>
+               <property name="placeholderText">
+                <string>Cut to</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="filenameEdit">
             <property name="placeholderText">
              <string>Filename</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox">
+            <property name="currentText">
+             <string/>
             </property>
            </widget>
           </item>
@@ -232,8 +269,8 @@
                 <string>...</string>
                </property>
                <property name="icon">
-                <iconset resource="Resources.qrc">
-                 <normaloff>:/resources/icons/convert.png</normaloff>:/resources/icons/convert.png</iconset>
+                <iconset resource="../resources/Resources.qrc">
+                 <normaloff>:/icons/convert.png</normaloff>:/icons/convert.png</iconset>
                </property>
               </widget>
              </item>
@@ -249,8 +286,8 @@
                 <string>...</string>
                </property>
                <property name="icon">
-                <iconset resource="Resources.qrc">
-                 <normaloff>:/resources/icons/cancel.png</normaloff>:/resources/icons/cancel.png</iconset>
+                <iconset resource="../resources/Resources.qrc">
+                 <normaloff>:/icons/cancel.png</normaloff>:/icons/cancel.png</iconset>
                </property>
               </widget>
              </item>
@@ -266,8 +303,8 @@
                 <string>...</string>
                </property>
                <property name="icon">
-                <iconset resource="Resources.qrc">
-                 <normaloff>:/resources/icons/open.png</normaloff>:/resources/icons/open.png</iconset>
+                <iconset resource="../resources/Resources.qrc">
+                 <normaloff>:/icons/open.png</normaloff>:/icons/open.png</iconset>
                </property>
               </widget>
              </item>
@@ -282,7 +319,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QProgressBar" name="progressBar">
+           <widget class="QProgressBar" name="downloadProgressBar">
             <property name="value">
              <number>0</number>
             </property>
@@ -300,6 +337,9 @@
           </item>
           <item>
            <widget class="QProgressBar" name="progressBar_2">
+            <property name="maximum">
+             <number>100</number>
+            </property>
             <property name="value">
              <number>0</number>
             </property>
@@ -331,7 +371,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPlainTextEdit" name="plainTextEdit">
+           <widget class="QPlainTextEdit" name="logBox">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -361,7 +401,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="Resources.qrc"/>
+  <include location="../resources/Resources.qrc"/>
  </resources>
  <connections/>
 </ui>
