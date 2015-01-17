@@ -1,6 +1,12 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
+#ifdef _WIN32
+    #define SYSTEM "win"
+#else
+    #define SYSTEM "posix"
+#endif
+
 
 #include <QMainWindow>
 #include <QProcess>
@@ -24,6 +30,7 @@ public:
     QString ytVideoTitle(QString url);
     QString ytVideoID(QString url);
     QString currentVideoUrl;
+    QString ytBinaryName();
 
     QVector<QVector <QString> > ytQualityList(QString url);
 

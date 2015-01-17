@@ -23,6 +23,8 @@ void Utilities::setTheme() {
     p.setColor(QPalette::Light, QColor("#333"));
     qApp->setPalette(p);
     setStylesheet();
+
+    ytBinaryName();
 }
 
 void Utilities::setStylesheet() {
@@ -79,15 +81,15 @@ QString Utilities::execBinary(QString bin, int multiline = 0) {
 }
 
 QString Utilities::ytVideoTitle(QString url) {
-    return execBinary("youtube-dl.exe -e " + url);
+    return execBinary(ytBinaryName() + " -e " + url);
 }
 
 QString Utilities::ytVideoID(QString url) {
-    return execBinary("youtube-dl.exe --get-id " + url);
+    return execBinary(ytBinaryName() + " --get-id " + url);
 }
 
 QString Utilities::ytPrepareUrl(QString url) {
-    url = execBinary("youtube-dl.exe --get-id " + url);
+    url = execBinary(ytBinaryName() + " --get-id " + url);
     if (url.isEmpty())
         return "error";
     return "https://www.youtube.com/embed/" + url;
@@ -168,4 +170,12 @@ QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
                 }
     }
     return list;
+}
+
+QString Utilities::ytBinaryName() {
+    if (SYSTEM == "win")
+        return "youtube-dl.exe";
+    if (SYSTEM == "posix")
+        return "./youtube-dl";
+    return "";
 }
