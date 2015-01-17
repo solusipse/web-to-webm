@@ -25,7 +25,7 @@ public:
     QString ytVideoID(QString url);
     QString currentVideoUrl;
 
-    QVector<QVector<QString>> ytQualityList(QString url);
+    QVector<QVector <QString> > ytQualityList(QString url);
 
     QProcess *currentDownloadProcess = new QProcess;
 

@@ -135,8 +135,8 @@ void Utilities::downloadProgress() {
     utils.addToLog(buffer);
 }
 
-QVector<QVector<QString>> Utilities::ytQualityList(QString url) {
-    QVector<QVector<QString>> list;
+QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
+    QVector< QVector<QString> > list;
     QString formats = execBinary("youtube-dl -F " + url, 1);
     QStringList formatsList = formats.split("\n");
 
