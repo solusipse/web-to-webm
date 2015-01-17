@@ -25,14 +25,14 @@ public:
     QString ytVideoID(QString url);
     QString currentVideoUrl;
 
-    QVector<QString> ytQualityList(QString url);
+    QVector<QVector<QString>> ytQualityList(QString url);
 
     QProcess *currentDownloadProcess = new QProcess;
 
 private:
     void setStylesheet();
     void setFilename(QString url);
-    QString execBinary(QString bin);
+    QString execBinary(QString bin, int multiline);
     QString ytPrepareUrl(QString url);
     QString getDefaultFilename(QString url);
 

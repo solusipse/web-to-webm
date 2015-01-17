@@ -59,19 +59,22 @@ void Utilities::setVideoDetails(QString url) {
 
     utils.ui->player->load(url);
     utils.ui->titleEdit->setText(ytVideoTitle(url));
-
     setFilename(url);
+    ytQualityList(url);
 
     utils.currentVideoUrl = url;
 
     addToLog("<b>Loaded video:</b><br>" + url);
 }
 
-QString Utilities::execBinary(QString bin) {
+QString Utilities::execBinary(QString bin, int multiline = 0) {
     QProcess program;
     program.start(bin);
-    while(program.waitForFinished(-1))
-        return program.readAllStandardOutput().simplified();
+    while(program.waitForFinished(-1)) {
+        if (multiline == 0)
+            return QString::fromLocal8Bit(program.readAllStandardOutput().simplified());
+        return program.readAllStandardOutput();
+    }
     return "Error on executing " + bin;
 }
 
@@ -132,7 +135,37 @@ void Utilities::downloadProgress() {
     utils.addToLog(buffer);
 }
 
-QVector<QString> Utilities::ytQualityList(QString url) {
-    QVector<QString> list;
+QVector<QVector<QString>> Utilities::ytQualityList(QString url) {
+    QVector<QVector<QString>> list;
+    QString formats = execBinary("youtube-dl -F " + url, 1);
+    QStringList formatsList = formats.split("\n");
+
+    /*
+     * there are always clips in webm and mp4 with same resolution
+     * since mp4 provides better quality and there is sometimes
+     * higher quality in mp4 format available, script is excluding webm
+     * at this moment
+    */
+
+    for (int i = 0; i < formatsList.length(); i++) {
+        if (!formatsList[i].contains("webm"))
+            if (!formatsList[i].contains("audio only"))
+                if (!formatsList[i].contains("video only")) {
+                    QRegExp resolution("\\d{3,4}x\\d{3}");
+                    resolution.indexIn(formatsList[i]);
+                    QRegExp code("\\d\\d");
+                    code.indexIn(formatsList[i]);
+
+                    QString strResolution = resolution.capturedTexts()[0];
+                    QString strCode = code.capturedTexts()[0];
+                    if (strResolution != "" && strCode != "") {
+                        QVector<QString> single;
+                        single.append(strResolution);
+                        single.append(strCode);
+                        qDebug() << single;
+                    }
+
+                }
+    }
     return list;
 }
