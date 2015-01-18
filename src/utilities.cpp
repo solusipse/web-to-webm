@@ -118,6 +118,8 @@ bool Utilities::startProcedure() {
 
 void Utilities::resetInterface() {
     utils.ui->downloadProgressBar->setValue(0);
+    utils.ui->qualityComboBox->clear();
+    utils.ui->filenameEdit->clear();
 }
 
 QString Utilities::getDefaultFilename(QString url) {
