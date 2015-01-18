@@ -26,13 +26,16 @@ public:
     bool startProcedure();
     void addToLog(QString line);
     void setVideoDetails(QString url);
+    void addQualityListToUI();
 
     QString ytVideoTitle(QString url);
     QString ytVideoID(QString url);
     QString currentVideoUrl;
     QString ytBinaryName();
+    QString ytGetQuality();
 
     QVector<QVector <QString> > ytQualityList(QString url);
+    QVector<QVector <QString> > currentQualityList;
 
     QProcess *currentDownloadProcess = new QProcess;
 

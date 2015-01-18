@@ -23,8 +23,6 @@ void Utilities::setTheme() {
     p.setColor(QPalette::Light, QColor("#333"));
     qApp->setPalette(p);
     setStylesheet();
-
-    ytBinaryName();
 }
 
 void Utilities::setStylesheet() {
@@ -34,9 +32,10 @@ void Utilities::setStylesheet() {
                       "QProgressBar{background:#888; border:none;height:35px;color:#333;}"
                       "QProgressBar::chunk{background:#b31217;}"
                       "QPlainTextEdit{color:#888;}"
-                      "QComboBox{height:35px;border:none;background:#888;}"
+                      "QComboBox{height:35px;border:none;background:#888;color:#333}"
                       "QComboBox::drop-down{border:none;background:#666;}"
-                      "QComboBox::drop-down::pressed{background:#b31217;}";
+                      "QComboBox::drop-down::pressed{background:#b31217;}"
+                      "QComboBox QAbstractItemView{padding:35px;background:#888;}";
 
     qApp->setStyleSheet(css);
 }
@@ -62,7 +61,8 @@ void Utilities::setVideoDetails(QString url) {
     utils.ui->player->load(url);
     utils.ui->titleEdit->setText(ytVideoTitle(url));
     setFilename(url);
-    ytQualityList(url);
+    currentQualityList = ytQualityList(url);
+    addQualityListToUI();
 
     utils.currentVideoUrl = url;
 
@@ -121,7 +121,7 @@ void Utilities::resetInterface() {
 }
 
 QString Utilities::getDefaultFilename(QString url) {
-    return QFileInfo(execBinary("youtube-dl --get-filename " + url)).baseName();
+    return QFileInfo(execBinary(ytBinaryName() + " --get-filename " + url)).baseName();
 }
 
 void Utilities::downloadProgress() {
@@ -139,7 +139,7 @@ void Utilities::downloadProgress() {
 
 QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
     QVector< QVector<QString> > list;
-    QString formats = execBinary("youtube-dl -F " + url, 1);
+    QString formats = execBinary(ytBinaryName() + " -F " + url, 1);
     QStringList formatsList = formats.split("\n");
 
     /*
@@ -149,7 +149,7 @@ QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
      * at this moment
     */
 
-    for (int i = 0; i < formatsList.length(); i++) {
+    for (int i = formatsList.length()-1; i >= 0 ; i--) {
         if (!formatsList[i].contains("webm"))
             if (!formatsList[i].contains("audio only"))
                 if (!formatsList[i].contains("video only")) {
@@ -164,9 +164,8 @@ QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
                         QVector<QString> single;
                         single.append(strResolution);
                         single.append(strCode);
-                        qDebug() << single;
+                        list.append(single);
                     }
-
                 }
     }
     return list;
@@ -178,4 +177,13 @@ QString Utilities::ytBinaryName() {
     if (SYSTEM == "posix")
         return "./youtube-dl";
     return "";
+}
+
+void Utilities::addQualityListToUI() {
+    for (int i=0; i < currentQualityList.size(); i++)
+        utils.ui->qualityComboBox->addItem(currentQualityList[i][0]);
+}
+
+QString Utilities::ytGetQuality() {
+    return currentQualityList[ui->qualityComboBox->currentIndex()][1];
 }

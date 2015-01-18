@@ -43,7 +43,7 @@ void MainWindow::on_startConversion_clicked() {
     if (utils.currentDownloadProcess->atEnd())
         utils.currentDownloadProcess->close();
 
-    downloadProcess(utils.ytBinaryName() + " " + utils.currentVideoUrl);
+    downloadProcess(utils.ytBinaryName() + " -f " + utils.ytGetQuality() + " " + utils.currentVideoUrl);
 }
 
 void MainWindow::downloadProcess(QString bin) {

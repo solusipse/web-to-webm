@@ -221,9 +221,6 @@
             <property name="editable">
              <bool>false</bool>
             </property>
-            <property name="currentText">
-             <string/>
-            </property>
             <property name="currentIndex">
              <number>-1</number>
             </property>
