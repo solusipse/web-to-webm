@@ -35,7 +35,10 @@ void Utilities::setStylesheet() {
                       "QComboBox{height:35px;border:none;background:#888;color:#333}"
                       "QComboBox::drop-down{border:none;background:#666;}"
                       "QComboBox::drop-down::pressed{background:#b31217;}"
-                      "QComboBox QAbstractItemView{padding:35px;background:#888;}";
+                      "QComboBox QAbstractItemView{padding:35px;background:#888;}"
+                      "QMenu {background:#333;}"
+                      "QMenu::item{}"
+                      "QMenu::item::selected{background:#b31217;}";
 
     qApp->setStyleSheet(css);
 }
