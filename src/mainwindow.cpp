@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     utils.ui = ui;
     utils.setTheme();
     utils.setCommons();
+    utils.currentDownloadProcess = new QProcess;
 }
 
 MainWindow::~MainWindow() {

@@ -37,7 +37,7 @@ public:
     QVector<QVector <QString> > ytQualityList(QString url);
     QVector<QVector <QString> > currentQualityList;
 
-    QProcess *currentDownloadProcess = new QProcess;
+    QProcess *currentDownloadProcess;
 
 private:
     void setStylesheet();
