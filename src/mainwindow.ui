@@ -189,7 +189,7 @@
              <item>
               <widget class="QLineEdit" name="lineEdit_3">
                <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                </property>
                <property name="placeholderText">
                 <string>Cut from</string>
@@ -408,6 +408,8 @@
      <string>Download</string>
     </property>
     <addaction name="actionNew_download"/>
+    <addaction name="actionStart"/>
+    <addaction name="actionCancel"/>
     <addaction name="actionSave_location"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
@@ -417,8 +419,13 @@
      <string>Options</string>
     </property>
     <addaction name="actionRemove_sound"/>
+    <addaction name="actionRemove_raw_video"/>
     <addaction name="separator"/>
     <addaction name="actionSet_default_download_location"/>
+    <addaction name="actionUse_default_download_location"/>
+    <addaction name="separator"/>
+    <addaction name="actionAdd_custom_parameter_to_ffmpeg"/>
+    <addaction name="actionAdd_custom_parameters_for_youtube_dl"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -468,12 +475,54 @@
   </action>
   <action name="actionSave_location">
    <property name="text">
-    <string>Save location</string>
+    <string>Set save location</string>
    </property>
   </action>
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionRemove_raw_video">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Remove raw video</string>
+   </property>
+  </action>
+  <action name="actionUse_default_download_location">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Use default download location</string>
+   </property>
+  </action>
+  <action name="actionAdd_custom_parameter_to_ffmpeg">
+   <property name="text">
+    <string>Add custom parameters for ffmpeg</string>
+   </property>
+  </action>
+  <action name="actionAdd_custom_parameters_for_youtube_dl">
+   <property name="text">
+    <string>Add custom parameters for youtube-dl</string>
+   </property>
+  </action>
+  <action name="actionCancel">
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </action>
+  <action name="actionStart">
+   <property name="text">
+    <string>Start</string>
    </property>
   </action>
  </widget>

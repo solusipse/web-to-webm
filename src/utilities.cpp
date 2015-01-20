@@ -18,7 +18,7 @@ void Utilities::setTheme() {
     p.setColor(QPalette::Window, QColor("#333"));
     p.setColor(QPalette::Button, QColor("#333"));
     p.setColor(QPalette::Highlight, QColor("#b31217"));
-    p.setColor(QPalette::ButtonText, QColor(155,155,155));
+    p.setColor(QPalette::ButtonText, QColor("#888"));
     p.setColor(QPalette::WindowText, QColor("#888"));
     p.setColor(QPalette::Light, QColor("#333"));
     qApp->setPalette(p);
@@ -38,7 +38,10 @@ void Utilities::setStylesheet() {
                       "QComboBox QAbstractItemView{padding:35px;background:#888;}"
                       "QMenu {background:#333;}"
                       "QMenu::item{}"
-                      "QMenu::item::selected{background:#b31217;}";
+                      "QMenu::item::selected{background:#b31217;}"
+                      "QPushButton{border:none;background-color:#888;padding:25px;color:#333;}"
+                      "QPushButton::hover{background:#b31217;}"
+                      "QMessageBox{background:#222;}";
 
     qApp->setStyleSheet(css);
 }

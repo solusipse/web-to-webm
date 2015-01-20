@@ -4,6 +4,7 @@
 
 #include <QFileDialog>
 #include <QProcess>
+#include <QMessageBox>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -52,4 +53,9 @@ void MainWindow::downloadProcess(QString bin) {
     utils.currentDownloadProcess->start(bin);
 
     connect(utils.currentDownloadProcess, SIGNAL(readyReadStandardOutput()), &utils, SLOT(downloadProgress()));
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QMessageBox::about(this, "ytwebm about", "This software is open source (MIT licensed). It was build with QT5, youtube-dl and ffmpeg. For more informations see https://github.com/solusipse/ytwebm.");
 }
