@@ -210,19 +210,19 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="filenameEdit">
-            <property name="placeholderText">
-             <string>Filename</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QComboBox" name="qualityComboBox">
             <property name="editable">
              <bool>false</bool>
             </property>
             <property name="currentIndex">
              <number>-1</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="filenameEdit">
+            <property name="placeholderText">
+             <string>Filename</string>
             </property>
            </widget>
           </item>
@@ -419,19 +419,24 @@
      <string>Options</string>
     </property>
     <addaction name="actionRemove_sound"/>
+    <addaction name="actionDon_t_convert"/>
     <addaction name="actionRemove_raw_video"/>
     <addaction name="separator"/>
     <addaction name="actionSet_default_download_location"/>
     <addaction name="actionUse_default_download_location"/>
     <addaction name="separator"/>
-    <addaction name="actionAdd_custom_parameter_to_ffmpeg"/>
     <addaction name="actionAdd_custom_parameters_for_youtube_dl"/>
+    <addaction name="actionAdd_custom_parameter_to_ffmpeg"/>
+    <addaction name="separator"/>
+    <addaction name="actionSet_custom_youtube_dl_path"/>
+    <addaction name="actionSet_custom_ffmpeg_path"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
     <addaction name="actionAbout"/>
+    <addaction name="actionWebsite"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuOptions"/>
@@ -523,6 +528,29 @@
   <action name="actionStart">
    <property name="text">
     <string>Start</string>
+   </property>
+  </action>
+  <action name="actionSet_custom_youtube_dl_path">
+   <property name="text">
+    <string>Set custom youtube-dl path</string>
+   </property>
+  </action>
+  <action name="actionSet_custom_ffmpeg_path">
+   <property name="text">
+    <string>Set custom ffmpeg path</string>
+   </property>
+  </action>
+  <action name="actionWebsite">
+   <property name="text">
+    <string>Website</string>
+   </property>
+  </action>
+  <action name="actionDon_t_convert">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Don't convert</string>
    </property>
   </action>
  </widget>

@@ -20,6 +20,7 @@ public:
     Utilities();
     Ui::MainWindow *ui;
 
+    // MISC methods
     void setTheme();
     void setCommons();
     void resetInterface();
@@ -27,12 +28,21 @@ public:
     void addToLog(QString line);
     void setVideoDetails(QString url);
     void addQualityListToUI();
+    void startConversionProcess();
 
+    // UI methods
     QString ytVideoTitle(QString url);
     QString ytVideoID(QString url);
-    QString currentVideoUrl;
     QString ytBinaryName();
     QString ytGetQuality();
+    QString ytFileName();
+
+    // Class variables
+    QString defaultFilename;
+    QString currentID;
+    QString currentVideoUrl;
+    QString currentFilename;
+    QString currentRawFilename;
 
     QVector<QVector <QString> > ytQualityList(QString url);
     QVector<QVector <QString> > currentQualityList;
@@ -41,13 +51,14 @@ public:
 
 private:
     void setStylesheet();
-    void setFilename(QString url);
+    void setFilenameUI(QString url);
     QString execBinary(QString bin, int multiline);
     QString ytPrepareUrl(QString url);
     QString getDefaultFilename(QString url);
 
 public slots:
     void downloadProgress();
+    void downloadComplete(int code);
 
 };
 

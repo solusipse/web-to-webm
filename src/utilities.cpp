@@ -66,9 +66,9 @@ void Utilities::setVideoDetails(QString url) {
 
     utils.ui->player->load(url);
     utils.ui->titleEdit->setText(ytVideoTitle(url));
-    setFilename(url);
     currentQualityList = ytQualityList(url);
     addQualityListToUI();
+    setFilenameUI(url);
 
     utils.currentVideoUrl = url;
 
@@ -91,22 +91,24 @@ QString Utilities::ytVideoTitle(QString url) {
 }
 
 QString Utilities::ytVideoID(QString url) {
-    return execBinary(ytBinaryName() + " --get-id " + url);
+    currentID = execBinary(ytBinaryName() + " --get-id " + url);
+    return currentID;
 }
 
 QString Utilities::ytPrepareUrl(QString url) {
-    url = execBinary(ytBinaryName() + " --get-id " + url);
+    url = ytVideoID(url);
     if (url.isEmpty())
         return "error";
     return "https://www.youtube.com/embed/" + url;
 }
 
-void Utilities::setFilename(QString url) {
+void Utilities::setFilenameUI(QString url) {
     if (!(utils.ui->filenameEdit->text().length() < 2))
         return;
 
-    QString ytid = getDefaultFilename(url);
-    utils.ui->filenameEdit->setText(QDir().homePath() + "/" + ytid + ".webm");
+    currentFilename = QDir().homePath() + "/" + QFileInfo(ytFileName()).baseName() + ".webm";
+    currentRawFilename = QDir().homePath() + "/" + ytFileName();
+    utils.ui->filenameEdit->setText(currentFilename);
 }
 
 void Utilities::addToLog(QString line) {
@@ -126,10 +128,6 @@ void Utilities::resetInterface() {
     utils.ui->downloadProgressBar->setValue(0);
     utils.ui->qualityComboBox->clear();
     utils.ui->filenameEdit->clear();
-}
-
-QString Utilities::getDefaultFilename(QString url) {
-    return QFileInfo(execBinary(ytBinaryName() + " --get-filename " + url)).baseName();
 }
 
 void Utilities::downloadProgress() {
@@ -165,13 +163,17 @@ QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
                     resolution.indexIn(formatsList[i]);
                     QRegExp code("\\d\\d");
                     code.indexIn(formatsList[i]);
+                    QRegExp format("\\w\\w\\w");
+                    format.indexIn(formatsList[i]);
 
                     QString strResolution = resolution.capturedTexts()[0];
                     QString strCode = code.capturedTexts()[0];
+                    QString strFormat = format.capturedTexts()[0];
                     if (strResolution != "" && strCode != "") {
                         QVector<QString> single;
                         single.append(strResolution);
                         single.append(strCode);
+                        single.append(strFormat);
                         list.append(single);
                     }
                 }
@@ -194,4 +196,22 @@ void Utilities::addQualityListToUI() {
 
 QString Utilities::ytGetQuality() {
     return currentQualityList[ui->qualityComboBox->currentIndex()][1];
+}
+
+void Utilities::startConversionProcess() {
+    addToLog("<b>Starting conversion.</b>");
+}
+
+void Utilities::downloadComplete(int code) {
+    if (code != 0) {
+        addToLog("<b>Download error.</b>.");
+        return;
+    }
+
+    addToLog("<b>Download complete</b>.");
+    startConversionProcess();
+}
+
+QString Utilities::ytFileName() {
+    return currentID + "-" + currentQualityList[ui->qualityComboBox->currentIndex()][1] + "." + currentQualityList[ui->qualityComboBox->currentIndex()][2];
 }

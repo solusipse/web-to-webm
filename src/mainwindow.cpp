@@ -45,7 +45,8 @@ void MainWindow::on_startConversion_clicked() {
     if (utils.currentDownloadProcess->atEnd())
         utils.currentDownloadProcess->close();
 
-    downloadProcess(utils.ytBinaryName() + " -f " + utils.ytGetQuality() + " " + utils.currentVideoUrl);
+    utils.ytFileName();
+    downloadProcess(utils.ytBinaryName() + " -f " + utils.ytGetQuality() + " -o " + utils.currentRawFilename + " " + utils.currentVideoUrl);
 }
 
 void MainWindow::downloadProcess(QString bin) {
@@ -53,9 +54,13 @@ void MainWindow::downloadProcess(QString bin) {
     utils.currentDownloadProcess->start(bin);
 
     connect(utils.currentDownloadProcess, SIGNAL(readyReadStandardOutput()), &utils, SLOT(downloadProgress()));
+    connect(utils.currentDownloadProcess, SIGNAL(finished(int)), &utils, SLOT(downloadComplete(int)));
 }
 
 void MainWindow::on_actionAbout_triggered()
 {
-    QMessageBox::about(this, "ytwebm about", "This software is open source (MIT licensed). It was build with QT5, youtube-dl and ffmpeg. For more informations see https://github.com/solusipse/ytwebm.");
+    QMessageBox::about(this, "ytwebm about", "This software is open source (MIT licensed). "
+                                             "It was build with QT (LGPL), youtube-dl (Public Domain) and ffmpeg (LGPL).\n\n"
+                                             "For more informations see:\n"
+                                             "https://github.com/solusipse/ytwebm.");
 }
