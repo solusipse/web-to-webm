@@ -130,7 +130,7 @@ void Utilities::resetInterface() {
     utils.ui->filenameEdit->clear();
 }
 
-void Utilities::downloadProgress() {
+void Utilities::downloadProcess() {
     QString buffer = utils.currentDownloadProcess->readAllStandardOutput();
 
     // This code if for handling progress bar
@@ -199,19 +199,32 @@ QString Utilities::ytGetQuality() {
 }
 
 void Utilities::startConversionProcess() {
+    // TODO: check if user wants conversion
     addToLog("<b>Starting conversion.</b>");
+
+    QString bin = "ffmpeg -i " + currentRawFilename + " " + currentFilename;
+    currentConversionProcess->start(bin);
+
+    connect(currentConversionProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(conversionProcess()));
+    qDebug() << "connected signal";
 }
 
 void Utilities::downloadComplete(int code) {
     if (code != 0) {
-        addToLog("<b>Download error.</b>.");
+        addToLog("<b>Download error.</b>");
         return;
     }
 
-    addToLog("<b>Download complete</b>.");
+    addToLog("<b>Download complete</b>");
     startConversionProcess();
 }
 
 QString Utilities::ytFileName() {
     return currentID + "-" + currentQualityList[ui->qualityComboBox->currentIndex()][1] + "." + currentQualityList[ui->qualityComboBox->currentIndex()][2];
+}
+
+void Utilities::conversionProcess() {
+    qDebug() << "recieved signal";
+    QString buffer = currentConversionProcess->readAllStandardOutput();
+    addToLog(buffer);
 }

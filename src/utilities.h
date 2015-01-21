@@ -48,6 +48,7 @@ public:
     QVector<QVector <QString> > currentQualityList;
 
     QProcess *currentDownloadProcess;
+    QProcess *currentConversionProcess;
 
 private:
     void setStylesheet();
@@ -57,8 +58,10 @@ private:
     QString getDefaultFilename(QString url);
 
 public slots:
-    void downloadProgress();
+    void downloadProcess();
     void downloadComplete(int code);
+
+    void conversionProcess();
 
 };
 

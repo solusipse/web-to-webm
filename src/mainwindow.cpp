@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     utils.setTheme();
     utils.setCommons();
     utils.currentDownloadProcess = new QProcess;
+    utils.currentConversionProcess = new QProcess;
 }
 
 MainWindow::~MainWindow() {
@@ -53,7 +54,7 @@ void MainWindow::downloadProcess(QString bin) {
     utils.currentDownloadProcess = new QProcess;
     utils.currentDownloadProcess->start(bin);
 
-    connect(utils.currentDownloadProcess, SIGNAL(readyReadStandardOutput()), &utils, SLOT(downloadProgress()));
+    connect(utils.currentDownloadProcess, SIGNAL(readyReadStandardOutput()), &utils, SLOT(downloadProcess()));
     connect(utils.currentDownloadProcess, SIGNAL(finished(int)), &utils, SLOT(downloadComplete(int)));
 }
 
