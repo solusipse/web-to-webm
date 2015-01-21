@@ -35,18 +35,19 @@ void MainWindow::on_selectSavePath_clicked() {
 }
 
 void MainWindow::on_stopConversion_clicked() {
-    if (utils.currentDownloadProcess->atEnd())
-        utils.currentDownloadProcess->close();
+    utils.killProcesses();
+    utils.unlockConversionButton();
+    utils.resetProgress();
 }
 
 void MainWindow::on_startConversion_clicked() {
     if (!utils.startProcedure())
         return;
 
-    if (utils.currentDownloadProcess->atEnd())
-        utils.currentDownloadProcess->close();
+    utils.resetProcesses();
 
     utils.ytFileName();
+    utils.lockConversionButton();
     downloadProcess(utils.ytBinaryName() + " -f " + utils.ytGetQuality() + " -o " + utils.currentRawFilename + " " + utils.currentVideoUrl);
 }
 

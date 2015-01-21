@@ -339,7 +339,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QProgressBar" name="progressBar_2">
+           <widget class="QProgressBar" name="conversionProgressBar">
             <property name="maximum">
              <number>100</number>
             </property>
@@ -381,8 +381,14 @@
             <property name="inputMethodHints">
              <set>Qt::ImhNone</set>
             </property>
+            <property name="tabChangesFocus">
+             <bool>false</bool>
+            </property>
             <property name="readOnly">
              <bool>true</bool>
+            </property>
+            <property name="centerOnScroll">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -400,7 +406,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

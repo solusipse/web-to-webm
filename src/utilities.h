@@ -30,12 +30,22 @@ public:
     void addQualityListToUI();
     void startConversionProcess();
 
+    void resetProcesses();
+    void killProcesses();
+
     // UI methods
+
+    void lockConversionButton();
+    void unlockConversionButton();
+    void resetProgress();
+
     QString ytVideoTitle(QString url);
     QString ytVideoID(QString url);
-    QString ytBinaryName();
     QString ytGetQuality();
     QString ytFileName();
+
+    QString ytBinaryName();
+    QString ffmpegBinaryName();
 
     // Class variables
     QString defaultFilename;
@@ -52,7 +62,7 @@ public:
 
 private:
     void setStylesheet();
-    void setFilenameUI(QString url);
+    void setFilenameUI();
     QString execBinary(QString bin, int multiline);
     QString ytPrepareUrl(QString url);
     QString getDefaultFilename(QString url);

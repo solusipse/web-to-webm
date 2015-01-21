@@ -68,7 +68,7 @@ void Utilities::setVideoDetails(QString url) {
     utils.ui->titleEdit->setText(ytVideoTitle(url));
     currentQualityList = ytQualityList(url);
     addQualityListToUI();
-    setFilenameUI(url);
+    setFilenameUI();
 
     utils.currentVideoUrl = url;
 
@@ -102,7 +102,7 @@ QString Utilities::ytPrepareUrl(QString url) {
     return "https://www.youtube.com/embed/" + url;
 }
 
-void Utilities::setFilenameUI(QString url) {
+void Utilities::setFilenameUI() {
     if (!(utils.ui->filenameEdit->text().length() < 2))
         return;
 
@@ -125,7 +125,7 @@ bool Utilities::startProcedure() {
 }
 
 void Utilities::resetInterface() {
-    utils.ui->downloadProgressBar->setValue(0);
+    resetProgress();
     utils.ui->qualityComboBox->clear();
     utils.ui->filenameEdit->clear();
 }
@@ -139,6 +139,9 @@ void Utilities::downloadProcess() {
     QString percent = regexp.capturedTexts()[1];
     if (percent != "")
         ui->downloadProgressBar->setValue(percent.toInt());
+
+    if (buffer.contains("has already been downloaded"))
+        ui->downloadProgressBar->setValue(100);
 
     utils.addToLog(buffer);
 }
@@ -202,11 +205,15 @@ void Utilities::startConversionProcess() {
     // TODO: check if user wants conversion
     addToLog("<b>Starting conversion.</b>");
 
-    QString bin = "ffmpeg -i " + currentRawFilename + " " + currentFilename;
-    currentConversionProcess->start(bin);
+    killProcesses();
+
+    QStringList arguments;
+    arguments << "-y" << "-hide_banner" << "-i" << currentRawFilename << currentFilename;
+
+    currentConversionProcess->setProcessChannelMode(QProcess::MergedChannels);
+    currentConversionProcess->start(ffmpegBinaryName(), arguments);
 
     connect(currentConversionProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(conversionProcess()));
-    qDebug() << "connected signal";
 }
 
 void Utilities::downloadComplete(int code) {
@@ -224,7 +231,41 @@ QString Utilities::ytFileName() {
 }
 
 void Utilities::conversionProcess() {
-    qDebug() << "recieved signal";
     QString buffer = currentConversionProcess->readAllStandardOutput();
     addToLog(buffer);
+}
+
+void Utilities::resetProcesses() {
+    if (utils.currentDownloadProcess->atEnd())
+        utils.currentDownloadProcess->close();
+    if (utils.currentConversionProcess->atEnd())
+        utils.currentConversionProcess->close();
+}
+
+void Utilities::killProcesses() {
+    if (utils.currentDownloadProcess->isOpen())
+        utils.currentDownloadProcess->kill();
+    if (utils.currentConversionProcess->isOpen())
+        utils.currentConversionProcess->kill();
+}
+
+void Utilities::lockConversionButton() {
+    ui->startConversion->setDisabled(true);
+}
+
+void Utilities::unlockConversionButton() {
+    ui->startConversion->setEnabled(true);
+}
+
+void Utilities::resetProgress() {
+    ui->downloadProgressBar->setValue(0);
+    ui->conversionProgressBar->setValue(0);
+}
+
+QString Utilities::ffmpegBinaryName() {
+    if (SYSTEM == "win")
+        return "ffmpeg.exe";
+    if (SYSTEM == "posix")
+        return "./ffmpeg";
+    return "";
 }
