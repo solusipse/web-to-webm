@@ -35,6 +35,8 @@ void MainWindow::on_selectSavePath_clicked() {
 }
 
 void MainWindow::on_stopConversion_clicked() {
+    if (utils.currentDownloadProcess->atEnd() && utils.currentConversionProcess->atEnd())
+        return;
     utils.killProcesses();
     utils.unlockConversionButton();
     utils.resetProgress();

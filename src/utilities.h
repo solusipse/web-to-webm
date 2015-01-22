@@ -53,6 +53,7 @@ public:
     QString currentVideoUrl;
     QString currentFilename;
     QString currentRawFilename;
+    int currentDuration;
 
     QVector<QVector <QString> > ytQualityList(QString url);
     QVector<QVector <QString> > currentQualityList;
@@ -70,8 +71,8 @@ private:
 public slots:
     void downloadProcess();
     void downloadComplete(int code);
-
     void conversionProcess();
+    void conversionComplete(int code);
 
 };
 

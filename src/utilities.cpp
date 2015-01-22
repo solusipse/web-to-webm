@@ -5,6 +5,7 @@
 #include <QWebSettings>
 #include <QProcess>
 #include <QDir>
+#include <QTime>
 
 
 Utilities utils;
@@ -214,6 +215,7 @@ void Utilities::startConversionProcess() {
     currentConversionProcess->start(ffmpegBinaryName(), arguments);
 
     connect(currentConversionProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(conversionProcess()));
+    connect(currentConversionProcess, SIGNAL(finished(int)), this, SLOT(conversionComplete(int)));
 }
 
 void Utilities::downloadComplete(int code) {
@@ -232,6 +234,22 @@ QString Utilities::ytFileName() {
 
 void Utilities::conversionProcess() {
     QString buffer = currentConversionProcess->readAllStandardOutput();
+    QString duration, progress;
+    QTime durationTime, progressTime;
+    QRegExp time("\\d\\d\\:\\d\\d\\:\\d\\d\\.\\d\\d");
+    time.indexIn(buffer);
+    if (buffer.contains("Duration: ")) {
+        duration = time.capturedTexts()[0];
+        durationTime = QTime::fromString(duration, "hh:mm:ss.z");
+        currentDuration = QTime(0,0).secsTo(durationTime);
+    } else {
+        if (buffer != "") {
+            progress = time.capturedTexts()[0];
+            progressTime = QTime::fromString(progress, "hh:mm:ss.z");
+            int percent = double((QTime(0,0).secsTo(progressTime)) / double(currentDuration))*100;
+            ui->conversionProgressBar->setValue(percent);
+        }
+    }
     addToLog(buffer);
 }
 
@@ -268,4 +286,15 @@ QString Utilities::ffmpegBinaryName() {
     if (SYSTEM == "posix")
         return "./ffmpeg";
     return "";
+}
+
+void Utilities::conversionComplete(int code) {
+    if (code == 0) {
+        addToLog("<b>Conversion complete.</b>");
+        addToLog("Saved to: " + currentFilename);
+    }
+    else
+        addToLog("<b>Error on conversion. Check logs.</b>");
+
+    unlockConversionButton();
 }
