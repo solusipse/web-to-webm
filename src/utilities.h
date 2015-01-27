@@ -20,53 +20,64 @@ public:
     Utilities();
     Ui::MainWindow *ui;
 
-    // MISC methods
-    void setTheme();
-    void setCommons();
-    void resetInterface();
+    // Download-related methods
     bool startProcedure();
-    void addToLog(QString line);
-    void setVideoDetails(QString url);
-    void addQualityListToUI();
-    void startConversionProcess();
-
-    void resetProcesses();
-    void killProcesses();
-
-    // UI methods
-
-    void lockConversionButton();
-    void unlockConversionButton();
-    void resetProgress();
-
+    QString ytBinaryName();
     QString ytVideoTitle(QString url);
     QString ytVideoID(QString url);
     QString ytGetQuality();
     QString ytFileName();
 
-    QString ytBinaryName();
+    // Conversion-related methods
     QString ffmpegBinaryName();
+
+
+    // MISC methods
+    void setTheme();
+    void setCommons();
+    void addQualityListToUI();
+    void startConversionProcess();
+    void resetProcesses();
+    void killProcesses();
+
+    // Files manipulation
+    QString getCurrentRawFilename();
+    QString getCurrentFilename();
+
+    // UI methods
+    void setVideoDetails(QString url);
+    void addToLog(QString line);
+    void resetInterface();
+    void lockConversionButton();
+    void unlockConversionButton();
+    void resetProgress();
+    void lockAllControls(bool status);
 
     // Class variables
     QString defaultFilename;
     QString currentID;
     QString currentVideoUrl;
-    QString currentFilename;
-    QString currentRawFilename;
+    QString currentSavePath;
+    QString currentFileName;
     int currentDuration;
 
     QVector<QVector <QString> > ytQualityList(QString url);
     QVector<QVector <QString> > currentQualityList;
 
+    // Processes
     QProcess *currentDownloadProcess;
     QProcess *currentConversionProcess;
+    void setFilenameUI();
+
+    bool pathChanged;
 
 private:
     void setStylesheet();
-    void setFilenameUI();
+
     QString execBinary(QString bin, int multiline);
     QString ytPrepareUrl(QString url);
-    QString getDefaultFilename(QString url);
+    QString getDefaultFilename();
+
 
 public slots:
     void downloadProcess();

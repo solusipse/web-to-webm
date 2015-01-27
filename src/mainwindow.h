@@ -25,6 +25,8 @@ private slots:
 
     void on_actionAbout_triggered();
 
+    void on_qualityComboBox_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
 };

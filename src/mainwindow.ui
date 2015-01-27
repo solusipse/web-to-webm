@@ -187,7 +187,7 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QLineEdit" name="lineEdit_3">
+              <widget class="QLineEdit" name="cutFromEdit">
                <property name="alignment">
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                </property>
@@ -197,7 +197,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_2">
+              <widget class="QLineEdit" name="cutToEdit">
                <property name="alignment">
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                </property>
@@ -221,6 +221,9 @@
           </item>
           <item>
            <widget class="QLineEdit" name="filenameEdit">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
             <property name="placeholderText">
              <string>Filename</string>
             </property>

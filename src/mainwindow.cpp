@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     utils.setCommons();
     utils.currentDownloadProcess = new QProcess;
     utils.currentConversionProcess = new QProcess;
+    utils.lockAllControls(true);
 }
 
 MainWindow::~MainWindow() {
@@ -30,8 +31,13 @@ void MainWindow::on_selectSavePath_clicked() {
     QString filename = QFileDialog::getSaveFileName(this,
         tr("Select location for converted film"), QDir::currentPath(), tr("Webm (*.webm)") );
 
-    if (!filename.isEmpty())
-        ui->filenameEdit->setText(filename);
+    if (filename.isEmpty())
+        return;
+
+    utils.pathChanged = true;
+    utils.currentFileName = filename;
+
+    utils.setFilenameUI();
 }
 
 void MainWindow::on_stopConversion_clicked() {
@@ -50,7 +56,7 @@ void MainWindow::on_startConversion_clicked() {
 
     utils.ytFileName();
     utils.lockConversionButton();
-    downloadProcess(utils.ytBinaryName() + " -f " + utils.ytGetQuality() + " -o " + utils.currentRawFilename + " " + utils.currentVideoUrl);
+    downloadProcess(utils.ytBinaryName() + " -f " + utils.ytGetQuality() + " -o " + utils.getCurrentRawFilename() + " " + utils.currentVideoUrl);
 }
 
 void MainWindow::downloadProcess(QString bin) {
@@ -67,4 +73,13 @@ void MainWindow::on_actionAbout_triggered()
                                              "It was build with QT (LGPL), youtube-dl (Public Domain) and ffmpeg (LGPL).\n\n"
                                              "For more informations see:\n"
                                              "https://github.com/solusipse/ytwebm.");
+}
+
+void MainWindow::on_qualityComboBox_currentIndexChanged(int index)
+{
+    utils.setFilenameUI();
+
+    utils.addToLog("Changed resolution to: " + utils.currentQualityList[index][0]);
+    //qDebug() << utils.currentQualityList[index];
+    //ui->filenameEdit->setText(QDir().homePath() + "/" + QFileInfo(utils.ytFileName()).baseName() + ".webm");
 }

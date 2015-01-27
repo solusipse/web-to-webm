@@ -27,22 +27,23 @@ void Utilities::setTheme() {
 }
 
 void Utilities::setStylesheet() {
-    const char *css = "QPushButton:hover{background:#7d1cb4;}"
-                      "QWebView{background:#333;} QPlainTextEdit{background:#333;}"
-                      "QLineEdit{background:#888;border:none;height:35px;padding-left:10px;padding-right:10px;color:#222;}"
-                      "QProgressBar{background:#888; border:none;height:35px;color:#333;}"
-                      "QProgressBar::chunk{background:#b31217;}"
-                      "QPlainTextEdit{color:#888;}"
-                      "QComboBox{height:35px;border:none;background:#888;color:#333}"
-                      "QComboBox::drop-down{border:none;background:#666;}"
-                      "QComboBox::drop-down::pressed{background:#b31217;}"
-                      "QComboBox QAbstractItemView{padding:35px;background:#888;}"
-                      "QMenu {background:#333;}"
-                      "QMenu::item{}"
-                      "QMenu::item::selected{background:#b31217;}"
-                      "QPushButton{border:none;background-color:#888;padding:25px;color:#333;}"
-                      "QPushButton::hover{background:#b31217;}"
-                      "QMessageBox{background:#222;}";
+    const char *css =
+        "QPushButton:hover{background:#7d1cb4;}"
+        "QWebView{background:#333;} QPlainTextEdit{background:#333;}"
+        "QLineEdit{background:#888;border:none;height:35px;padding-left:10px;padding-right:10px;color:#222;}"
+        "QProgressBar{background:#888; border:none;height:35px;color:#333;}"
+        "QProgressBar::chunk{background:#b31217;}"
+        "QPlainTextEdit{color:#888;}"
+        "QComboBox{height:35px;border:none;background:#888;color:#333}"
+        "QComboBox::drop-down{border:none;background:#666;}"
+        "QComboBox::drop-down::pressed{background:#b31217;}"
+        "QComboBox QAbstractItemView{padding:35px;background:#888;}"
+        "QMenu {background:#333;}"
+        "QMenu::item{}"
+        "QMenu::item::selected{background:#b31217;}"
+        "QPushButton{border:none;background-color:#888;padding:25px;color:#333;}"
+        "QPushButton::hover{background:#b31217;}"
+        "QMessageBox{background:#222;}";
 
     qApp->setStyleSheet(css);
 }
@@ -64,14 +65,17 @@ void Utilities::setVideoDetails(QString url) {
     }
 
     resetInterface();
+    utils.pathChanged = false;
 
     utils.ui->player->load(url);
     utils.ui->titleEdit->setText(ytVideoTitle(url));
     currentQualityList = ytQualityList(url);
     addQualityListToUI();
+    currentFileName = getDefaultFilename();
     setFilenameUI();
 
     utils.currentVideoUrl = url;
+    utils.lockAllControls(false);
 
     addToLog("<b>Loaded video:</b><br>" + url);
 }
@@ -104,12 +108,10 @@ QString Utilities::ytPrepareUrl(QString url) {
 }
 
 void Utilities::setFilenameUI() {
-    if (!(utils.ui->filenameEdit->text().length() < 2))
-        return;
 
-    currentFilename = QDir().homePath() + "/" + QFileInfo(ytFileName()).baseName() + ".webm";
-    currentRawFilename = QDir().homePath() + "/" + ytFileName();
-    utils.ui->filenameEdit->setText(currentFilename);
+    // TODO: load default save path from config file
+
+    utils.ui->filenameEdit->setText(getCurrentFilename());
 }
 
 void Utilities::addToLog(QString line) {
@@ -185,14 +187,6 @@ QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
     return list;
 }
 
-QString Utilities::ytBinaryName() {
-    if (SYSTEM == "win")
-        return "youtube-dl.exe";
-    if (SYSTEM == "posix")
-        return "./youtube-dl";
-    return "";
-}
-
 void Utilities::addQualityListToUI() {
     for (int i=0; i < currentQualityList.size(); i++)
         utils.ui->qualityComboBox->addItem(currentQualityList[i][0]);
@@ -209,7 +203,7 @@ void Utilities::startConversionProcess() {
     killProcesses();
 
     QStringList arguments;
-    arguments << "-y" << "-hide_banner" << "-i" << currentRawFilename << currentFilename;
+    arguments << "-y" << "-hide_banner" << "-i" << getCurrentRawFilename() << getCurrentFilename();
 
     currentConversionProcess->setProcessChannelMode(QProcess::MergedChannels);
     currentConversionProcess->start(ffmpegBinaryName(), arguments);
@@ -269,15 +263,25 @@ void Utilities::killProcesses() {
 
 void Utilities::lockConversionButton() {
     ui->startConversion->setDisabled(true);
+    ui->selectSavePath->setDisabled(true);
 }
 
 void Utilities::unlockConversionButton() {
     ui->startConversion->setEnabled(true);
+    ui->selectSavePath->setEnabled(true);
 }
 
 void Utilities::resetProgress() {
     ui->downloadProgressBar->setValue(0);
     ui->conversionProgressBar->setValue(0);
+}
+
+QString Utilities::ytBinaryName() {
+    if (SYSTEM == "win")
+        return "youtube-dl.exe";
+    if (SYSTEM == "posix")
+        return "./youtube-dl";
+    return "";
 }
 
 QString Utilities::ffmpegBinaryName() {
@@ -291,10 +295,35 @@ QString Utilities::ffmpegBinaryName() {
 void Utilities::conversionComplete(int code) {
     if (code == 0) {
         addToLog("<b>Conversion complete.</b>");
-        addToLog("Saved to: " + currentFilename);
+        addToLog("Saved to: " + getCurrentFilename());
     }
     else
         addToLog("<b>Error on conversion. Check logs.</b>");
 
     unlockConversionButton();
+}
+
+void Utilities::lockAllControls(bool status) {
+    ui->cutFromEdit->setDisabled(status);
+    ui->cutToEdit->setDisabled(status);
+    ui->startConversion->setDisabled(status);
+    ui->stopConversion->setDisabled(status);
+    ui->selectSavePath->setDisabled(status);
+}
+
+QString Utilities::getCurrentRawFilename() {
+    QString path = QFileInfo(getCurrentFilename()).absolutePath();
+    QString name = QFileInfo(getCurrentFilename()).baseName();
+    return path + "/" + name + "." + currentQualityList[ui->qualityComboBox->currentIndex()][2];
+}
+
+QString Utilities::getCurrentFilename() {
+    if (pathChanged)
+        return currentFileName;
+
+    return getDefaultFilename();
+}
+
+QString Utilities::getDefaultFilename() {
+    return QDir().homePath() + "/" + QFileInfo(ytFileName()).baseName() + ".webm";
 }
