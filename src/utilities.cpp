@@ -64,6 +64,7 @@ void Utilities::setVideoDetails(QString url) {
         return;
     }
 
+    utils.loadingVideoInformations = true;
     resetInterface();
     utils.pathChanged = false;
 
@@ -76,7 +77,7 @@ void Utilities::setVideoDetails(QString url) {
 
     utils.currentVideoUrl = url;
     utils.lockAllControls(false);
-
+    utils.loadingVideoInformations = false;
     addToLog("<b>Loaded video:</b><br>" + url);
 }
 
@@ -129,8 +130,9 @@ bool Utilities::startProcedure() {
 
 void Utilities::resetInterface() {
     resetProgress();
-    utils.ui->qualityComboBox->clear();
     utils.ui->filenameEdit->clear();
+    for (int i = ui->qualityComboBox->count(); i > 0; i--)
+        ui->qualityComboBox->removeItem(0);
 }
 
 void Utilities::downloadProcess() {

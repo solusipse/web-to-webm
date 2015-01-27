@@ -77,6 +77,9 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_qualityComboBox_currentIndexChanged(int index)
 {
+    if (utils.loadingVideoInformations)
+        return;
+
     utils.setFilenameUI();
 
     utils.addToLog("Changed resolution to: " + utils.currentQualityList[index][0]);

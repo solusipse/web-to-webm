@@ -70,6 +70,7 @@ public:
     void setFilenameUI();
 
     bool pathChanged;
+    bool loadingVideoInformations;
 
 private:
     void setStylesheet();
