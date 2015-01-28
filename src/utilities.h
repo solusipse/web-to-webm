@@ -12,6 +12,7 @@
 #include <QProcess>
 #include "mainwindow.h"
 
+
 class Utilities : public QObject
 {
     Q_OBJECT
@@ -71,6 +72,7 @@ public:
 
     bool pathChanged;
     bool loadingVideoInformations;
+    bool killed;
 
 private:
     void setStylesheet();
@@ -87,6 +89,8 @@ public slots:
     void conversionComplete(int code);
 
 };
+
+
 
 extern Utilities utils;
 

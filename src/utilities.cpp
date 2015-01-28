@@ -215,6 +215,11 @@ void Utilities::startConversionProcess() {
 }
 
 void Utilities::downloadComplete(int code) {
+    if (killed) {
+        addToLog("<b>Downloading canceled.</b>");
+        killed = false;
+        return;
+    }
     if (code != 0) {
         addToLog("<b>Download error.</b>");
         return;
@@ -257,10 +262,14 @@ void Utilities::resetProcesses() {
 }
 
 void Utilities::killProcesses() {
-    if (utils.currentDownloadProcess->isOpen())
+    if (utils.currentDownloadProcess->isOpen()) {
+        killed = true;
         utils.currentDownloadProcess->kill();
-    if (utils.currentConversionProcess->isOpen())
+    }
+    if (utils.currentConversionProcess->isOpen()) {
+        killed = true;
         utils.currentConversionProcess->kill();
+    }
 }
 
 void Utilities::lockConversionButton() {
@@ -295,12 +304,23 @@ QString Utilities::ffmpegBinaryName() {
 }
 
 void Utilities::conversionComplete(int code) {
-    if (code == 0) {
-        addToLog("<b>Conversion complete.</b>");
-        addToLog("Saved to: " + getCurrentFilename());
+    if (killed) {
+        addToLog("<b>Conversion canceled.</b>");
+        killed = false;
+        currentDownloadProcess->deleteLater();
+        currentConversionProcess->deleteLater();
+        return;
     }
-    else
+    if (code != 0) {
         addToLog("<b>Error on conversion. Check logs.</b>");
+        return;
+    }
+
+    currentDownloadProcess->deleteLater();
+    currentConversionProcess->deleteLater();
+
+    addToLog("<b>Conversion complete.</b>");
+    addToLog("Saved to: " + getCurrentFilename());
 
     unlockConversionButton();
 }
