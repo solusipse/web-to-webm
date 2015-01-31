@@ -15,6 +15,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
     void downloadProcess(QString bin);
 
 private slots:
@@ -22,9 +23,7 @@ private slots:
     void on_selectSavePath_clicked();
     void on_stopConversion_clicked();
     void on_startConversion_clicked();
-
     void on_actionAbout_triggered();
-
     void on_qualityComboBox_currentIndexChanged(int index);
 
 private:

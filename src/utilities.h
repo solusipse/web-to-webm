@@ -19,7 +19,6 @@ class Utilities : public QObject
 
 public:
     Utilities();
-    Ui::MainWindow *ui;
 
     // Download-related methods
     bool startProcedure();
@@ -32,11 +31,9 @@ public:
     // Conversion-related methods
     QString ffmpegBinaryName();
 
-
     // MISC methods
-    void setTheme();
     void setCommons();
-    void addQualityListToUI();
+
     void startConversionProcess();
     void resetProcesses();
     void killProcesses();
@@ -46,13 +43,7 @@ public:
     QString getCurrentFilename();
 
     // UI methods
-    void setVideoDetails(QString url);
     void addToLog(QString line);
-    void resetInterface();
-    void lockConversionButton();
-    void unlockConversionButton();
-    void resetProgress();
-    void lockAllControls(bool status);
 
     // Class variables
     QString defaultFilename;
@@ -68,18 +59,18 @@ public:
     // Processes
     QProcess *currentDownloadProcess;
     QProcess *currentConversionProcess;
-    void setFilenameUI();
 
     bool pathChanged;
     bool loadingVideoInformations;
     bool killed;
 
-private:
-    void setStylesheet();
-
     QString execBinary(QString bin, int multiline);
     QString ytPrepareUrl(QString url);
     QString getDefaultFilename();
+
+private:
+    // TODO
+
 
 
 public slots:

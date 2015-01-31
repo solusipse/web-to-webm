@@ -14,10 +14,16 @@ TEMPLATE = app
 
 SOURCES +=  src/main.cpp\
             src/mainwindow.cpp \
-            src/utilities.cpp
+            src/utilities.cpp \
+            src/downloader.cpp \
+            src/converter.cpp \
+    src/window.cpp
 
 HEADERS  += src/mainwindow.h \
-            src/utilities.h
+            src/utilities.h \
+            src/downloader.h \
+            src/converter.h \
+    src/window.h
 
 FORMS    += src/mainwindow.ui
 

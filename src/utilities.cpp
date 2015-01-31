@@ -1,7 +1,6 @@
 #include "utilities.h"
+#include "window.h"
 #include "ui_mainwindow.h"
-#include <QApplication>
-#include <QStyleFactory>
 #include <QWebSettings>
 #include <QProcess>
 #include <QDir>
@@ -13,73 +12,12 @@ Utilities utils;
 Utilities::Utilities(){
 }
 
-void Utilities::setTheme() {
-    qApp->setStyle(QStyleFactory::create("Fusion"));
-    QPalette p = qApp->palette();
-    p.setColor(QPalette::Window, QColor("#333"));
-    p.setColor(QPalette::Button, QColor("#333"));
-    p.setColor(QPalette::Highlight, QColor("#b31217"));
-    p.setColor(QPalette::ButtonText, QColor("#888"));
-    p.setColor(QPalette::WindowText, QColor("#888"));
-    p.setColor(QPalette::Light, QColor("#333"));
-    qApp->setPalette(p);
-    setStylesheet();
-}
-
-void Utilities::setStylesheet() {
-    const char *css =
-        "QPushButton:hover{background:#7d1cb4;}"
-        "QWebView{background:#333;} QPlainTextEdit{background:#333;}"
-        "QLineEdit{background:#888;border:none;height:35px;padding-left:10px;padding-right:10px;color:#222;}"
-        "QProgressBar{background:#888; border:none;height:35px;color:#333;}"
-        "QProgressBar::chunk{background:#b31217;}"
-        "QPlainTextEdit{color:#888;}"
-        "QComboBox{height:35px;border:none;background:#888;color:#333}"
-        "QComboBox::drop-down{border:none;background:#666;}"
-        "QComboBox::drop-down::pressed{background:#b31217;}"
-        "QComboBox QAbstractItemView{padding:35px;background:#888;}"
-        "QMenu {background:#333;}"
-        "QMenu::item{}"
-        "QMenu::item::selected{background:#b31217;}"
-        "QPushButton{border:none;background-color:#888;padding:25px;color:#333;}"
-        "QPushButton::hover{background:#b31217;}"
-        "QMessageBox{background:#222;}";
-
-    qApp->setStyleSheet(css);
-}
-
 void Utilities::setCommons() {
     QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled, true);
-    utils.ui->player->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
+    win.ui->player->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
 
 }
 
-void Utilities::setVideoDetails(QString url) {
-    url = ytPrepareUrl(url);
-
-    if (url == "error") {
-        utils.ui->titleEdit->setText("Error: provided url is incorrect.");
-        addToLog("<b>Error:</b> provided url is incorrect.");
-        currentVideoUrl = "";
-        return;
-    }
-
-    utils.loadingVideoInformations = true;
-    resetInterface();
-    utils.pathChanged = false;
-
-    utils.ui->player->load(url);
-    utils.ui->titleEdit->setText(ytVideoTitle(url));
-    currentQualityList = ytQualityList(url);
-    addQualityListToUI();
-    currentFileName = getDefaultFilename();
-    setFilenameUI();
-
-    utils.currentVideoUrl = url;
-    utils.lockAllControls(false);
-    utils.loadingVideoInformations = false;
-    addToLog("<b>Loaded video:</b><br>" + url);
-}
 
 QString Utilities::execBinary(QString bin, int multiline = 0) {
     QProcess program;
@@ -108,15 +46,9 @@ QString Utilities::ytPrepareUrl(QString url) {
     return "https://www.youtube.com/embed/" + url;
 }
 
-void Utilities::setFilenameUI() {
-
-    // TODO: load default save path from config file
-
-    utils.ui->filenameEdit->setText(getCurrentFilename());
-}
-
 void Utilities::addToLog(QString line) {
-    utils.ui->logBox->appendHtml(line);
+    // TODO: add saving log to file option
+    win.ui->logBox->appendHtml(line);
 }
 
 bool Utilities::startProcedure() {
@@ -124,15 +56,8 @@ bool Utilities::startProcedure() {
         addToLog("Add valid video first.");
         return false;
     }
-    addToLog("<br><b>Started downloading video:</b><br>" + utils.ui->urlEdit->text());
+    addToLog("<br><b>Started downloading video:</b><br>" + win.ui->urlEdit->text());
     return true;
-}
-
-void Utilities::resetInterface() {
-    resetProgress();
-    utils.ui->filenameEdit->clear();
-    for (int i = ui->qualityComboBox->count(); i > 0; i--)
-        ui->qualityComboBox->removeItem(0);
 }
 
 void Utilities::downloadProcess() {
@@ -143,10 +68,10 @@ void Utilities::downloadProcess() {
     regexp.indexIn(buffer);
     QString percent = regexp.capturedTexts()[1];
     if (percent != "")
-        ui->downloadProgressBar->setValue(percent.toInt());
+        win.ui->downloadProgressBar->setValue(percent.toInt());
 
     if (buffer.contains("has already been downloaded"))
-        ui->downloadProgressBar->setValue(100);
+        win.ui->downloadProgressBar->setValue(100);
 
     utils.addToLog(buffer);
 }
@@ -162,6 +87,10 @@ QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
      * higher quality in mp4 format available, script is excluding webm
      * at this moment
     */
+
+    // TODO: add support for other sites than yt
+    // full list of supported sites:
+    // http://rg3.github.io/youtube-dl/supportedsites.html
 
     for (int i = formatsList.length()-1; i >= 0 ; i--) {
         if (!formatsList[i].contains("webm"))
@@ -189,13 +118,8 @@ QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
     return list;
 }
 
-void Utilities::addQualityListToUI() {
-    for (int i=0; i < currentQualityList.size(); i++)
-        utils.ui->qualityComboBox->addItem(currentQualityList[i][0]);
-}
-
 QString Utilities::ytGetQuality() {
-    return currentQualityList[ui->qualityComboBox->currentIndex()][1];
+    return currentQualityList[win.ui->qualityComboBox->currentIndex()][1];
 }
 
 void Utilities::startConversionProcess() {
@@ -230,7 +154,7 @@ void Utilities::downloadComplete(int code) {
 }
 
 QString Utilities::ytFileName() {
-    return currentID + "-" + currentQualityList[ui->qualityComboBox->currentIndex()][1] + "." + currentQualityList[ui->qualityComboBox->currentIndex()][2];
+    return currentID + "-" + currentQualityList[win.ui->qualityComboBox->currentIndex()][1] + "." + currentQualityList[win.ui->qualityComboBox->currentIndex()][2];
 }
 
 void Utilities::conversionProcess() {
@@ -248,7 +172,7 @@ void Utilities::conversionProcess() {
             progress = time.capturedTexts()[0];
             progressTime = QTime::fromString(progress, "hh:mm:ss.z");
             int percent = double((QTime(0,0).secsTo(progressTime)) / double(currentDuration))*100;
-            ui->conversionProgressBar->setValue(percent);
+            win.ui->conversionProgressBar->setValue(percent);
         }
     }
     addToLog(buffer);
@@ -270,21 +194,6 @@ void Utilities::killProcesses() {
         killed = true;
         utils.currentConversionProcess->kill();
     }
-}
-
-void Utilities::lockConversionButton() {
-    ui->startConversion->setDisabled(true);
-    ui->selectSavePath->setDisabled(true);
-}
-
-void Utilities::unlockConversionButton() {
-    ui->startConversion->setEnabled(true);
-    ui->selectSavePath->setEnabled(true);
-}
-
-void Utilities::resetProgress() {
-    ui->downloadProgressBar->setValue(0);
-    ui->conversionProgressBar->setValue(0);
 }
 
 QString Utilities::ytBinaryName() {
@@ -322,21 +231,13 @@ void Utilities::conversionComplete(int code) {
     addToLog("<b>Conversion complete.</b>");
     addToLog("Saved to: " + getCurrentFilename());
 
-    unlockConversionButton();
-}
-
-void Utilities::lockAllControls(bool status) {
-    ui->cutFromEdit->setDisabled(status);
-    ui->cutToEdit->setDisabled(status);
-    ui->startConversion->setDisabled(status);
-    ui->stopConversion->setDisabled(status);
-    ui->selectSavePath->setDisabled(status);
+    win.lockConversionButton(false);
 }
 
 QString Utilities::getCurrentRawFilename() {
     QString path = QFileInfo(getCurrentFilename()).absolutePath();
     QString name = QFileInfo(getCurrentFilename()).baseName();
-    return path + "/" + name + "." + currentQualityList[ui->qualityComboBox->currentIndex()][2];
+    return path + "/" + name + "." + currentQualityList[win.ui->qualityComboBox->currentIndex()][2];
 }
 
 QString Utilities::getCurrentFilename() {

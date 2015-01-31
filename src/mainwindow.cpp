@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "utilities.h"
+#include "window.h"
 
 #include <QFileDialog>
 #include <QProcess>
@@ -11,12 +12,13 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow) {
 
     ui->setupUi(this);
-    utils.ui = ui;
-    utils.setTheme();
+    win.ui = ui;
+
+    win.setTheme();
     utils.setCommons();
     utils.currentDownloadProcess = new QProcess;
     utils.currentConversionProcess = new QProcess;
-    utils.lockAllControls(true);
+    win.lockAllControls(true);
 }
 
 MainWindow::~MainWindow() {
@@ -24,7 +26,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_urlEdit_returnPressed() {
-    utils.setVideoDetails(ui->urlEdit->text());
+    win.setVideoDetails(win.ui->urlEdit->text());
 }
 
 void MainWindow::on_selectSavePath_clicked() {
@@ -37,15 +39,15 @@ void MainWindow::on_selectSavePath_clicked() {
     utils.pathChanged = true;
     utils.currentFileName = filename;
 
-    utils.setFilenameUI();
+    win.setFilename();
 }
 
 void MainWindow::on_stopConversion_clicked() {
-    if (!(utils.currentDownloadProcess->isOpen() && utils.currentConversionProcess->isOpen()))
-        return;
+    //if (!(utils.currentDownloadProcess->isOpen() && utils.currentConversionProcess->isOpen()))
+    //    return;
     utils.killProcesses();
-    utils.unlockConversionButton();
-    utils.resetProgress();
+    win.lockConversionButton(false);
+    win.resetProgress();
 }
 
 void MainWindow::on_startConversion_clicked() {
@@ -55,7 +57,7 @@ void MainWindow::on_startConversion_clicked() {
     utils.resetProcesses();
 
     utils.ytFileName();
-    utils.lockConversionButton();
+    win.lockConversionButton(true);
     downloadProcess(utils.ytBinaryName() + " -f " + utils.ytGetQuality() + " -o " + utils.getCurrentRawFilename() + " " + utils.currentVideoUrl);
 }
 
@@ -80,7 +82,7 @@ void MainWindow::on_qualityComboBox_currentIndexChanged(int index)
     if (utils.loadingVideoInformations)
         return;
 
-    utils.setFilenameUI();
+    win.setFilename();
 
     utils.addToLog("Changed resolution to: " + utils.currentQualityList[index][0]);
     //qDebug() << utils.currentQualityList[index];
