@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "utilities.h"
 #include "window.h"
+#include "downloader.h"
 
 #include <QFileDialog>
 #include <QProcess>
@@ -16,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     win.setTheme();
     utils.setCommons();
-    utils.currentDownloadProcess = new QProcess;
     utils.currentConversionProcess = new QProcess;
     win.lockAllControls(true);
 }
@@ -58,15 +58,9 @@ void MainWindow::on_startConversion_clicked() {
 
     utils.ytFileName();
     win.lockConversionButton(true);
-    downloadProcess(utils.ytBinaryName() + " -f " + utils.ytGetQuality() + " -o " + utils.getCurrentRawFilename() + " " + utils.currentVideoUrl);
-}
 
-void MainWindow::downloadProcess(QString bin) {
-    utils.currentDownloadProcess = new QProcess;
-    utils.currentDownloadProcess->start(bin);
-
-    connect(utils.currentDownloadProcess, SIGNAL(readyReadStandardOutput()), &utils, SLOT(downloadProcess()));
-    connect(utils.currentDownloadProcess, SIGNAL(finished(int)), &utils, SLOT(downloadComplete(int)));
+    utils.download.setCommand(utils.ytBinaryName() + " -f " + utils.ytGetQuality() + " -o " + utils.getCurrentRawFilename() + " " + utils.currentVideoUrl);
+    utils.download.start();
 }
 
 void MainWindow::on_actionAbout_triggered()

@@ -60,21 +60,7 @@ bool Utilities::startProcedure() {
     return true;
 }
 
-void Utilities::downloadProcess() {
-    QString buffer = utils.currentDownloadProcess->readAllStandardOutput();
 
-    // This code if for handling progress bar
-    QRegExp regexp("\\[download\\]\\s+(\\d+)\\.");
-    regexp.indexIn(buffer);
-    QString percent = regexp.capturedTexts()[1];
-    if (percent != "")
-        win.ui->downloadProgressBar->setValue(percent.toInt());
-
-    if (buffer.contains("has already been downloaded"))
-        win.ui->downloadProgressBar->setValue(100);
-
-    utils.addToLog(buffer);
-}
 
 QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
     QVector< QVector<QString> > list;
@@ -138,21 +124,6 @@ void Utilities::startConversionProcess() {
     connect(currentConversionProcess, SIGNAL(finished(int)), this, SLOT(conversionComplete(int)));
 }
 
-void Utilities::downloadComplete(int code) {
-    if (killed) {
-        addToLog("<b>Downloading canceled.</b>");
-        killed = false;
-        return;
-    }
-    if (code != 0) {
-        addToLog("<b>Download error.</b>");
-        return;
-    }
-
-    addToLog("<b>Download complete</b>");
-    startConversionProcess();
-}
-
 QString Utilities::ytFileName() {
     return currentID + "-" + currentQualityList[win.ui->qualityComboBox->currentIndex()][1] + "." + currentQualityList[win.ui->qualityComboBox->currentIndex()][2];
 }
@@ -179,16 +150,16 @@ void Utilities::conversionProcess() {
 }
 
 void Utilities::resetProcesses() {
-    if (utils.currentDownloadProcess->atEnd())
-        utils.currentDownloadProcess->close();
+    if (utils.downloadProcess->atEnd())
+        utils.downloadProcess->close();
     if (utils.currentConversionProcess->atEnd())
         utils.currentConversionProcess->close();
 }
 
 void Utilities::killProcesses() {
-    if (utils.currentDownloadProcess->isOpen()) {
+    if (utils.downloadProcess->isOpen()) {
         killed = true;
-        utils.currentDownloadProcess->kill();
+        utils.downloadProcess->kill();
     }
     if (utils.currentConversionProcess->isOpen()) {
         killed = true;
@@ -216,7 +187,7 @@ void Utilities::conversionComplete(int code) {
     if (killed) {
         addToLog("<b>Conversion canceled.</b>");
         killed = false;
-        currentDownloadProcess->deleteLater();
+        downloadProcess->deleteLater();
         currentConversionProcess->deleteLater();
         return;
     }
@@ -225,7 +196,7 @@ void Utilities::conversionComplete(int code) {
         return;
     }
 
-    currentDownloadProcess->deleteLater();
+    downloadProcess->deleteLater();
     currentConversionProcess->deleteLater();
 
     addToLog("<b>Conversion complete.</b>");

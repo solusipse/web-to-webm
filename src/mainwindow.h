@@ -16,8 +16,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void downloadProcess(QString bin);
-
 private slots:
     void on_urlEdit_returnPressed();
     void on_selectSavePath_clicked();

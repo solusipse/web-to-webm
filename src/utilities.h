@@ -11,6 +11,7 @@
 #include <QMainWindow>
 #include <QProcess>
 #include "mainwindow.h"
+#include "downloader.h"
 
 
 class Utilities : public QObject
@@ -57,7 +58,7 @@ public:
     QVector<QVector <QString> > currentQualityList;
 
     // Processes
-    QProcess *currentDownloadProcess;
+    QProcess *downloadProcess;
     QProcess *currentConversionProcess;
 
     bool pathChanged;
@@ -68,14 +69,15 @@ public:
     QString ytPrepareUrl(QString url);
     QString getDefaultFilename();
 
+    Downloader download;
+
 private:
     // TODO
 
 
 
 public slots:
-    void downloadProcess();
-    void downloadComplete(int code);
+
     void conversionProcess();
     void conversionComplete(int code);
 
