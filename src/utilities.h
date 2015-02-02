@@ -12,6 +12,7 @@
 #include <QProcess>
 #include "mainwindow.h"
 #include "downloader.h"
+#include "converter.h"
 
 
 class Utilities : public QObject
@@ -59,7 +60,7 @@ public:
 
     // Processes
     QProcess *downloadProcess;
-    QProcess *currentConversionProcess;
+    QProcess *conversionProcess;
 
     bool pathChanged;
     bool loadingVideoInformations;
@@ -70,16 +71,11 @@ public:
     QString getDefaultFilename();
 
     Downloader download;
+    Converter convert;
 
 private:
     // TODO
 
-
-
-public slots:
-
-    void conversionProcess();
-    void conversionComplete(int code);
 
 };
 

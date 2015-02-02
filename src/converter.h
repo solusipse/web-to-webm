@@ -8,10 +8,14 @@ class Converter : public QObject
     Q_OBJECT
 public:
     explicit Converter(QObject *parent = 0);
+    void start();
 
-signals:
+private:
+    QString command;
 
 public slots:
+    void read();
+    void complete(int code);
 
 };
 

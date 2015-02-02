@@ -5,11 +5,12 @@
 
 
 Downloader::Downloader(QObject *parent) : QObject(parent) {
-    utils.downloadProcess = new QProcess;
+
 }
 
 void Downloader::read() {
     QString buffer = utils.downloadProcess->readAllStandardOutput();
+
 
     // This code if for handling progress bar
     QRegExp regexp("\\[download\\]\\s+(\\d+)\\.");
@@ -36,7 +37,7 @@ void Downloader::complete(int code) {
     }
 
     utils.addToLog("<b>Download complete</b>");
-    utils.startConversionProcess();
+    utils.convert.start();
 }
 
 void Downloader::setCommand(QString c) {

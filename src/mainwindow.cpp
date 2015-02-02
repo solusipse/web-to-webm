@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     win.setTheme();
     utils.setCommons();
-    utils.currentConversionProcess = new QProcess;
     win.lockAllControls(true);
 }
 
@@ -43,8 +42,11 @@ void MainWindow::on_selectSavePath_clicked() {
 }
 
 void MainWindow::on_stopConversion_clicked() {
-    //if (!(utils.currentDownloadProcess->isOpen() && utils.currentConversionProcess->isOpen()))
-    //    return;
+    if (utils.downloadProcess == NULL || utils.conversionProcess == NULL)
+        return;
+    if (!utils.downloadProcess->atEnd() || !utils.conversionProcess->atEnd())
+        return;
+
     utils.killProcesses();
     win.lockConversionButton(false);
     win.resetProgress();
@@ -54,7 +56,7 @@ void MainWindow::on_startConversion_clicked() {
     if (!utils.startProcedure())
         return;
 
-    utils.resetProcesses();
+    //utils.resetProcesses();
 
     utils.ytFileName();
     win.lockConversionButton(true);
@@ -77,8 +79,5 @@ void MainWindow::on_qualityComboBox_currentIndexChanged(int index)
         return;
 
     win.setFilename();
-
     utils.addToLog("Changed resolution to: " + utils.currentQualityList[index][0]);
-    //qDebug() << utils.currentQualityList[index];
-    //ui->filenameEdit->setText(QDir().homePath() + "/" + QFileInfo(utils.ytFileName()).baseName() + ".webm");
 }

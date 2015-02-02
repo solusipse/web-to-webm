@@ -9,7 +9,8 @@
 
 Utilities utils;
 
-Utilities::Utilities(){
+Utilities::Utilities() {
+    killed = false;
 }
 
 void Utilities::setCommons() {
@@ -17,7 +18,6 @@ void Utilities::setCommons() {
     win.ui->player->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
 
 }
-
 
 QString Utilities::execBinary(QString bin, int multiline = 0) {
     QProcess program;
@@ -59,8 +59,6 @@ bool Utilities::startProcedure() {
     addToLog("<br><b>Started downloading video:</b><br>" + win.ui->urlEdit->text());
     return true;
 }
-
-
 
 QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
     QVector< QVector<QString> > list;
@@ -108,62 +106,27 @@ QString Utilities::ytGetQuality() {
     return currentQualityList[win.ui->qualityComboBox->currentIndex()][1];
 }
 
-void Utilities::startConversionProcess() {
-    // TODO: check if user wants conversion
-    addToLog("<b>Starting conversion.</b>");
-
-    killProcesses();
-
-    QStringList arguments;
-    arguments << "-y" << "-hide_banner" << "-i" << getCurrentRawFilename() << getCurrentFilename();
-
-    currentConversionProcess->setProcessChannelMode(QProcess::MergedChannels);
-    currentConversionProcess->start(ffmpegBinaryName(), arguments);
-
-    connect(currentConversionProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(conversionProcess()));
-    connect(currentConversionProcess, SIGNAL(finished(int)), this, SLOT(conversionComplete(int)));
-}
 
 QString Utilities::ytFileName() {
     return currentID + "-" + currentQualityList[win.ui->qualityComboBox->currentIndex()][1] + "." + currentQualityList[win.ui->qualityComboBox->currentIndex()][2];
 }
 
-void Utilities::conversionProcess() {
-    QString buffer = currentConversionProcess->readAllStandardOutput();
-    QString duration, progress;
-    QTime durationTime, progressTime;
-    QRegExp time("\\d\\d\\:\\d\\d\\:\\d\\d\\.\\d\\d");
-    time.indexIn(buffer);
-    if (buffer.contains("Duration: ")) {
-        duration = time.capturedTexts()[0];
-        durationTime = QTime::fromString(duration, "hh:mm:ss.z");
-        currentDuration = QTime(0,0).secsTo(durationTime);
-    } else {
-        if (buffer != "") {
-            progress = time.capturedTexts()[0];
-            progressTime = QTime::fromString(progress, "hh:mm:ss.z");
-            int percent = double((QTime(0,0).secsTo(progressTime)) / double(currentDuration))*100;
-            win.ui->conversionProgressBar->setValue(percent);
-        }
-    }
-    addToLog(buffer);
-}
 
 void Utilities::resetProcesses() {
-    if (utils.downloadProcess->atEnd())
+    if (utils.downloadProcess != NULL)
         utils.downloadProcess->close();
-    if (utils.currentConversionProcess->atEnd())
-        utils.currentConversionProcess->close();
+    if (utils.conversionProcess != NULL)
+        utils.conversionProcess->close();
 }
 
 void Utilities::killProcesses() {
-    if (utils.downloadProcess->isOpen()) {
+    if (utils.downloadProcess != NULL) {
         killed = true;
         utils.downloadProcess->kill();
     }
-    if (utils.currentConversionProcess->isOpen()) {
+    if (utils.conversionProcess != NULL) {
         killed = true;
-        utils.currentConversionProcess->kill();
+        utils.conversionProcess->kill();
     }
 }
 
@@ -181,28 +144,6 @@ QString Utilities::ffmpegBinaryName() {
     if (SYSTEM == "posix")
         return "./ffmpeg";
     return "";
-}
-
-void Utilities::conversionComplete(int code) {
-    if (killed) {
-        addToLog("<b>Conversion canceled.</b>");
-        killed = false;
-        downloadProcess->deleteLater();
-        currentConversionProcess->deleteLater();
-        return;
-    }
-    if (code != 0) {
-        addToLog("<b>Error on conversion. Check logs.</b>");
-        return;
-    }
-
-    downloadProcess->deleteLater();
-    currentConversionProcess->deleteLater();
-
-    addToLog("<b>Conversion complete.</b>");
-    addToLog("Saved to: " + getCurrentFilename());
-
-    win.lockConversionButton(false);
 }
 
 QString Utilities::getCurrentRawFilename() {
