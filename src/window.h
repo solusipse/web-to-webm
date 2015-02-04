@@ -18,6 +18,7 @@ public:
     void setTheme();
     void setStylesheet();
     void toggleConversionButton();
+    void setPlayerHtml();
 };
 
 extern Window win;

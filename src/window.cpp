@@ -48,6 +48,15 @@ void Window::setStylesheet() {
     qApp->setStyleSheet(css);
 }
 
+void Window::setPlayerHtml() {
+    const char *html =
+        "<style>body{background:#222;color:#888;font-family: 'Lucida Console', Monaco, monospace;}"
+        "#banner{width:100%;height:100%;text-align:center;font-size:2em;}</style>"
+        "<table id='banner'><tr><td>Please, enter video URL<br><br></td></tr></table>";
+
+    win.ui->player->setHtml(html);
+}
+
 void Window::setQualityList() {
     for (int i=0; i < utils.currentQualityList.size(); i++)
         win.ui->qualityComboBox->addItem(utils.currentQualityList[i][0]);

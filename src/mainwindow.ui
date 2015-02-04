@@ -127,7 +127,7 @@
          </property>
          <property name="url">
           <url>
-           <string>https://www.youtube.com/embed/dQw4w9WgXcQ</string>
+           <string>about:blank</string>
           </url>
          </property>
         </widget>
@@ -433,17 +433,6 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>Download</string>
-    </property>
-    <addaction name="actionNew_download"/>
-    <addaction name="actionStart"/>
-    <addaction name="actionCancel"/>
-    <addaction name="actionSave_location"/>
-    <addaction name="separator"/>
-    <addaction name="actionExit"/>
-   </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
      <string>Options</string>
@@ -468,7 +457,6 @@
     <addaction name="actionAbout"/>
     <addaction name="actionWebsite"/>
    </widget>
-   <addaction name="menuFile"/>
    <addaction name="menuOptions"/>
    <addaction name="menuHelp"/>
   </widget>

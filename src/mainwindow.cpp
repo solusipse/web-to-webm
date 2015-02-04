@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     win.setTheme();
     utils.setCommons();
     win.lockAllControls(true);
+    win.setPlayerHtml();
 }
 
 MainWindow::~MainWindow() {
