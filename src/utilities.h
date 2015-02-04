@@ -1,19 +1,18 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
+#include "mainwindow.h"
+#include "downloader.h"
+#include "converter.h"
+
+#include <QMainWindow>
+#include <QProcess>
+
 #ifdef _WIN32
     #define SYSTEM "win"
 #else
     #define SYSTEM "posix"
 #endif
-
-
-#include <QMainWindow>
-#include <QProcess>
-#include "mainwindow.h"
-#include "downloader.h"
-#include "converter.h"
-
 
 class Utilities : public QObject
 {
@@ -22,64 +21,46 @@ class Utilities : public QObject
 public:
     Utilities();
 
-    // Download-related methods
-    bool startProcedure();
-    QString ytBinaryName();
-    QString ytVideoTitle(QString url);
-    QString ytVideoID(QString url);
-    QString ytGetQuality();
-    QString ytFileName();
-
-    // Conversion-related methods
+    QString getBinaryName();
+    QString getVideoTitle(QString url);
+    QString getVideoID(QString url);
+    QString getVideoQuality();
+    QString getFileName();
     QString ffmpegBinaryName();
+    QString getCurrentRawFilename();
+    QString getCurrentFilename();
+    QString execBinary(QString bin, int multiline);
+    QString prepareUrl(QString url);
+    QString getDefaultFilename();
 
-    // MISC methods
+    bool checkUrl();
     void setCommons();
-
     void startConversionProcess();
     void resetProcesses();
     void killProcesses();
-
-    // Files manipulation
-    QString getCurrentRawFilename();
-    QString getCurrentFilename();
-
-    // UI methods
     void addToLog(QString line);
 
-    // Class variables
+    int currentDuration;
+    bool pathChanged;
+    bool loadingVideoInformations;
+    bool killed;
+
     QString defaultFilename;
     QString currentID;
     QString currentVideoUrl;
     QString currentSavePath;
     QString currentFileName;
-    int currentDuration;
 
     QVector<QVector <QString> > ytQualityList(QString url);
     QVector<QVector <QString> > currentQualityList;
 
-    // Processes
     QProcess *downloadProcess;
     QProcess *conversionProcess;
-
-    bool pathChanged;
-    bool loadingVideoInformations;
-    bool killed;
-
-    QString execBinary(QString bin, int multiline);
-    QString ytPrepareUrl(QString url);
-    QString getDefaultFilename();
 
     Downloader download;
     Converter convert;
 
-private:
-    // TODO
-
-
 };
-
-
 
 extern Utilities utils;
 

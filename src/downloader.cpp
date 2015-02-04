@@ -1,18 +1,22 @@
+#include "ui_mainwindow.h"
 #include "downloader.h"
 #include "utilities.h"
 #include "window.h"
-#include "ui_mainwindow.h"
-
 
 Downloader::Downloader(QObject *parent) : QObject(parent) {
+}
 
+void Downloader::start() {
+    utils.downloadProcess = new QProcess;
+    utils.downloadProcess->start(command);
+
+    connect(utils.downloadProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(read()));
+    connect(utils.downloadProcess, SIGNAL(finished(int)), this, SLOT(complete(int)));
 }
 
 void Downloader::read() {
     QString buffer = utils.downloadProcess->readAllStandardOutput();
 
-
-    // This code if for handling progress bar
     QRegExp regexp("\\[download\\]\\s+(\\d+)\\.");
     regexp.indexIn(buffer);
     QString percent = regexp.capturedTexts()[1];
@@ -45,12 +49,4 @@ void Downloader::complete(int code) {
 
 void Downloader::setCommand(QString c) {
     command = c;
-}
-
-void Downloader::start() {
-    utils.downloadProcess = new QProcess;
-    utils.downloadProcess->start(command);
-
-    connect(utils.downloadProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(read()));
-    connect(utils.downloadProcess, SIGNAL(finished(int)), this, SLOT(complete(int)));
 }

@@ -1,6 +1,6 @@
-#include "window.h"
 #include "ui_mainwindow.h"
 #include "utilities.h"
+#include "window.h"
 
 #include <QStyleFactory>
 
@@ -52,7 +52,7 @@ void Window::setQualityList() {
 void Window::setVideoDetails(QString url) {
     // TODO: move logic to utils
     //       leave only ui-related methods here
-    url = utils.ytPrepareUrl(url);
+    url = utils.prepareUrl(url);
 
     if (url == "error") {
         win.ui->titleEdit->setText("Error: provided url is incorrect.");
@@ -66,7 +66,7 @@ void Window::setVideoDetails(QString url) {
     utils.pathChanged = false;
 
     win.ui->player->load(url);
-    win.ui->titleEdit->setText(utils.ytVideoTitle(url));
+    win.ui->titleEdit->setText(utils.getVideoTitle(url));
     utils.currentQualityList = utils.ytQualityList(url);
     win.setQualityList();
     utils.currentFileName = utils.getDefaultFilename();

@@ -1,22 +1,19 @@
+#include "ui_mainwindow.h"
 #include "converter.h"
 #include "utilities.h"
 #include "window.h"
-#include "ui_mainwindow.h"
 
 Converter::Converter(QObject *parent) : QObject(parent) {
-
 }
 
 void Converter::start() {
     utils.addToLog("<b>Starting conversion.</b>");
-
     utils.killProcesses();
 
     QStringList arguments;
     arguments << "-y" << "-hide_banner" << "-i" << utils.getCurrentRawFilename() << utils.getCurrentFilename();
 
     utils.conversionProcess = new QProcess;
-
     utils.conversionProcess->setProcessChannelMode(QProcess::MergedChannels);
     utils.conversionProcess->start(utils.ffmpegBinaryName(), arguments);
 

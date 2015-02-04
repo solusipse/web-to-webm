@@ -1,6 +1,7 @@
+#include "ui_mainwindow.h"
 #include "utilities.h"
 #include "window.h"
-#include "ui_mainwindow.h"
+
 #include <QWebSettings>
 #include <QProcess>
 #include <QDir>
@@ -30,17 +31,17 @@ QString Utilities::execBinary(QString bin, int multiline = 0) {
     return "Error on executing " + bin;
 }
 
-QString Utilities::ytVideoTitle(QString url) {
-    return execBinary(ytBinaryName() + " -e " + url);
+QString Utilities::getVideoTitle(QString url) {
+    return execBinary(getBinaryName() + " -e " + url);
 }
 
-QString Utilities::ytVideoID(QString url) {
-    currentID = execBinary(ytBinaryName() + " --get-id " + url);
+QString Utilities::getVideoID(QString url) {
+    currentID = execBinary(getBinaryName() + " --get-id " + url);
     return currentID;
 }
 
-QString Utilities::ytPrepareUrl(QString url) {
-    url = ytVideoID(url);
+QString Utilities::prepareUrl(QString url) {
+    url = getVideoID(url);
     if (url.isEmpty())
         return "error";
     return "https://www.youtube.com/embed/" + url;
@@ -51,7 +52,7 @@ void Utilities::addToLog(QString line) {
     win.ui->logBox->appendHtml(line);
 }
 
-bool Utilities::startProcedure() {
+bool Utilities::checkUrl() {
     if (currentVideoUrl.isEmpty()) {
         addToLog("Add valid video first.");
         return false;
@@ -62,7 +63,7 @@ bool Utilities::startProcedure() {
 
 QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
     QVector< QVector<QString> > list;
-    QString formats = execBinary(ytBinaryName() + " -F " + url, 1);
+    QString formats = execBinary(getBinaryName() + " -F " + url, 1);
     QStringList formatsList = formats.split("\n");
 
     /*
@@ -102,12 +103,12 @@ QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
     return list;
 }
 
-QString Utilities::ytGetQuality() {
+QString Utilities::getVideoQuality() {
     return currentQualityList[win.ui->qualityComboBox->currentIndex()][1];
 }
 
 
-QString Utilities::ytFileName() {
+QString Utilities::getFileName() {
     return currentID + "-" + currentQualityList[win.ui->qualityComboBox->currentIndex()][1] + "." + currentQualityList[win.ui->qualityComboBox->currentIndex()][2];
 }
 
@@ -130,7 +131,7 @@ void Utilities::killProcesses() {
     }
 }
 
-QString Utilities::ytBinaryName() {
+QString Utilities::getBinaryName() {
     if (SYSTEM == "win")
         return "youtube-dl.exe";
     if (SYSTEM == "posix")
@@ -160,5 +161,5 @@ QString Utilities::getCurrentFilename() {
 }
 
 QString Utilities::getDefaultFilename() {
-    return QDir().homePath() + "/" + QFileInfo(ytFileName()).baseName() + ".webm";
+    return QDir().homePath() + "/" + QFileInfo(getFileName()).baseName() + ".webm";
 }

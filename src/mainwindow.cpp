@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "downloader.h"
 #include "utilities.h"
 #include "window.h"
-#include "downloader.h"
 
 #include <QFileDialog>
 #include <QProcess>
@@ -48,15 +48,15 @@ void MainWindow::on_stopConversion_clicked() {
 }
 
 void MainWindow::on_startConversion_clicked() {
-    if (!utils.startProcedure())
+    if (!utils.checkUrl())
         return;
 
     //utils.resetProcesses();
 
-    utils.ytFileName();
+    utils.getFileName();
     win.lockConversionButton(true);
 
-    utils.download.setCommand(utils.ytBinaryName() + " -f " + utils.ytGetQuality() + " -o " + utils.getCurrentRawFilename() + " " + utils.currentVideoUrl);
+    utils.download.setCommand(utils.getBinaryName() + " -f " + utils.getVideoQuality() + " -o " + utils.getCurrentRawFilename() + " " + utils.currentVideoUrl);
     utils.download.start();
 }
 
