@@ -39,7 +39,9 @@ void Window::setStylesheet() {
         "QMenu::item::selected{background:#b31217;}"
         "QPushButton{border:none;background-color:#888;padding:25px;color:#333;}"
         "QPushButton::hover{background:#b31217;}"
-        "QMessageBox{background:#222;}";
+        "QMessageBox{background:#222;}"
+        "QToolButton{background:#222;border:none;width:35px;height:35px;}"
+        "QToolButton:hover{background:#b31217;}";
 
     qApp->setStyleSheet(css);
 }

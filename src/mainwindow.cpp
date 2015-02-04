@@ -40,7 +40,7 @@ void MainWindow::on_selectSavePath_clicked() {
 
     win.setFilename();
 }
-
+//TODO: make one button for starting and stopping
 void MainWindow::on_stopConversion_clicked() {
     utils.killProcesses();
     win.lockConversionButton(false);
