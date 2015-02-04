@@ -17,6 +17,7 @@ void Window::setTheme() {
     p.setColor(QPalette::Highlight, QColor("#b31217"));
     p.setColor(QPalette::ButtonText, QColor("#888"));
     p.setColor(QPalette::WindowText, QColor("#888"));
+    p.setColor(QPalette::Dark, QColor("#333"));
     p.setColor(QPalette::Light, QColor("#333"));
     qApp->setPalette(p);
     setStylesheet();
@@ -41,7 +42,8 @@ void Window::setStylesheet() {
         "QPushButton::hover{background:#b31217;}"
         "QMessageBox{background:#222;}"
         "QToolButton{background:#222;border:none;width:35px;height:35px;}"
-        "QToolButton:hover{background:#b31217;}";
+        "QToolButton:hover{background:#b31217;}"
+        "#logBox{background:#333;border: 1px solid #3a3a3a;}";
 
     qApp->setStyleSheet(css);
 }

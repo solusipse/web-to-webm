@@ -11,8 +11,16 @@ void Converter::start() {
     utils.killProcesses();
 
     QStringList arguments;
-    arguments << "-y" << "-hide_banner" << "-i";
-    arguments << utils.getCurrentRawFilename() << utils.getCurrentFilename();
+    arguments << "-y" << "-hide_banner";
+    arguments << "-i" << utils.getCurrentRawFilename();
+
+    if (!win.ui->cutFromEdit->text().trimmed().isEmpty() && !win.ui->cutToEdit->text().trimmed().isEmpty()) {
+        arguments << "-ss" << win.ui->cutFromEdit->text().trimmed();
+        arguments << "-to" << win.ui->cutToEdit->text().trimmed();
+        // TODO: logging
+    }
+
+    arguments << utils.getCurrentFilename();
 
     utils.conversionProcess = new QProcess;
     utils.conversionProcess->setProcessChannelMode(QProcess::MergedChannels);
@@ -23,6 +31,7 @@ void Converter::start() {
 }
 
 void Converter::read() {
+    // TODO: when cutting, adjust time
     QString buffer = utils.conversionProcess->readAllStandardOutput();
     QString duration, progress;
     QTime durationTime, progressTime;
