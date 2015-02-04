@@ -30,10 +30,10 @@ void Window::setStylesheet() {
         "QProgressBar{background:#888; border:none;height:35px;color:#333;}"
         "QProgressBar::chunk{background:#b31217;}"
         "QPlainTextEdit{color:#888;}"
-        "QComboBox{height:35px;border:none;background:#888;color:#333}"
+        "QComboBox{height:35px;border:none;background:#888;color:#333;}"
         "QComboBox::drop-down{border:none;background:#222;}"
         "QComboBox::drop-down::pressed{background:#b31217;}"
-        "QComboBox QAbstractItemView{padding:35px;background:#888;}"
+        "QComboBox QAbstractItemView{padding:15px;background:#888;}"
         "QMenu {background:#333;}"
         "QMenu::item{}"
         "QMenu::item::selected{background:#b31217;}"
@@ -77,7 +77,7 @@ void Window::setVideoDetails(QString url) {
     utils.currentVideoUrl = url;
     win.lockAllControls(false);
     utils.loadingVideoInformations = false;
-    utils.addToLog("<b>Loaded video:</b><br>" + url);
+    utils.addToLog("<b>Loaded video:</b><br>" + ui->urlEdit->text());
 }
 
 void Window::reset() {

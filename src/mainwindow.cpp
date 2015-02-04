@@ -48,8 +48,12 @@ void MainWindow::on_startConversion_clicked() {
         if (!utils.checkUrl())
             return;
         utils.getFileName();
-        utils.download.setCommand(utils.getBinaryName() + " -f " + utils.getVideoQuality() + " -o " + utils.getCurrentRawFilename() + " " + utils.currentVideoUrl);
-        utils.download.start();
+
+        QStringList arguments;
+        arguments << "-f" << utils.getVideoQuality() << "-o";
+        arguments << utils.getCurrentRawFilename() << utils.currentVideoUrl;
+
+        utils.download.start(utils.getBinaryName(), arguments);
     } else {
         utils.killProcesses();
         win.resetProgress();

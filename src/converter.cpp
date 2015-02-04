@@ -11,7 +11,8 @@ void Converter::start() {
     utils.killProcesses();
 
     QStringList arguments;
-    arguments << "-y" << "-hide_banner" << "-i" << utils.getCurrentRawFilename() << utils.getCurrentFilename();
+    arguments << "-y" << "-hide_banner" << "-i";
+    arguments << utils.getCurrentRawFilename() << utils.getCurrentFilename();
 
     utils.conversionProcess = new QProcess;
     utils.conversionProcess->setProcessChannelMode(QProcess::MergedChannels);
@@ -45,8 +46,6 @@ void Converter::read() {
 void Converter::complete(int code) {
     utils.conversionProcess->deleteLater();
     utils.conversionProcess = NULL;
-
-    win.ui->startConversion->toggle();
     win.toggleConversionButton();
 
     if (utils.killed) {
@@ -62,6 +61,9 @@ void Converter::complete(int code) {
     // In case video is so short that ffmpeg do not display
     // conversion status
     win.ui->conversionProgressBar->setValue(100);
+
+    win.ui->startConversion->toggle();
+    win.toggleConversionButton();
 
     utils.addToLog("<b>Conversion complete.</b>");
     utils.addToLog("Saved to: " + utils.getCurrentFilename());

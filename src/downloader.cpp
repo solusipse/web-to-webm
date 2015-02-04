@@ -6,9 +6,9 @@
 Downloader::Downloader(QObject *parent) : QObject(parent) {
 }
 
-void Downloader::start() {
+void Downloader::start(QString c, QStringList l) {
     utils.downloadProcess = new QProcess;
-    utils.downloadProcess->start(command);
+    utils.downloadProcess->start(c, l);
 
     connect(utils.downloadProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(read()));
     connect(utils.downloadProcess, SIGNAL(finished(int)), this, SLOT(complete(int)));
@@ -45,8 +45,4 @@ void Downloader::complete(int code) {
 
     utils.addToLog("<b>Download complete</b>");
     utils.convert.start();
-}
-
-void Downloader::setCommand(QString c) {
-    command = c;
 }

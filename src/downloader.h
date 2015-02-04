@@ -9,8 +9,7 @@ class Downloader : public QObject {
 
 public:
     explicit Downloader(QObject *parent = 0);
-    void setCommand(QString c);
-    void start();
+    void start(QString c, QStringList l);
 
 private:
     QString command;
