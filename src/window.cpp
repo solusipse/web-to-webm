@@ -67,6 +67,12 @@ void Window::setVideoDetails(QString url) {
     //       leave only ui-related methods here
     url = utils.prepareUrl(url);
 
+    if (url.contains("Error on executing.")) {
+        win.ui->titleEdit->setText("Error: no executable found (missing youtube-dl or ffmpeg).");
+        utils.currentVideoUrl = "";
+        return;
+    }
+
     if (url == "error") {
         win.ui->titleEdit->setText("Error: provided url is incorrect.");
         utils.addToLog("<b>Error:</b> provided url is incorrect.");

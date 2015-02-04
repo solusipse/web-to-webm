@@ -28,7 +28,8 @@ QString Utilities::execBinary(QString bin, int multiline = 0) {
             return QString::fromLocal8Bit(program.readAllStandardOutput().simplified());
         return program.readAllStandardOutput();
     }
-    return "Error on executing " + bin;
+    utils.addToLog("Error on executing command: " + bin);
+    return "Error on executing.";
 }
 
 QString Utilities::getVideoTitle(QString url) {
@@ -124,17 +125,18 @@ void Utilities::killProcesses() {
 }
 
 QString Utilities::getBinaryName() {
-    if (SYSTEM == "win")
+    if (SYSTEM == 0) {
         return "youtube-dl.exe";
-    if (SYSTEM == "posix")
+    }
+    if (SYSTEM == 1)
         return "./youtube-dl";
     return "";
 }
 
 QString Utilities::ffmpegBinaryName() {
-    if (SYSTEM == "win")
+    if (SYSTEM == 0)
         return "ffmpeg.exe";
-    if (SYSTEM == "posix")
+    if (SYSTEM == 1)
         return "./ffmpeg";
     return "";
 }

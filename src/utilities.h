@@ -9,9 +9,9 @@
 #include <QProcess>
 
 #ifdef _WIN32
-    #define SYSTEM "win"
+    #define SYSTEM 0
 #else
-    #define SYSTEM "posix"
+    #define SYSTEM 1
 #endif
 
 class Utilities : public QObject
