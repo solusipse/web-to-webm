@@ -43,9 +43,11 @@ void Converter::read() {
 }
 
 void Converter::complete(int code) {
-    win.lockConversionButton(false);
     utils.conversionProcess->deleteLater();
     utils.conversionProcess = NULL;
+
+    win.ui->startConversion->toggle();
+    win.toggleConversionButton();
 
     if (utils.killed) {
         utils.addToLog("<b>Conversion canceled.</b>");
@@ -56,6 +58,10 @@ void Converter::complete(int code) {
         utils.addToLog("<b>Error on conversion. Check logs.</b>");
         return;
     }
+
+    // In case video is so short that ffmpeg do not display
+    // conversion status
+    win.ui->conversionProgressBar->setValue(100);
 
     utils.addToLog("<b>Conversion complete.</b>");
     utils.addToLog("Saved to: " + utils.getCurrentFilename());

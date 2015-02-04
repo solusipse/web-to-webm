@@ -112,14 +112,6 @@ QString Utilities::getFileName() {
     return currentID + "-" + currentQualityList[win.ui->qualityComboBox->currentIndex()][1] + "." + currentQualityList[win.ui->qualityComboBox->currentIndex()][2];
 }
 
-
-void Utilities::resetProcesses() {
-    if (utils.downloadProcess != NULL)
-        utils.downloadProcess->close();
-    if (utils.conversionProcess != NULL)
-        utils.conversionProcess->close();
-}
-
 void Utilities::killProcesses() {
     if (utils.downloadProcess != NULL) {
         killed = true;

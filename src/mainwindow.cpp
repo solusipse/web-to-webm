@@ -40,24 +40,20 @@ void MainWindow::on_selectSavePath_clicked() {
 
     win.setFilename();
 }
-//TODO: make one button for starting and stopping
-void MainWindow::on_stopConversion_clicked() {
-    utils.killProcesses();
-    win.lockConversionButton(false);
-    win.resetProgress();
-}
 
 void MainWindow::on_startConversion_clicked() {
-    if (!utils.checkUrl())
-        return;
+    win.toggleConversionButton();
 
-    //utils.resetProcesses();
-
-    utils.getFileName();
-    win.lockConversionButton(true);
-
-    utils.download.setCommand(utils.getBinaryName() + " -f " + utils.getVideoQuality() + " -o " + utils.getCurrentRawFilename() + " " + utils.currentVideoUrl);
-    utils.download.start();
+    if (ui->startConversion->isChecked()) {
+        if (!utils.checkUrl())
+            return;
+        utils.getFileName();
+        utils.download.setCommand(utils.getBinaryName() + " -f " + utils.getVideoQuality() + " -o " + utils.getCurrentRawFilename() + " " + utils.currentVideoUrl);
+        utils.download.start();
+    } else {
+        utils.killProcesses();
+        win.resetProgress();
+    }
 }
 
 void MainWindow::on_actionAbout_triggered()

@@ -14,12 +14,10 @@ public:
     void reset();
     void resetProgress();
     void setFilename();
-
     void lockAllControls(bool status);
-    void lockConversionButton(bool v);
-
     void setTheme();
     void setStylesheet();
+    void toggleConversionButton();
 };
 
 extern Window win;

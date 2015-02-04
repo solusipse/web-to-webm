@@ -36,7 +36,6 @@ public:
     bool checkUrl();
     void setCommons();
     void startConversionProcess();
-    void resetProcesses();
     void killProcesses();
     void addToLog(QString line);
 

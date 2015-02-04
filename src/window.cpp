@@ -31,7 +31,7 @@ void Window::setStylesheet() {
         "QProgressBar::chunk{background:#b31217;}"
         "QPlainTextEdit{color:#888;}"
         "QComboBox{height:35px;border:none;background:#888;color:#333}"
-        "QComboBox::drop-down{border:none;background:#666;}"
+        "QComboBox::drop-down{border:none;background:#222;}"
         "QComboBox::drop-down::pressed{background:#b31217;}"
         "QComboBox QAbstractItemView{padding:35px;background:#888;}"
         "QMenu {background:#333;}"
@@ -95,16 +95,21 @@ void Window::resetProgress() {
 void Window::lockAllControls(bool status) {
     win.ui->cutFromEdit->setDisabled(status);
     win.ui->cutToEdit->setDisabled(status);
-    win.ui->startConversion->setDisabled(status);
-    win.ui->stopConversion->setDisabled(status);
     win.ui->selectSavePath->setDisabled(status);
-}
-
-void Window::lockConversionButton(bool v) {
-    win.ui->startConversion->setDisabled(v);
+    win.ui->startConversion->setDisabled(status);
 }
 
 void Window::setFilename() {
     // TODO: load default save path from config file
     win.ui->filenameEdit->setText(utils.getCurrentFilename());
+}
+
+void Window::toggleConversionButton() {
+    QIcon icon;
+    if (ui->startConversion->isChecked()) {
+        icon = QIcon(":/icons/cancel.png");
+    } else {
+        icon = QIcon(":/icons/convert.png");
+    }
+    ui->startConversion->setIcon(icon);
 }

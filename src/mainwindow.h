@@ -19,7 +19,6 @@ public:
 private slots:
     void on_urlEdit_returnPressed();
     void on_selectSavePath_clicked();
-    void on_stopConversion_clicked();
     void on_startConversion_clicked();
     void on_actionAbout_triggered();
     void on_qualityComboBox_currentIndexChanged(int index);
