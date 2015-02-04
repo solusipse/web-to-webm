@@ -26,6 +26,9 @@ void Downloader::read() {
 }
 
 void Downloader::complete(int code) {
+    utils.downloadProcess->deleteLater();
+    utils.downloadProcess = NULL;
+
     if (utils.killed) {
         utils.addToLog("<b>Downloading canceled.</b>");
         utils.killed = false;

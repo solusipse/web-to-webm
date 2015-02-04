@@ -42,11 +42,6 @@ void MainWindow::on_selectSavePath_clicked() {
 }
 
 void MainWindow::on_stopConversion_clicked() {
-    if (utils.downloadProcess == NULL || utils.conversionProcess == NULL)
-        return;
-    if (!utils.downloadProcess->atEnd() || !utils.conversionProcess->atEnd())
-        return;
-
     utils.killProcesses();
     win.lockConversionButton(false);
     win.resetProgress();

@@ -4,7 +4,7 @@
 #include "ui_mainwindow.h"
 
 Converter::Converter(QObject *parent) : QObject(parent) {
-    utils.conversionProcess = new QProcess;
+
 }
 
 void Converter::start() {
@@ -14,6 +14,8 @@ void Converter::start() {
 
     QStringList arguments;
     arguments << "-y" << "-hide_banner" << "-i" << utils.getCurrentRawFilename() << utils.getCurrentFilename();
+
+    utils.conversionProcess = new QProcess;
 
     utils.conversionProcess->setProcessChannelMode(QProcess::MergedChannels);
     utils.conversionProcess->start(utils.ffmpegBinaryName(), arguments);
@@ -44,6 +46,10 @@ void Converter::read() {
 }
 
 void Converter::complete(int code) {
+    win.lockConversionButton(false);
+    utils.conversionProcess->deleteLater();
+    utils.conversionProcess = NULL;
+
     if (utils.killed) {
         utils.addToLog("<b>Conversion canceled.</b>");
         utils.killed = false;
@@ -56,6 +62,4 @@ void Converter::complete(int code) {
 
     utils.addToLog("<b>Conversion complete.</b>");
     utils.addToLog("Saved to: " + utils.getCurrentFilename());
-
-    win.lockConversionButton(false);
 }
