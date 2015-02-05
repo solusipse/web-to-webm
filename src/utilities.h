@@ -39,6 +39,9 @@ public:
     void killProcesses();
     void addToLog(QString line);
 
+    int getTrimmedVideoDuration();
+    QTime parseTime(QString s);
+
     int currentDuration;
     bool pathChanged;
     bool loadingVideoInformations;

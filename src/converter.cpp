@@ -10,6 +10,8 @@ void Converter::start() {
     utils.addToLog("<b>Starting conversion.</b>");
     utils.killProcesses();
 
+    utils.currentDuration = 0;
+
     QStringList arguments;
     arguments << "-y" << "-hide_banner";
     arguments << "-i" << utils.getCurrentRawFilename();
@@ -17,8 +19,7 @@ void Converter::start() {
     if (!win.ui->cutFromEdit->text().trimmed().isEmpty() && !win.ui->cutToEdit->text().trimmed().isEmpty()) {
         arguments << "-ss" << win.ui->cutFromEdit->text().trimmed();
         arguments << "-to" << win.ui->cutToEdit->text().trimmed();
-        // TODO: logging
-        // TODO: measure progression deppending on video cut
+        utils.currentDuration = utils.getTrimmedVideoDuration();
     }
 
     arguments << utils.getCurrentFilename();
@@ -38,7 +39,7 @@ void Converter::read() {
     QTime durationTime, progressTime;
     QRegExp time("\\d\\d\\:\\d\\d\\:\\d\\d\\.\\d\\d");
     time.indexIn(buffer);
-    if (buffer.contains("Duration: ")) {
+    if (buffer.contains("Duration: ") && utils.currentDuration == 0) {
         duration = time.capturedTexts()[0];
         durationTime = QTime::fromString(duration, "hh:mm:ss.z");
         utils.currentDuration = QTime(0,0).secsTo(durationTime);

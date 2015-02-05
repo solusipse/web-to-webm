@@ -157,3 +157,26 @@ QString Utilities::getCurrentFilename() {
 QString Utilities::getDefaultFilename() {
     return QDir().homePath() + "/" + QFileInfo(getFileName()).baseName() + ".webm";
 }
+
+int Utilities::getTrimmedVideoDuration() {
+    QString cutFrom = win.ui->cutFromEdit->text();
+    QString cutTo = win.ui->cutToEdit->text();
+    // TODO: add information on this to log
+    return parseTime(cutFrom).secsTo(parseTime(cutTo));
+}
+
+QTime Utilities::parseTime(QString s) {
+    int occurences = s.count(":");
+
+    if (occurences == 0) {
+        return QTime::QTime(0,0,0).addSecs(s.toInt());
+    }
+    if (occurences == 1) {
+        return QTime::fromString(s, "mm:ss");
+    }
+    if (occurences == 2) {
+        return QTime::fromString(s, "hh:mm:ss");
+    }
+
+    return QTime();
+}
