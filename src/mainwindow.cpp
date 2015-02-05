@@ -75,5 +75,6 @@ void MainWindow::on_qualityComboBox_currentIndexChanged(int index)
         return;
 
     win.setFilename();
+    win.resetProgress();
     utils.addToLog("Changed resolution to: " + utils.currentQualityList[index][0]);
 }

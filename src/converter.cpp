@@ -18,6 +18,7 @@ void Converter::start() {
         arguments << "-ss" << win.ui->cutFromEdit->text().trimmed();
         arguments << "-to" << win.ui->cutToEdit->text().trimmed();
         // TODO: logging
+        // TODO: measure progression deppending on video cut
     }
 
     arguments << utils.getCurrentFilename();
