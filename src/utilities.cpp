@@ -172,7 +172,7 @@ QTime Utilities::parseTime(QString s) {
     int occurences = s.count(":");
 
     if (occurences == 0) {
-        return QTime::QTime(0,0,0).addSecs(s.toInt());
+        return QTime(0,0,0).addSecs(s.toInt());
     }
     if (occurences == 1) {
         return QTime::fromString(s, "mm:ss");
