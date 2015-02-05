@@ -20,10 +20,11 @@ private slots:
     void on_urlEdit_returnPressed();
     void on_selectSavePath_clicked();
     void on_startConversion_clicked();
-    void on_actionAbout_triggered();
+    void on_menuAbout_triggered();
     void on_qualityComboBox_currentIndexChanged(int index);
-    void on_actionWebsite_triggered();
-    void on_actionSet_default_download_location_triggered();
+    void on_menuWebsite_triggered();
+    void on_menuDefaultDownloadPath_triggered();
+    void on_menuExit_triggered();
 
 private:
     Ui::MainWindow *ui;

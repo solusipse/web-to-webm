@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 MainWindow::~MainWindow() {
+    // TODO: save settings
     delete ui;
 }
 
@@ -62,7 +63,7 @@ void MainWindow::on_startConversion_clicked() {
     }
 }
 
-void MainWindow::on_actionAbout_triggered()
+void MainWindow::on_menuAbout_triggered()
 {
     QMessageBox::about(this, "ytwebm about", "This software is open source (MIT licensed). "
                                              "It was build with QT (LGPL), youtube-dl (Public Domain) and ffmpeg (LGPL).\n\n"
@@ -80,16 +81,22 @@ void MainWindow::on_qualityComboBox_currentIndexChanged(int index)
     utils.addToLog("Changed resolution to: " + utils.currentQualityList[index][0]);
 }
 
-void MainWindow::on_actionWebsite_triggered()
+void MainWindow::on_menuWebsite_triggered()
 {
     QDesktopServices::openUrl(QUrl("https://github.com/solusipse/ytwebm"));
 }
 
-void MainWindow::on_actionSet_default_download_location_triggered()
+void MainWindow::on_menuDefaultDownloadPath_triggered()
 {
     QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
         QDir().homePath(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     if (!dir.isEmpty())
         utils.configSetValue("default_path", dir);
 }
+
+void MainWindow::on_menuExit_triggered()
+{
+    qApp->exit();
+}
+
 

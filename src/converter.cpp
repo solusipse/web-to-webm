@@ -22,6 +22,9 @@ void Converter::start() {
         utils.currentDuration = utils.getTrimmedVideoDuration();
     }
 
+    if (win.ui->menuRemoveAudio->isChecked())
+        arguments << "-an";
+
     arguments << utils.getCurrentFilename();
 
     utils.conversionProcess = new QProcess;
@@ -77,9 +80,12 @@ void Converter::complete(int code) {
     win.ui->startConversion->toggle();
     win.toggleConversionButton();
 
-    if (win.ui->actionRemoveRawVideo->isChecked())
+    if (win.ui->menuRemoveRawVideo->isChecked())
         utils.removeRawVideo();
 
     utils.addToLog("<b>Conversion complete.</b>");
     utils.addToLog("Saved to: " + utils.getCurrentFilename());
+
+    if (win.ui->menuShowFile->isChecked())
+        utils.showFileInDirectory();
 }

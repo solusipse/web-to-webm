@@ -2,6 +2,7 @@
 #include "utilities.h"
 #include "window.h"
 
+#include <QDesktopServices>
 #include <QWebSettings>
 #include <QSettings>
 #include <QProcess>
@@ -211,4 +212,8 @@ QString Utilities::configGetValue(QString k) {
 
 void Utilities::removeRawVideo() {
     QFile::remove(getCurrentRawFilename());
+}
+
+void Utilities::showFileInDirectory() {
+    QDesktopServices::openUrl("file:///" + QFileInfo(getCurrentFilename()).absolutePath());
 }

@@ -42,6 +42,8 @@ public:
     void configInit();
     void configSetValue(QString k, QString v);
     void configSetValueIfBlank(QString k, QString v);
+    void showFileInDirectory();
+
     QString configGetValue(QString k);
 
     int getTrimmedVideoDuration();

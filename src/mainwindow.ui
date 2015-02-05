@@ -430,83 +430,72 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
      <string>Options</string>
     </property>
-    <addaction name="actionRemoveSound"/>
-    <addaction name="actionDon_t_convert"/>
-    <addaction name="actionRemoveRawVideo"/>
+    <addaction name="menuDontConvert"/>
+    <addaction name="menuRemoveAudio"/>
+    <addaction name="menuRemoveRawVideo"/>
+    <addaction name="menuDefaultDownloadPath"/>
     <addaction name="separator"/>
-    <addaction name="actionSet_default_download_location"/>
-    <addaction name="actionUse_default_download_location"/>
+    <addaction name="menuYoutubedlCustomParams"/>
+    <addaction name="menuFfmpegCustomParams"/>
     <addaction name="separator"/>
-    <addaction name="actionAdd_custom_parameters_for_youtube_dl"/>
-    <addaction name="actionAdd_custom_parameter_to_ffmpeg"/>
+    <addaction name="menuCustomYoutubedlPath"/>
+    <addaction name="menuCustomFfmpegPath"/>
     <addaction name="separator"/>
-    <addaction name="actionSet_custom_youtube_dl_path"/>
-    <addaction name="actionSet_custom_ffmpeg_path"/>
+    <addaction name="menuShowFile"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionAbout"/>
-    <addaction name="actionWebsite"/>
+    <addaction name="menuAbout"/>
+    <addaction name="menuWebsite"/>
    </widget>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="menuNew"/>
+    <addaction name="separator"/>
+    <addaction name="menuExit"/>
+   </widget>
+   <widget class="QMenu" name="menuLog">
+    <property name="title">
+     <string>Log</string>
+    </property>
+    <addaction name="menuShowLog"/>
+    <addaction name="menuClearLog"/>
+   </widget>
+   <addaction name="menuFile"/>
    <addaction name="menuOptions"/>
+   <addaction name="menuLog"/>
    <addaction name="menuHelp"/>
   </widget>
-  <action name="actionNew_download">
-   <property name="text">
-    <string>New</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+D</string>
-   </property>
-  </action>
-  <action name="actionRestart">
-   <property name="text">
-    <string>Restart</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="text">
-    <string>Exit</string>
-   </property>
-  </action>
-  <action name="actionRemoveSound">
+  <action name="menuRemoveAudio">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Remove sound</string>
+    <string>Remove audio</string>
    </property>
   </action>
-  <action name="actionSet_default_download_location">
+  <action name="menuDefaultDownloadPath">
    <property name="text">
     <string>Set default download location</string>
    </property>
   </action>
-  <action name="actionSet_current_download_location">
-   <property name="text">
-    <string>Set current download location</string>
-   </property>
-  </action>
-  <action name="actionSave_location">
-   <property name="text">
-    <string>Set save location</string>
-   </property>
-  </action>
-  <action name="actionAbout">
+  <action name="menuAbout">
    <property name="text">
     <string>About</string>
    </property>
   </action>
-  <action name="actionRemoveRawVideo">
+  <action name="menuRemoveRawVideo">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -517,58 +506,65 @@
     <string>Remove raw video</string>
    </property>
   </action>
-  <action name="actionUse_default_download_location">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Use default download location</string>
-   </property>
-  </action>
-  <action name="actionAdd_custom_parameter_to_ffmpeg">
+  <action name="menuFfmpegCustomParams">
    <property name="text">
     <string>Add custom parameters for ffmpeg</string>
    </property>
   </action>
-  <action name="actionAdd_custom_parameters_for_youtube_dl">
+  <action name="menuYoutubedlCustomParams">
    <property name="text">
     <string>Add custom parameters for youtube-dl</string>
    </property>
   </action>
-  <action name="actionCancel">
-   <property name="text">
-    <string>Cancel</string>
-   </property>
-  </action>
-  <action name="actionStart">
-   <property name="text">
-    <string>Start</string>
-   </property>
-  </action>
-  <action name="actionSet_custom_youtube_dl_path">
+  <action name="menuCustomYoutubedlPath">
    <property name="text">
     <string>Set custom youtube-dl path</string>
    </property>
   </action>
-  <action name="actionSet_custom_ffmpeg_path">
+  <action name="menuCustomFfmpegPath">
    <property name="text">
     <string>Set custom ffmpeg path</string>
    </property>
   </action>
-  <action name="actionWebsite">
+  <action name="menuWebsite">
    <property name="text">
     <string>Website</string>
    </property>
   </action>
-  <action name="actionDon_t_convert">
+  <action name="menuDontConvert">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Don't convert</string>
+    <string>Don't convert (download only)</string>
+   </property>
+  </action>
+  <action name="menuShowLog">
+   <property name="text">
+    <string>Show full log</string>
+   </property>
+  </action>
+  <action name="menuClearLog">
+   <property name="text">
+    <string>Clear log</string>
+   </property>
+  </action>
+  <action name="menuNew">
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
+  <action name="menuExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="menuShowFile">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Open output directory after conversion</string>
    </property>
   </action>
  </widget>
