@@ -38,6 +38,11 @@ public:
     void startConversionProcess();
     void killProcesses();
     void addToLog(QString line);
+    void removeRawVideo();
+    void configInit();
+    void configSetValue(QString k, QString v);
+    void configSetValueIfBlank(QString k, QString v);
+    QString configGetValue(QString k);
 
     int getTrimmedVideoDuration();
     QTime parseTime(QString s);

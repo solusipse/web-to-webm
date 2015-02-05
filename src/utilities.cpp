@@ -3,10 +3,10 @@
 #include "window.h"
 
 #include <QWebSettings>
+#include <QSettings>
 #include <QProcess>
 #include <QDir>
 #include <QTime>
-
 
 Utilities utils;
 
@@ -155,7 +155,9 @@ QString Utilities::getCurrentFilename() {
 }
 
 QString Utilities::getDefaultFilename() {
-    return QDir().homePath() + "/" + QFileInfo(getFileName()).baseName() + ".webm";
+    if (configGetValue("default_path").isEmpty())
+        return QDir().homePath() + "/" + QFileInfo(getFileName()).baseName() + ".webm";
+    return configGetValue("default_path") + "/" + QFileInfo(getFileName()).baseName() + ".webm";
 }
 
 int Utilities::getTrimmedVideoDuration() {
@@ -179,4 +181,34 @@ QTime Utilities::parseTime(QString s) {
     }
 
     return QTime();
+}
+
+void Utilities::configInit() {
+    configSetValueIfBlank("remove_sound", "0");
+    configSetValueIfBlank("dont_convert", "0");
+    configSetValueIfBlank("remove_raw", "1");
+    configSetValueIfBlank("default_path", "");
+    configSetValueIfBlank("use_config_path", "1");
+    configSetValueIfBlank("youtubedl_path", "");
+    configSetValueIfBlank("ffmpeg_path", "");
+}
+
+void Utilities::configSetValue(QString k, QString v) {
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "ytwebm");
+    settings.setValue(k, v);
+}
+
+void Utilities::configSetValueIfBlank(QString k, QString v) {
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "ytwebm");
+    if (!settings.contains(k))
+        settings.setValue(k, v);
+}
+
+QString Utilities::configGetValue(QString k) {
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "ytwebm");
+    return settings.value(k).toString();
+}
+
+void Utilities::removeRawVideo() {
+    QFile::remove(getCurrentRawFilename());
 }

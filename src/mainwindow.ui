@@ -437,9 +437,9 @@
     <property name="title">
      <string>Options</string>
     </property>
-    <addaction name="actionRemove_sound"/>
+    <addaction name="actionRemoveSound"/>
     <addaction name="actionDon_t_convert"/>
-    <addaction name="actionRemove_raw_video"/>
+    <addaction name="actionRemoveRawVideo"/>
     <addaction name="separator"/>
     <addaction name="actionSet_default_download_location"/>
     <addaction name="actionUse_default_download_location"/>
@@ -478,7 +478,7 @@
     <string>Exit</string>
    </property>
   </action>
-  <action name="actionRemove_sound">
+  <action name="actionRemoveSound">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -506,7 +506,7 @@
     <string>About</string>
    </property>
   </action>
-  <action name="actionRemove_raw_video">
+  <action name="actionRemoveRawVideo">
    <property name="checkable">
     <bool>true</bool>
    </property>

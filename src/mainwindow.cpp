@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QProcess>
 #include <QMessageBox>
+#include <QDesktopServices>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -17,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     win.setTheme();
     utils.setCommons();
+    utils.configInit();
     win.lockAllControls(true);
     win.setPlayerHtml();
 }
@@ -44,7 +46,7 @@ void MainWindow::on_selectSavePath_clicked() {
 
 void MainWindow::on_startConversion_clicked() {
     win.toggleConversionButton();
-
+    win.resetProgress();
     if (ui->startConversion->isChecked()) {
         if (!utils.checkUrl())
             return;
@@ -57,7 +59,6 @@ void MainWindow::on_startConversion_clicked() {
         utils.download.start(utils.getBinaryName(), arguments);
     } else {
         utils.killProcesses();
-        win.resetProgress();
     }
 }
 
@@ -78,3 +79,17 @@ void MainWindow::on_qualityComboBox_currentIndexChanged(int index)
     win.resetProgress();
     utils.addToLog("Changed resolution to: " + utils.currentQualityList[index][0]);
 }
+
+void MainWindow::on_actionWebsite_triggered()
+{
+    QDesktopServices::openUrl(QUrl("https://github.com/solusipse/ytwebm"));
+}
+
+void MainWindow::on_actionSet_default_download_location_triggered()
+{
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+        QDir().homePath(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    if (!dir.isEmpty())
+        utils.configSetValue("default_path", dir);
+}
+

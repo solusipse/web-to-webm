@@ -33,7 +33,6 @@ void Converter::start() {
 }
 
 void Converter::read() {
-    // TODO: when cutting, adjust time
     QString buffer = utils.conversionProcess->readAllStandardOutput();
     QString duration, progress;
     QTime durationTime, progressTime;
@@ -77,6 +76,9 @@ void Converter::complete(int code) {
 
     win.ui->startConversion->toggle();
     win.toggleConversionButton();
+
+    if (win.ui->actionRemoveRawVideo->isChecked())
+        utils.removeRawVideo();
 
     utils.addToLog("<b>Conversion complete.</b>");
     utils.addToLog("Saved to: " + utils.getCurrentFilename());

@@ -22,6 +22,8 @@ private slots:
     void on_startConversion_clicked();
     void on_actionAbout_triggered();
     void on_qualityComboBox_currentIndexChanged(int index);
+    void on_actionWebsite_triggered();
+    void on_actionSet_default_download_location_triggered();
 
 private:
     Ui::MainWindow *ui;

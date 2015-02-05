@@ -119,7 +119,6 @@ void Window::lockAllControls(bool status) {
 }
 
 void Window::setFilename() {
-    // TODO: load default save path from config file
     win.ui->filenameEdit->setText(utils.getCurrentFilename());
 }
 
