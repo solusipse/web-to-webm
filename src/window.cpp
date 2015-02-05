@@ -100,6 +100,8 @@ void Window::setVideoDetails(QString url) {
 void Window::reset() {
     win.resetProgress();
     win.ui->filenameEdit->clear();
+    win.ui->cutFromEdit->clear();
+    win.ui->cutToEdit->clear();
     for (int i = win.ui->qualityComboBox->count(); i > 0; i--)
         win.ui->qualityComboBox->removeItem(0);
 }
