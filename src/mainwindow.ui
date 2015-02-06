@@ -510,21 +510,33 @@
    </property>
   </action>
   <action name="menuFfmpegCustomParams">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Add custom parameters for ffmpeg</string>
    </property>
   </action>
   <action name="menuYoutubedlCustomParams">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Add custom parameters for youtube-dl</string>
    </property>
   </action>
   <action name="menuCustomYoutubedlPath">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Set custom youtube-dl path</string>
    </property>
   </action>
   <action name="menuCustomFfmpegPath">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Set custom ffmpeg path</string>
    </property>

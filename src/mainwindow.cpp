@@ -63,16 +63,14 @@ void MainWindow::on_startConversion_clicked() {
     }
 }
 
-void MainWindow::on_menuAbout_triggered()
-{
+void MainWindow::on_menuAbout_triggered() {
     QMessageBox::about(this, "ytwebm about", "This software is open source (MIT licensed). "
                                              "It was build with QT (LGPL), youtube-dl (Public Domain) and ffmpeg (LGPL).\n\n"
                                              "For more informations see:\n"
                                              "https://github.com/solusipse/ytwebm.");
 }
 
-void MainWindow::on_qualityComboBox_currentIndexChanged(int index)
-{
+void MainWindow::on_qualityComboBox_currentIndexChanged(int index) {
     if (utils.loadingVideoInformations)
         return;
 
@@ -81,21 +79,18 @@ void MainWindow::on_qualityComboBox_currentIndexChanged(int index)
     utils.addToLog("Changed resolution to: " + utils.currentQualityList[index][0]);
 }
 
-void MainWindow::on_menuWebsite_triggered()
-{
+void MainWindow::on_menuWebsite_triggered() {
     QDesktopServices::openUrl(QUrl("https://github.com/solusipse/ytwebm"));
 }
 
-void MainWindow::on_menuDefaultDownloadPath_triggered()
-{
+void MainWindow::on_menuDefaultDownloadPath_triggered() {
     QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
         QDir().homePath(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     if (!dir.isEmpty())
         utils.configSetValue("default_path", dir);
 }
 
-void MainWindow::on_menuExit_triggered()
-{
+void MainWindow::on_menuExit_triggered() {
     qApp->exit();
 }
 
@@ -103,8 +98,7 @@ void MainWindow::on_menuClearLog_triggered() {
     win.ui->logBox->clear();
 }
 
-void MainWindow::on_menuShowLog_triggered()
-{
+void MainWindow::on_menuShowLog_triggered() {
     QDialog dialog(this, Qt::Window);
     QPlainTextEdit *box = new QPlainTextEdit(&dialog);
     QVBoxLayout *layout = new QVBoxLayout;
@@ -115,4 +109,13 @@ void MainWindow::on_menuShowLog_triggered()
     box->setReadOnly(true);
     box->setPlainText(utils.log);
     dialog.exec();
+}
+
+void MainWindow::on_menuNew_triggered() {
+    // TODO
+    /*
+    utils.killProcesses();
+    win.setPlayerHtml();
+    win.reset();
+    */
 }

@@ -27,6 +27,7 @@ private slots:
     void on_menuExit_triggered();
     void on_menuClearLog_triggered();
     void on_menuShowLog_triggered();
+    void on_menuNew_triggered();
 
 private:
     Ui::MainWindow *ui;

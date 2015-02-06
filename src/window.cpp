@@ -132,4 +132,3 @@ void Window::toggleConversionButton() {
     ui->startConversion->setIcon(icon);
 }
 
-
