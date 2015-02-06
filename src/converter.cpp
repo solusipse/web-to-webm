@@ -55,7 +55,10 @@ void Converter::read() {
             }
         }
     }
-    utils.addToLog(buffer);
+    if (win.ui->menuFfmpegOutput->isChecked())
+        utils.addToLog(buffer);
+    else
+        utils.addToLog(buffer, false);
 }
 
 void Converter::complete(int code) {

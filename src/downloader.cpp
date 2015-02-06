@@ -26,7 +26,10 @@ void Downloader::read() {
     if (buffer.contains("has already been downloaded"))
         win.ui->downloadProgressBar->setValue(100);
 
-    utils.addToLog(buffer);
+    if (win.ui->menuYoutubedlOutput->isChecked())
+        utils.addToLog(buffer);
+    else
+        utils.addToLog(buffer, false);
 }
 
 void Downloader::complete(int code) {
