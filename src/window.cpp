@@ -94,7 +94,7 @@ void Window::setVideoDetails(QString url) {
     utils.currentVideoUrl = url;
     win.lockAllControls(false);
     utils.loadingVideoInformations = false;
-    utils.addToLog("<b>Loaded video:</b><br>" + ui->urlEdit->text());
+    utils.addToLog("<b>Loaded video:</b> <br>" + ui->urlEdit->text());
 }
 
 void Window::reset() {

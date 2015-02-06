@@ -49,9 +49,13 @@ QString Utilities::prepareUrl(QString url) {
     return "https://www.youtube.com/embed/" + url;
 }
 
-void Utilities::addToLog(QString line) {
-    // TODO: add saving log to file option
-    win.ui->logBox->appendHtml(line);
+void Utilities::addToLog(QString line, bool display) {
+    line.prepend("[" + QTime().currentTime().toString() + "] ");
+    if (display)
+        win.ui->logBox->appendHtml(line);
+
+    line.replace("<br>", "").replace("<b>", "").replace("</b>", "");
+    log.append(line + "\n");
 }
 
 bool Utilities::checkUrl() {

@@ -99,4 +99,6 @@ void MainWindow::on_menuExit_triggered()
     qApp->exit();
 }
 
-
+void MainWindow::on_menuClearLog_triggered() {
+    win.ui->logBox->clear();
+}

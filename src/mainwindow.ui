@@ -469,6 +469,9 @@
     <property name="title">
      <string>Log</string>
     </property>
+    <addaction name="menuYoutubedlOutput"/>
+    <addaction name="menuFfmpegOutput"/>
+    <addaction name="separator"/>
     <addaction name="menuShowLog"/>
     <addaction name="menuClearLog"/>
    </widget>
@@ -565,6 +568,28 @@
    </property>
    <property name="text">
     <string>Open output directory after conversion</string>
+   </property>
+  </action>
+  <action name="menuYoutubedlOutput">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Display youtube-dl output</string>
+   </property>
+  </action>
+  <action name="menuFfmpegOutput">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Display ffmpeg output</string>
    </property>
   </action>
  </widget>

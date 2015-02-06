@@ -37,7 +37,7 @@ public:
     void setCommons();
     void startConversionProcess();
     void killProcesses();
-    void addToLog(QString line);
+    void addToLog(QString line, bool display = true);
     void removeRawVideo();
     void configInit();
     void configSetValue(QString k, QString v);
@@ -59,6 +59,7 @@ public:
     QString currentVideoUrl;
     QString currentSavePath;
     QString currentFileName;
+    QString log;
 
     QVector<QVector <QString> > ytQualityList(QString url);
     QVector<QVector <QString> > currentQualityList;
