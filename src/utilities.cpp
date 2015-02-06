@@ -50,12 +50,17 @@ QString Utilities::prepareUrl(QString url) {
 }
 
 void Utilities::addToLog(QString line, bool display) {
+    if (line.length() < 3)
+        return;
     line.prepend("[" + QTime().currentTime().toString() + "] ");
     if (display)
         win.ui->logBox->appendHtml(line);
 
     line.replace("<br>", "").replace("<b>", "").replace("</b>", "");
-    log.append(line + "\n");
+    if (!log.contains("\n"))
+        log.append(line + "\n");
+    else
+        log.append(line);
 }
 
 bool Utilities::checkUrl() {

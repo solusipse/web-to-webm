@@ -102,3 +102,17 @@ void MainWindow::on_menuExit_triggered()
 void MainWindow::on_menuClearLog_triggered() {
     win.ui->logBox->clear();
 }
+
+void MainWindow::on_menuShowLog_triggered()
+{
+    QDialog dialog(this, Qt::Window);
+    QPlainTextEdit *box = new QPlainTextEdit(&dialog);
+    QVBoxLayout *layout = new QVBoxLayout;
+    dialog.resize(640, 480);
+    dialog.setWindowTitle("ytwebm log");
+    layout->addWidget(box);
+    dialog.setLayout(layout);
+    box->setReadOnly(true);
+    box->setPlainText(utils.log);
+    dialog.exec();
+}

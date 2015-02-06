@@ -26,6 +26,7 @@ private slots:
     void on_menuDefaultDownloadPath_triggered();
     void on_menuExit_triggered();
     void on_menuClearLog_triggered();
+    void on_menuShowLog_triggered();
 
 private:
     Ui::MainWindow *ui;
