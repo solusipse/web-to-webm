@@ -131,7 +131,7 @@ QString Utilities::getBinaryName() {
     }
     if (SYSTEM == 1)
         return "./youtube-dl";
-    return "";
+    return "youtube-dl";
 }
 
 QString Utilities::ffmpegBinaryName() {
@@ -139,7 +139,7 @@ QString Utilities::ffmpegBinaryName() {
         return "ffmpeg.exe";
     if (SYSTEM == 1)
         return "./ffmpeg";
-    return "";
+    return "ffmpeg";
 }
 
 QString Utilities::getCurrentRawFilename() {
