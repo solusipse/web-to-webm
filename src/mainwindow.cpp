@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     // TODO: save settings
+    utils.killProcesses();
     delete ui;
 }
 
@@ -46,7 +47,7 @@ void MainWindow::on_selectSavePath_clicked() {
 }
 
 void MainWindow::on_startConversion_clicked() {
-    win.toggleConversionButton();
+    win.updateConversionButton();
     win.resetProgress();
     if (ui->startConversion->isChecked()) {
         if (!utils.checkUrl())
@@ -112,10 +113,11 @@ void MainWindow::on_menuShowLog_triggered() {
 }
 
 void MainWindow::on_menuNew_triggered() {
-    // TODO
-    /*
     utils.killProcesses();
     win.setPlayerHtml();
+    win.ui->titleEdit->clear();
+    win.ui->urlEdit->clear();
+    win.ui->qualityComboBox->blockSignals(true);
     win.reset();
-    */
+    win.ui->qualityComboBox->blockSignals(false);
 }

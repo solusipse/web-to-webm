@@ -64,15 +64,17 @@ void Converter::read() {
 void Converter::complete(int code) {
     utils.conversionProcess->deleteLater();
     utils.conversionProcess = NULL;
-    win.toggleConversionButton();
+    win.updateConversionButton();
 
     if (utils.killed) {
         utils.addToLog("<b>Conversion canceled.</b>");
         utils.killed = false;
+        win.toggleConversionButton();
         return;
     }
     if (code != 0) {
         utils.addToLog("<b>Error on conversion. Check logs.</b>");
+        win.toggleConversionButton();
         return;
     }
 
@@ -80,8 +82,8 @@ void Converter::complete(int code) {
     // conversion status
     win.ui->conversionProgressBar->setValue(100);
 
-    win.ui->startConversion->toggle();
     win.toggleConversionButton();
+    win.updateConversionButton();
 
     if (win.ui->menuRemoveRawVideo->isChecked())
         utils.removeRawVideo();

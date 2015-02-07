@@ -17,6 +17,7 @@ public:
     void lockAllControls(bool status);
     void setTheme();
     void setStylesheet();
+    void updateConversionButton();
     void toggleConversionButton();
     void setPlayerHtml();
 };

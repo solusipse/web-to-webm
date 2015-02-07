@@ -39,10 +39,12 @@ void Downloader::complete(int code) {
     if (utils.killed) {
         utils.addToLog("<b>Downloading canceled.</b>");
         utils.killed = false;
+        win.toggleConversionButton();
         return;
     }
     if (code != 0) {
         utils.addToLog("<b>Download error.</b>");
+        win.toggleConversionButton();
         return;
     }
 

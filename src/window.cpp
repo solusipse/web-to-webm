@@ -80,6 +80,7 @@ void Window::setVideoDetails(QString url) {
         return;
     }
 
+    utils.killProcesses();
     utils.loadingVideoInformations = true;
     win.reset();
     utils.pathChanged = false;
@@ -122,7 +123,7 @@ void Window::setFilename() {
     win.ui->filenameEdit->setText(utils.getCurrentFilename());
 }
 
-void Window::toggleConversionButton() {
+void Window::updateConversionButton() {
     QIcon icon;
     if (ui->startConversion->isChecked()) {
         icon = QIcon(":/icons/cancel.png");
@@ -132,3 +133,7 @@ void Window::toggleConversionButton() {
     ui->startConversion->setIcon(icon);
 }
 
+void Window::toggleConversionButton() {
+    ui->startConversion->toggle();
+    updateConversionButton();
+}
