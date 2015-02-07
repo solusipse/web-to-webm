@@ -194,16 +194,40 @@ QTime Utilities::parseTime(QString s) {
 }
 
 void Utilities::configInit() {
-    configSetValueIfBlank("remove_sound", "0");
-    configSetValueIfBlank("dont_convert", "0");
-    configSetValueIfBlank("remove_raw", "1");
+    configSetValueIfBlank("remove_sound", "false");
+    configSetValueIfBlank("dont_convert", "false");
+    configSetValueIfBlank("remove_raw", "true");
     configSetValueIfBlank("default_path", "");
-    configSetValueIfBlank("use_config_path", "1");
+    configSetValueIfBlank("open_output", "false");
+    configSetValueIfBlank("show_ytdl_log", "true");
+    configSetValueIfBlank("show_ffmpeg_log", "true");
+
+    // not used now
     configSetValueIfBlank("youtubedl_path", "");
     configSetValueIfBlank("ffmpeg_path", "");
 }
 
+void Utilities::configSaveAll() {
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "ytwebm");
+    settings.setValue("remove_sound", win.ui->menuRemoveAudio->isChecked());
+    settings.setValue("dont_convert", win.ui->menuDontConvert->isChecked());
+    settings.setValue("remove_raw", win.ui->menuRemoveRawVideo->isChecked());
+    settings.setValue("open_output", win.ui->menuShowFile->isChecked());
+    settings.setValue("show_ytdl_log", win.ui->menuYoutubedlOutput->isChecked());
+    settings.setValue("show_ffmpeg_log", win.ui->menuFfmpegOutput->isChecked());
+}
+
+void Utilities::configLoadAll() {
+    win.ui->menuRemoveAudio->setChecked(configGetValueBool("remove_sound"));
+    win.ui->menuDontConvert->setChecked(configGetValueBool("dont_convert"));
+    win.ui->menuRemoveRawVideo->setChecked(configGetValueBool("remove_raw"));
+    win.ui->menuShowFile->setChecked(configGetValueBool("open_output"));
+    win.ui->menuYoutubedlOutput->setChecked(configGetValueBool("show_ytdl_log"));
+    win.ui->menuFfmpegOutput->setChecked(configGetValueBool("show_ffmpeg_log"));
+}
+
 void Utilities::configSetValue(QString k, QString v) {
+    // TODO: create a global pointer for these
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "ytwebm");
     settings.setValue(k, v);
 }
@@ -217,6 +241,11 @@ void Utilities::configSetValueIfBlank(QString k, QString v) {
 QString Utilities::configGetValue(QString k) {
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "ytwebm");
     return settings.value(k).toString();
+}
+
+bool Utilities::configGetValueBool(QString k) {
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "ytwebm");
+    return settings.value(k).toBool();
 }
 
 void Utilities::removeRawVideo() {

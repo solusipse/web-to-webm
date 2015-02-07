@@ -43,8 +43,11 @@ public:
     void configSetValue(QString k, QString v);
     void configSetValueIfBlank(QString k, QString v);
     void showFileInDirectory();
+    void configSaveAll();
+    void configLoadAll();
 
     QString configGetValue(QString k);
+    bool configGetValueBool(QString k);
 
     int getTrimmedVideoDuration();
     QTime parseTime(QString s);

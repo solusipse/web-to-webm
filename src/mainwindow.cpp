@@ -19,12 +19,13 @@ MainWindow::MainWindow(QWidget *parent) :
     win.setTheme();
     utils.setCommons();
     utils.configInit();
+    utils.configLoadAll();
     win.lockAllControls(true);
     win.setPlayerHtml();
 }
 
 MainWindow::~MainWindow() {
-    // TODO: save settings
+    utils.configSaveAll();
     utils.killProcesses();
     delete ui;
 }
