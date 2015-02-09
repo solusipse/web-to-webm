@@ -27,5 +27,7 @@ HEADERS  += src/mainwindow.h \
 
 FORMS    += src/mainwindow.ui
 
+ICON = $${PWD}/resources/icons/ytwebm.icns
+
 RESOURCES += \
     resources/Resources.qrc
