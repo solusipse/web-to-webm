@@ -2,7 +2,20 @@
 ytwebm is simple, cross-platform gui tool for extracting clips from any of Youtube videos (and from many other supported services) and converting them to webm format.
 
 ## Download
-The only available now option to obtain ytwebm is to build it on your own. See `Building` section. Binaries will be provided soon.
+- Windows: [Windows 32 bit binary](https://github.com/solusipse/ytwebm/releases/download/0.5.0/ytwebm-windows-32-rc1-0.5.0.7z)
+- Mac OS X: [Mac OS X 64 bit binary](https://github.com/solusipse/ytwebm/releases/download/0.5.0/ytwebm-osx-64-rc1-0.5.0.dmg)
+
+If you are on Linux, follow these steps:
+
+1. Build ytwebm (see `Building` section).
+2. Install `youtube-dl` ([download page](http://rg3.github.io/youtube-dl/download.html)):
+
+    - `sudo curl https://yt-dl.org/downloads/2015.02.10.3/youtube-dl -o /usr/local/bin/youtube-dl`
+    - `sudo chmod a+x /usr/local/bin/youtube-dl`
+    
+3. Install `ffmpeg` via your package manager.
+
+Release page: [https://github.com/solusipse/ytwebm/releases](https://github.com/solusipse/ytwebm/releases).
 
 ## Usage
 ### Time format
@@ -17,7 +30,12 @@ You can mix these standards (e.g. `55 - 01:15` which is equivalent of `00:55 - 0
 ![ytwebm](http://solusipse.net/misc/ytwebm.png)
 
 ## Building
-Build it like any other `QT5` application. To run it, place `youtube-dl` and `ffmpeg` binaries in main directory. Software was tested on Windows, Linux and Mac OS X.
+You need `QT5` to build this software. To build ytwebm, type these commands:
+
+1. `qmake-qt5 ytwebm.pro`,
+2. `make`.
+
+On `Windows` and `Mac OS X` it will be probably easier to use QT Creator (open .pro file to start).
 
 ## Supported sites
 Since ytwebm downloading mechanism is based on `yotube-dl` it supports same services. For full list see: http://rg3.github.io/youtube-dl/supportedsites.html.
