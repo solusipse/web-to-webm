@@ -41,4 +41,4 @@ On `Windows` and `Mac OS X` it will be probably easier to use QT Creator (open .
 Since ytwebm downloading mechanism is based on `yotube-dl` it supports same services. For full list see: http://rg3.github.io/youtube-dl/supportedsites.html.
 
 ## License
-See `License`.
+Ytwebm is MIT licensed. Icons are from Font Awesome ([license](http://fortawesome.github.io/Font-Awesome/license/)). Program icon is based on `Youtube` trademark which belongs to Youtube.com.
