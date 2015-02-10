@@ -10,8 +10,10 @@
 
 #ifdef _WIN32
     #define SYSTEM 0
-#else
+#elif __APPLE__
     #define SYSTEM 1
+#else
+    #define SYSTEM 2
 #endif
 
 class Utilities : public QObject
