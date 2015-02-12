@@ -9,6 +9,7 @@
 #include <QProcess>
 #include <QMessageBox>
 #include <QDesktopServices>
+#include <QSettings>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -137,4 +138,18 @@ void MainWindow::on_menuCustomFfmpegPath_triggered() {
             utils.configGetValue("ffmpeg_path"), &ok);
     if (ok)
         utils.configSetValue("ffmpeg_path", path);
+}
+
+void MainWindow::on_menuResetAllSettings_triggered() {
+    QMessageBox::StandardButton reply = QMessageBox::question(this,
+        "Reset settings", "Are you sure you want to reset all settings?",
+        QMessageBox::Yes|QMessageBox::No);
+
+    if (reply != QMessageBox::Yes)
+      return;
+
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "ytwebm");
+    for (int i = 0; i < settings.allKeys().length(); i++)
+        settings.remove(settings.allKeys()[i]);
+    utils.configInit();
 }

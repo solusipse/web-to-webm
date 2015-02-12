@@ -33,6 +33,8 @@ private slots:
 
     void on_menuCustomYoutubedlPath_triggered();
 
+    void on_menuResetAllSettings_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

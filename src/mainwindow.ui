@@ -450,7 +450,7 @@
     <addaction name="separator"/>
     <addaction name="menuShowFile"/>
     <addaction name="separator"/>
-    <addaction name="actionReset_all_settings"/>
+    <addaction name="menuResetAllSettings"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -606,7 +606,7 @@
     <string>Display ffmpeg output</string>
    </property>
   </action>
-  <action name="actionReset_all_settings">
+  <action name="menuResetAllSettings">
    <property name="text">
     <string>Reset all settings</string>
    </property>
