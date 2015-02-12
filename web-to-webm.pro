@@ -9,7 +9,7 @@ QT       += webkit webkitwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = ytwebm
+TARGET = web-to-webm
 TEMPLATE = app
 
 SOURCES +=  src/main.cpp\
@@ -27,7 +27,7 @@ HEADERS  += src/mainwindow.h \
 
 FORMS    += src/mainwindow.ui
 
-ICON = $${PWD}/resources/icons/ytwebm.icns
+ICON = $${PWD}/resources/icons/web-to-webm.icns
 
 RESOURCES += \
     resources/Resources.qrc
