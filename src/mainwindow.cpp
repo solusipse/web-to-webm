@@ -31,7 +31,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_urlEdit_returnPressed() {
-    win.setVideoDetails(win.ui->urlEdit->text());
+    utils.loadVideo(win.ui->urlEdit->text());
 }
 
 void MainWindow::on_selectSavePath_clicked() {
@@ -118,7 +118,5 @@ void MainWindow::on_menuNew_triggered() {
     win.setPlayerHtml();
     win.ui->titleEdit->clear();
     win.ui->urlEdit->clear();
-    win.ui->qualityComboBox->blockSignals(true);
     win.reset();
-    win.ui->qualityComboBox->blockSignals(false);
 }

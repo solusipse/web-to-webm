@@ -58,44 +58,21 @@ void Window::setPlayerHtml() {
 }
 
 void Window::setQualityList() {
+    win.ui->qualityComboBox->blockSignals(true);
     for (int i=0; i < utils.currentQualityList.size(); i++)
         win.ui->qualityComboBox->addItem(utils.currentQualityList[i][0]);
+    win.ui->qualityComboBox->blockSignals(false);
 }
 
 void Window::setVideoDetails(QString url) {
-    // TODO: move logic to utils
-    //       leave only ui-related methods here
-    url = utils.prepareUrl(url);
-
-    if (url.contains("Error on executing.")) {
-        win.ui->titleEdit->setText("Error: no executable found (missing youtube-dl or ffmpeg).");
-        utils.currentVideoUrl = "";
-        return;
-    }
-
-    if (url == "error") {
-        win.ui->titleEdit->setText("Error: provided url is incorrect.");
-        utils.addToLog("<b>Error:</b> provided url is incorrect.");
-        utils.currentVideoUrl = "";
-        return;
-    }
-
-    utils.killProcesses();
-    utils.loadingVideoInformations = true;
-    win.reset();
-    utils.pathChanged = false;
-
+    reset();
     openUrlInPlayer(url);
-    win.ui->titleEdit->setText(utils.getVideoTitle(url));
-    utils.currentQualityList = utils.ytQualityList(url);
-    win.setQualityList();
+    ui->titleEdit->setText(utils.getVideoTitle(url));
+    setQualityList();
     utils.currentFileName = utils.getDefaultFilename();
-    win.setFilename();
-
+    setFilename();
     utils.currentVideoUrl = url;
     win.lockAllControls(false);
-    utils.loadingVideoInformations = false;
-    utils.addToLog("<b>Loaded video:</b> <br>" + ui->urlEdit->text());
 }
 
 void Window::openUrlInPlayer(QString url) {
@@ -110,8 +87,9 @@ void Window::reset() {
     win.ui->filenameEdit->clear();
     win.ui->cutFromEdit->clear();
     win.ui->cutToEdit->clear();
-    for (int i = win.ui->qualityComboBox->count(); i > 0; i--)
-        win.ui->qualityComboBox->removeItem(0);
+    win.ui->qualityComboBox->blockSignals(true);
+    win.ui->qualityComboBox->clear();
+    win.ui->qualityComboBox->blockSignals(false);
 }
 
 void Window::resetProgress() {

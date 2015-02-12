@@ -190,6 +190,29 @@ QTime Utilities::parseTime(QString s) {
     return QTime();
 }
 
+void Utilities::loadVideo(QString url) {
+    url = utils.prepareUrl(url);
+
+    if (url.contains("Error on executing.")) {
+        win.ui->titleEdit->setText("Error: no executable found (missing youtube-dl or ffmpeg).");
+        utils.currentVideoUrl = "";
+        return;
+    }
+
+    if (url == "error") {
+        win.ui->titleEdit->setText("Error: provided url is incorrect.");
+        utils.addToLog("<b>Error:</b> provided url is incorrect.");
+        utils.currentVideoUrl = "";
+        return;
+    }
+
+    killProcesses();
+    pathChanged = false;
+    currentQualityList = ytQualityList(url);
+    win.setVideoDetails(url);
+    addToLog("<b>Loaded video:</b> <br>" + win.ui->urlEdit->text());
+}
+
 void Utilities::configInit() {
     configSetValueIfBlank("remove_sound", "false");
     configSetValueIfBlank("dont_convert", "false");
