@@ -43,10 +43,10 @@ QString Utilities::getVideoID(QString url) {
 }
 
 QString Utilities::prepareUrl(QString url) {
-    url = getVideoID(url);
-    if (url.isEmpty())
+    currentID = getVideoID(url);
+    if (currentID.isEmpty())
         return "error";
-    return "https://www.youtube.com/embed/" + url;
+    return url;
 }
 
 void Utilities::addToLog(QString line, bool display) {

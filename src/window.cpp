@@ -85,7 +85,7 @@ void Window::setVideoDetails(QString url) {
     win.reset();
     utils.pathChanged = false;
 
-    win.ui->player->load(url);
+    openUrlInPlayer(url);
     win.ui->titleEdit->setText(utils.getVideoTitle(url));
     utils.currentQualityList = utils.ytQualityList(url);
     win.setQualityList();
@@ -96,6 +96,13 @@ void Window::setVideoDetails(QString url) {
     win.lockAllControls(false);
     utils.loadingVideoInformations = false;
     utils.addToLog("<b>Loaded video:</b> <br>" + ui->urlEdit->text());
+}
+
+void Window::openUrlInPlayer(QString url) {
+    if (url.contains("youtu"))
+        win.ui->player->load("https://www.youtube.com/embed/" + utils.currentID);
+    else
+        win.ui->player->load(url);
 }
 
 void Window::reset() {

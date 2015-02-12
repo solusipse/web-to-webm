@@ -40,5 +40,11 @@ On `Windows` and `Mac OS X` it will be probably easier to use QT Creator (open .
 ## Supported sites
 Since ytwebm downloading mechanism is based on `yotube-dl` it supports same services. For full list see: http://rg3.github.io/youtube-dl/supportedsites.html.
 
+## Changelog
+
+### v.0.6.0
+- added support for other websites than Youtube
+
+
 ## License
 See `License`.
