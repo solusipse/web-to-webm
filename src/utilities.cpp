@@ -131,6 +131,8 @@ void Utilities::killProcesses() {
 }
 
 QString Utilities::getBinaryName() {
+    if (!configGetValue("youtubedl_path").isEmpty())
+        return configGetValue("youtubedl_path");
     if (SYSTEM == 0) {
         return "youtube-dl.exe";
     }
@@ -140,6 +142,8 @@ QString Utilities::getBinaryName() {
 }
 
 QString Utilities::ffmpegBinaryName() {
+    if (!configGetValue("ffmpeg_path").isEmpty())
+        return configGetValue("ffmpeg_path");
     if (SYSTEM == 0)
         return "ffmpeg.exe";
     if (SYSTEM == 1)
@@ -221,8 +225,6 @@ void Utilities::configInit() {
     configSetValueIfBlank("open_output", "false");
     configSetValueIfBlank("show_ytdl_log", "true");
     configSetValueIfBlank("show_ffmpeg_log", "true");
-
-    // not used now
     configSetValueIfBlank("youtubedl_path", "");
     configSetValueIfBlank("ffmpeg_path", "");
 }

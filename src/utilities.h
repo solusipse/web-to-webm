@@ -57,7 +57,6 @@ public:
 
     int currentDuration;
     bool pathChanged;
-    bool loadingVideoInformations;
     bool killed;
 
     QString defaultFilename;

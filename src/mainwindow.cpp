@@ -5,6 +5,7 @@
 #include "window.h"
 
 #include <QFileDialog>
+#include <QInputDialog>
 #include <QProcess>
 #include <QMessageBox>
 #include <QDesktopServices>
@@ -73,9 +74,6 @@ void MainWindow::on_menuAbout_triggered() {
 }
 
 void MainWindow::on_qualityComboBox_currentIndexChanged(int index) {
-    if (utils.loadingVideoInformations)
-        return;
-
     win.setFilename();
     win.resetProgress();
     utils.addToLog("Changed resolution to: " + utils.currentQualityList[index][0]);
@@ -119,4 +117,24 @@ void MainWindow::on_menuNew_triggered() {
     win.ui->titleEdit->clear();
     win.ui->urlEdit->clear();
     win.reset();
+}
+
+void MainWindow::on_menuCustomYoutubedlPath_triggered() {
+    bool ok;
+    QString path = QInputDialog::getText(this,
+            tr("Set custom youtube-dl path"),
+            tr("youtube-dl path (leave blank for default):"), QLineEdit::Normal,
+            utils.configGetValue("youtubedl_path"), &ok);
+    if (ok)
+        utils.configSetValue("youtubedl_path", path);
+}
+
+void MainWindow::on_menuCustomFfmpegPath_triggered() {
+    bool ok;
+    QString path = QInputDialog::getText(this,
+            tr("Set custom ffmpeg path"),
+            tr("ffmpeg path (leave blank for default):"), QLineEdit::Normal,
+            utils.configGetValue("ffmpeg_path"), &ok);
+    if (ok)
+        utils.configSetValue("ffmpeg_path", path);
 }
