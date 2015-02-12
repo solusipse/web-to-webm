@@ -43,10 +43,10 @@ QString Utilities::getVideoID(QString url) {
 }
 
 QString Utilities::prepareUrl(QString url) {
-    url = getVideoID(url);
-    if (url.isEmpty())
+    currentID = getVideoID(url);
+    if (currentID.isEmpty())
         return "error";
-    return "https://www.youtube.com/embed/" + url;
+    return url;
 }
 
 void Utilities::addToLog(QString line, bool display) {
@@ -83,10 +83,6 @@ QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
      * higher quality in mp4 format available, script is excluding webm
      * at this moment
     */
-
-    // TODO: add support for other sites than yt
-    // full list of supported sites:
-    // http://rg3.github.io/youtube-dl/supportedsites.html
 
     for (int i = formatsList.length()-1; i >= 0 ; i--) {
         if (!formatsList[i].contains("webm"))
@@ -135,6 +131,8 @@ void Utilities::killProcesses() {
 }
 
 QString Utilities::getBinaryName() {
+    if (!configGetValue("youtubedl_path").isEmpty())
+        return configGetValue("youtubedl_path");
     if (SYSTEM == 0) {
         return "youtube-dl.exe";
     }
@@ -144,6 +142,8 @@ QString Utilities::getBinaryName() {
 }
 
 QString Utilities::ffmpegBinaryName() {
+    if (!configGetValue("ffmpeg_path").isEmpty())
+        return configGetValue("ffmpeg_path");
     if (SYSTEM == 0)
         return "ffmpeg.exe";
     if (SYSTEM == 1)
@@ -173,8 +173,9 @@ QString Utilities::getDefaultFilename() {
 int Utilities::getTrimmedVideoDuration() {
     QString cutFrom = win.ui->cutFromEdit->text();
     QString cutTo = win.ui->cutToEdit->text();
-    // TODO: add information on this to log
-    return parseTime(cutFrom).secsTo(parseTime(cutTo));
+    int time = parseTime(cutFrom).secsTo(parseTime(cutTo));
+    utils.addToLog("Output video length: " + (QTime(0,0,0).addSecs(time)).toString("hh:mm:ss"));
+    return time;
 }
 
 QTime Utilities::parseTime(QString s) {
@@ -193,6 +194,29 @@ QTime Utilities::parseTime(QString s) {
     return QTime();
 }
 
+void Utilities::loadVideo(QString url) {
+    url = utils.prepareUrl(url);
+
+    if (url.contains("Error on executing.")) {
+        win.ui->titleEdit->setText("Error: no executable found (missing youtube-dl or ffmpeg).");
+        utils.currentVideoUrl = "";
+        return;
+    }
+
+    if (url == "error") {
+        win.ui->titleEdit->setText("Error: provided url is incorrect.");
+        utils.addToLog("<b>Error:</b> provided url is incorrect.");
+        utils.currentVideoUrl = "";
+        return;
+    }
+
+    killProcesses();
+    pathChanged = false;
+    currentQualityList = ytQualityList(url);
+    win.setVideoDetails(url);
+    addToLog("<b>Loaded video:</b> <br>" + win.ui->urlEdit->text());
+}
+
 void Utilities::configInit() {
     configSetValueIfBlank("remove_sound", "false");
     configSetValueIfBlank("dont_convert", "false");
@@ -201,8 +225,6 @@ void Utilities::configInit() {
     configSetValueIfBlank("open_output", "false");
     configSetValueIfBlank("show_ytdl_log", "true");
     configSetValueIfBlank("show_ffmpeg_log", "true");
-
-    // not used now
     configSetValueIfBlank("youtubedl_path", "");
     configSetValueIfBlank("ffmpeg_path", "");
 }

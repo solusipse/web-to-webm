@@ -5,9 +5,11 @@
 #include "window.h"
 
 #include <QFileDialog>
+#include <QInputDialog>
 #include <QProcess>
 #include <QMessageBox>
 #include <QDesktopServices>
+#include <QSettings>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -31,7 +33,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_urlEdit_returnPressed() {
-    win.setVideoDetails(win.ui->urlEdit->text());
+    utils.loadVideo(win.ui->urlEdit->text());
 }
 
 void MainWindow::on_selectSavePath_clicked() {
@@ -73,9 +75,6 @@ void MainWindow::on_menuAbout_triggered() {
 }
 
 void MainWindow::on_qualityComboBox_currentIndexChanged(int index) {
-    if (utils.loadingVideoInformations)
-        return;
-
     win.setFilename();
     win.resetProgress();
     utils.addToLog("Changed resolution to: " + utils.currentQualityList[index][0]);
@@ -118,7 +117,39 @@ void MainWindow::on_menuNew_triggered() {
     win.setPlayerHtml();
     win.ui->titleEdit->clear();
     win.ui->urlEdit->clear();
-    win.ui->qualityComboBox->blockSignals(true);
     win.reset();
-    win.ui->qualityComboBox->blockSignals(false);
+}
+
+void MainWindow::on_menuCustomYoutubedlPath_triggered() {
+    bool ok;
+    QString path = QInputDialog::getText(this,
+            tr("Set custom youtube-dl path"),
+            tr("youtube-dl path (leave blank for default):"), QLineEdit::Normal,
+            utils.configGetValue("youtubedl_path"), &ok);
+    if (ok)
+        utils.configSetValue("youtubedl_path", path);
+}
+
+void MainWindow::on_menuCustomFfmpegPath_triggered() {
+    bool ok;
+    QString path = QInputDialog::getText(this,
+            tr("Set custom ffmpeg path"),
+            tr("ffmpeg path (leave blank for default):"), QLineEdit::Normal,
+            utils.configGetValue("ffmpeg_path"), &ok);
+    if (ok)
+        utils.configSetValue("ffmpeg_path", path);
+}
+
+void MainWindow::on_menuResetAllSettings_triggered() {
+    QMessageBox::StandardButton reply = QMessageBox::question(this,
+        "Reset settings", "Are you sure you want to reset all settings?",
+        QMessageBox::Yes|QMessageBox::No);
+
+    if (reply != QMessageBox::Yes)
+      return;
+
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "ytwebm");
+    for (int i = 0; i < settings.allKeys().length(); i++)
+        settings.remove(settings.allKeys()[i]);
+    utils.configInit();
 }

@@ -430,7 +430,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuOptions">
@@ -449,6 +449,8 @@
     <addaction name="menuCustomFfmpegPath"/>
     <addaction name="separator"/>
     <addaction name="menuShowFile"/>
+    <addaction name="separator"/>
+    <addaction name="menuResetAllSettings"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -527,7 +529,7 @@
   </action>
   <action name="menuCustomYoutubedlPath">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Set custom youtube-dl path</string>
@@ -535,7 +537,7 @@
   </action>
   <action name="menuCustomFfmpegPath">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Set custom ffmpeg path</string>
@@ -602,6 +604,11 @@
    </property>
    <property name="text">
     <string>Display ffmpeg output</string>
+   </property>
+  </action>
+  <action name="menuResetAllSettings">
+   <property name="text">
+    <string>Reset all settings</string>
    </property>
   </action>
  </widget>

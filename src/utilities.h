@@ -47,6 +47,7 @@ public:
     void showFileInDirectory();
     void configSaveAll();
     void configLoadAll();
+    void loadVideo(QString url);
 
     QString configGetValue(QString k);
     bool configGetValueBool(QString k);
@@ -56,7 +57,6 @@ public:
 
     int currentDuration;
     bool pathChanged;
-    bool loadingVideoInformations;
     bool killed;
 
     QString defaultFilename;
