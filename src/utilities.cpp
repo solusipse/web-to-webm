@@ -84,10 +84,6 @@ QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
      * at this moment
     */
 
-    // TODO: add support for other sites than yt
-    // full list of supported sites:
-    // http://rg3.github.io/youtube-dl/supportedsites.html
-
     for (int i = formatsList.length()-1; i >= 0 ; i--) {
         if (!formatsList[i].contains("webm"))
             if (!formatsList[i].contains("audio only"))
@@ -173,8 +169,9 @@ QString Utilities::getDefaultFilename() {
 int Utilities::getTrimmedVideoDuration() {
     QString cutFrom = win.ui->cutFromEdit->text();
     QString cutTo = win.ui->cutToEdit->text();
-    // TODO: add information on this to log
-    return parseTime(cutFrom).secsTo(parseTime(cutTo));
+    int time = parseTime(cutFrom).secsTo(parseTime(cutTo));
+    utils.addToLog("Output video length: " + (QTime(0,0,0).addSecs(time)).toString("hh:mm:ss"));
+    return time;
 }
 
 QTime Utilities::parseTime(QString s) {

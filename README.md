@@ -44,7 +44,7 @@ Since ytwebm downloading mechanism is based on `yotube-dl` it supports same serv
 
 ### v.0.6.0
 - added support for other websites than Youtube
-
+- added to log information about output video duration
 
 ## License
 See `License`.
