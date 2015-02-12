@@ -68,10 +68,12 @@ void MainWindow::on_startConversion_clicked() {
 }
 
 void MainWindow::on_menuAbout_triggered() {
-    QMessageBox::about(this, "ytwebm about", "This software is open source (MIT licensed). "
-                                             "It was build with QT (LGPL), youtube-dl (Public Domain) and ffmpeg (LGPL).\n\n"
-                                             "For more informations see:\n"
-                                             "https://github.com/solusipse/ytwebm.");
+    QMessageBox::about(this, "web-to-webm about",
+        "web-to-webm v.0.6.0\n\n"
+        "This software is open source (MIT licensed). "
+        "It was build with QT (LGPL), youtube-dl (Public Domain) and ffmpeg (LGPL).\n\n"
+        "For more informations see:\n"
+        "https://github.com/solusipse/web-to-webm.");
 }
 
 void MainWindow::on_qualityComboBox_currentIndexChanged(int index) {
@@ -81,7 +83,7 @@ void MainWindow::on_qualityComboBox_currentIndexChanged(int index) {
 }
 
 void MainWindow::on_menuWebsite_triggered() {
-    QDesktopServices::openUrl(QUrl("https://github.com/solusipse/ytwebm"));
+    QDesktopServices::openUrl(QUrl("https://github.com/solusipse/web-to-webm"));
 }
 
 void MainWindow::on_menuDefaultDownloadPath_triggered() {
@@ -104,7 +106,7 @@ void MainWindow::on_menuShowLog_triggered() {
     QPlainTextEdit *box = new QPlainTextEdit(&dialog);
     QVBoxLayout *layout = new QVBoxLayout;
     dialog.resize(640, 480);
-    dialog.setWindowTitle("ytwebm log");
+    dialog.setWindowTitle("web-to-webm log");
     layout->addWidget(box);
     dialog.setLayout(layout);
     box->setReadOnly(true);
@@ -148,7 +150,7 @@ void MainWindow::on_menuResetAllSettings_triggered() {
     if (reply != QMessageBox::Yes)
       return;
 
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "ytwebm");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "web-to-webm");
     for (int i = 0; i < settings.allKeys().length(); i++)
         settings.remove(settings.allKeys()[i]);
     utils.configInit();

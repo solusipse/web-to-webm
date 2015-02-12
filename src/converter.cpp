@@ -2,6 +2,7 @@
 #include "converter.h"
 #include "utilities.h"
 #include "window.h"
+#include <QTime>
 
 Converter::Converter(QObject *parent) : QObject(parent) {
 }
