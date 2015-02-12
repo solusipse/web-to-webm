@@ -449,6 +449,8 @@
     <addaction name="menuCustomFfmpegPath"/>
     <addaction name="separator"/>
     <addaction name="menuShowFile"/>
+    <addaction name="separator"/>
+    <addaction name="actionReset_all_settings"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -602,6 +604,11 @@
    </property>
    <property name="text">
     <string>Display ffmpeg output</string>
+   </property>
+  </action>
+  <action name="actionReset_all_settings">
+   <property name="text">
+    <string>Reset all settings</string>
    </property>
   </action>
  </widget>
