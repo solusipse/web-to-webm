@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>web-to-webm</string>
+   <string>web-to-webm v.0.6.0</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../resources/Resources.qrc">

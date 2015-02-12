@@ -68,10 +68,12 @@ void MainWindow::on_startConversion_clicked() {
 }
 
 void MainWindow::on_menuAbout_triggered() {
-    QMessageBox::about(this, "web-to-webm about", "This software is open source (MIT licensed). "
-                                             "It was build with QT (LGPL), youtube-dl (Public Domain) and ffmpeg (LGPL).\n\n"
-                                             "For more informations see:\n"
-                                             "https://github.com/solusipse/web-to-webm.");
+    QMessageBox::about(this, "web-to-webm about",
+        "web-to-webm v.0.6.0\n\n"
+        "This software is open source (MIT licensed). "
+        "It was build with QT (LGPL), youtube-dl (Public Domain) and ffmpeg (LGPL).\n\n"
+        "For more informations see:\n"
+        "https://github.com/solusipse/web-to-webm.");
 }
 
 void MainWindow::on_qualityComboBox_currentIndexChanged(int index) {
