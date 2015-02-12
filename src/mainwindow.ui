@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>ytwebm</string>
+   <string>web-to-webm</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../resources/Resources.qrc">
