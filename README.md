@@ -1,4 +1,5 @@
-# web-to-webm
+# web-to-webm [![Build Status](https://travis-ci.org/solusipse/web-to-webm.svg?branch=master)](https://travis-ci.org/solusipse/web-to-webm)
+
 web-to-webm is simple, cross-platform gui tool for extracting clips from any of Youtube videos (and from many other supported services) and converting them to webm format.
 
 ## Download
@@ -49,4 +50,4 @@ Since web-to-webm downloading mechanism is based on `yotube-dl` it supports same
 - added menu option for resetting settings
 
 ## License
-web-to-webm is MIT licensed. Icons are from Font Awesome ([license](http://fortawesome.github.io/Font-Awesome/license/)). Program icon is based on `Youtube` trademark which belongs to Youtube.com.
+web-to-webm is MIT licensed. Icons are from Font Awesome ([license](http://fortawesome.github.io/Font-Awesome/license/)).
