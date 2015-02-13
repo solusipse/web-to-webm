@@ -3,8 +3,7 @@
 web-to-webm is simple, cross-platform gui tool for extracting clips from any of Youtube videos (and from many other supported services) and converting them to webm format.
 
 ## Download
-- Windows: [Windows 32 bit binary](https://github.com/solusipse/web-to-webm/releases/download/0.5.0/web-to-webm-windows-32-rc1-0.5.0.7z)
-- Mac OS X: [Mac OS X 64 bit binary](https://github.com/solusipse/web-to-webm/releases/download/0.5.0/web-to-webm-osx-64-rc1-0.5.0.dmg)
+For downloads, visit *Releases* page: [https://github.com/solusipse/web-to-webm/releases/latest](https://github.com/solusipse/web-to-webm/releases/latest). There are Windows (64 and 32 bit) and OS X (64 bit) releases.
 
 If you are on Linux, follow these steps:
 
