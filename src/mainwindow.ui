@@ -27,7 +27,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../resources/Resources.qrc">
-    <normaloff>:/icons/yt-icon.png</normaloff>:/icons/yt-icon.png</iconset>
+    <normaloff>:/icons/web-to-webm.ico</normaloff>:/icons/web-to-webm.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">

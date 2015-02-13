@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>icons/cancel.png</file>
         <file>icons/convert.png</file>
-        <file>icons/yt-icon.png</file>
         <file>icons/open.png</file>
+        <file>icons/web-to-webm.ico</file>
     </qresource>
 </RCC>
