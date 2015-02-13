@@ -133,21 +133,22 @@ void Utilities::killProcesses() {
 QString Utilities::getBinaryName() {
     if (!configGetValue("youtubedl_path").isEmpty())
         return configGetValue("youtubedl_path");
-    if (SYSTEM == 0) {
+
+    if (SYSTEM == 0)
         return "youtube-dl.exe";
-    }
     if (SYSTEM == 1)
-        return "./youtube-dl";
+        return QCoreApplication::applicationDirPath() + "/youtube-dl";
     return "youtube-dl";
 }
 
 QString Utilities::ffmpegBinaryName() {
     if (!configGetValue("ffmpeg_path").isEmpty())
         return configGetValue("ffmpeg_path");
+
     if (SYSTEM == 0)
         return "ffmpeg.exe";
     if (SYSTEM == 1)
-        return "./ffmpeg";
+        return QCoreApplication::applicationDirPath() + "/ffmpeg";
     return "ffmpeg";
 }
 
