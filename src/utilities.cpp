@@ -25,12 +25,13 @@ QString Utilities::execBinary(QString bin, int multiline = 0) {
     QProcess program;
     program.start(bin);
     while(program.waitForFinished(-1)) {
-        if (multiline == 0)
+        if (multiline == 0) {
             return QString::fromLocal8Bit(program.readAllStandardOutput().simplified());
+        }
         return program.readAllStandardOutput();
     }
     utils.addToLog("Error on executing command: " + bin);
-    return "Error on executing.";
+    return "error_exec";
 }
 
 QString Utilities::getVideoTitle(QString url) {
@@ -38,14 +39,15 @@ QString Utilities::getVideoTitle(QString url) {
 }
 
 QString Utilities::getVideoID(QString url) {
-    currentID = execBinary(getBinaryName() + " --get-id " + url);
-    return currentID;
+    return execBinary(getBinaryName() + " --get-id " + url);
 }
 
 QString Utilities::prepareUrl(QString url) {
     currentID = getVideoID(url);
+    if (currentID == "error_exec")
+        return currentID;
     if (currentID.isEmpty())
-        return "error";
+        return "error_url";
     return url;
 }
 
@@ -198,14 +200,12 @@ QTime Utilities::parseTime(QString s) {
 void Utilities::loadVideo(QString url) {
     url = utils.prepareUrl(url);
 
-    if (url.contains("Error on executing.")) {
-        win.ui->titleEdit->setText("Error: no executable found (missing youtube-dl or ffmpeg).");
+    if (url == "error_exec") {
         utils.currentVideoUrl = "";
         return;
     }
 
-    if (url == "error") {
-        win.ui->titleEdit->setText("Error: provided url is incorrect.");
+    if (url == "error_url") {
         utils.addToLog("<b>Error:</b> provided url is incorrect.");
         utils.currentVideoUrl = "";
         return;
@@ -277,4 +277,8 @@ void Utilities::removeRawVideo() {
 
 void Utilities::showFileInDirectory() {
     QDesktopServices::openUrl("file:///" + QFileInfo(getCurrentFilename()).absolutePath());
+}
+
+bool Utilities::checkBinaries() {
+
 }
