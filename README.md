@@ -42,6 +42,12 @@ Since web-to-webm downloading mechanism is based on `yotube-dl` it supports same
 
 ## Changelog
 
+### v.0.7.0 (in progress)
+- (todo) better accuracy with conversion percentage bar
+- (todo) add mechanism for checking if there are right binaries available (ffmpeg and youtube-dl)
+- (todo) fix binary setting mechanism on linux
+- (todo) improve downloading from other services than youtube
+
 ### v.0.6.0
 - added support for other websites than Youtube
 - added to log information about output video duration
