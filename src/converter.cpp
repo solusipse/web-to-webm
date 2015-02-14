@@ -51,7 +51,7 @@ void Converter::read() {
             progress = time.capturedTexts()[0];
             if (progress != "") {
                 progressTime = QTime::fromString(progress, "hh:mm:ss.z");
-                int percent = double((QTime(0,0).secsTo(progressTime)) / double(utils.currentDuration))*100;
+                int percent = double((QTime(0,0).msecsTo(progressTime)) / double(utils.currentDuration*1000))*100;
                 win.ui->conversionProgressBar->setValue(percent);
             }
         }
