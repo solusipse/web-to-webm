@@ -90,13 +90,17 @@ QVector< QVector<QString> > Utilities::createQualityList(QString url) {
         if (!formatsList[i].contains("webm"))
             if (!formatsList[i].contains("audio only"))
                 if (!formatsList[i].contains("video only")) {
-                    QRegExp resolution("\\d{3,4}x\\d{3}");
+                    QRegExp resolution("\\d{3,4}x\\d{3,4}");
                     resolution.indexIn(formatsList[i]);
                     QRegExp format("\\w\\w\\w");
                     format.indexIn(formatsList[i]);
 
                     QString strResolution = resolution.capturedTexts()[0];
                     QString strFormat = format.capturedTexts()[0];
+
+                    if (strFormat != "" && formatsList[i].contains("unknown"))
+                        strResolution = "unknown";
+
                     if (strResolution != "" && strFormat != "") {
                         QString strCode = formatsList[i].split(" ")[0];
                         QVector<QString> single;
