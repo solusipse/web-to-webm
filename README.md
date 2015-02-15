@@ -44,11 +44,12 @@ Since web-to-webm downloading mechanism is based on `yotube-dl` it supports same
 
 ### v.0.7.0 (in progress)
 - higher accuracy of conversion percentage bar
-- (todo) add mechanism for checking if there are right binaries available (ffmpeg and youtube-dl)
 - fixed downloading and conversion of clips downloaded from other services than youtube
+- minor interface and binary detecting bugfixes
+- now it's possible to set custom ffmpeg parameters
 - (todo) autoupdate
-- (todo) installer
-- (todo) add option for setting custom parameters
+- (todo) installer (windows)
+- (todo) add widget for setting quality and estimating size of output video (now setting quality is possible via custom ffmpeg parameters mechanism)
 
 ### v.0.6.0
 - added support for other websites than Youtube

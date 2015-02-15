@@ -66,6 +66,7 @@ void MainWindow::on_startConversion_clicked() {
 
         utils.download.start(utils.getBinaryName(), arguments);
     } else {
+        win.toggleConversionButton();
         utils.killProcesses();
     }
 }
@@ -123,6 +124,7 @@ void MainWindow::on_menuNew_triggered() {
     win.ui->titleEdit->clear();
     win.ui->urlEdit->clear();
     win.reset();
+    win.lockAllControls(true);
 }
 
 void MainWindow::on_menuCustomYoutubedlPath_triggered() {
