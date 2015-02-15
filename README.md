@@ -48,6 +48,7 @@ Since web-to-webm downloading mechanism is based on `yotube-dl` it supports same
 - fixed downloading and conversion of clips downloaded from other services than youtube
 - (todo) autoupdate
 - (todo) installer
+- (todo) add option for setting custom parameters
 
 ### v.0.6.0
 - added support for other websites than Youtube

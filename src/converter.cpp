@@ -16,6 +16,13 @@ void Converter::start() {
     QStringList arguments;
     arguments << "-y" << "-hide_banner";
     arguments << "-i" << utils.getCurrentRawFilename();
+    // TODO:
+    // arguments << "-metadata" << "encoder=webtowebm";
+
+    if (!utils.configGetValue("ffmpeg_params").isEmpty()) {
+        arguments << utils.configGetValue("ffmpeg_params").split(" ");
+        utils.addToLog("Used custom parameters: " + utils.configGetValue("ffmpeg_params"));
+    }
 
     if (!win.ui->cutFromEdit->text().trimmed().isEmpty() && !win.ui->cutToEdit->text().trimmed().isEmpty()) {
         arguments << "-ss" << win.ui->cutFromEdit->text().trimmed();

@@ -55,8 +55,6 @@ public:
     QString configGetValue(QString k);
     bool configGetValueBool(QString k);
 
-    bool checkBinaries();
-
     int getTrimmedVideoDuration();
     QTime parseTime(QString s);
 
@@ -79,7 +77,6 @@ public:
 
     Downloader download;
     Converter convert;
-
 };
 
 extern Utilities utils;

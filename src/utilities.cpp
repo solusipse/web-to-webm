@@ -18,7 +18,6 @@ Utilities::Utilities() : settings(QSettings::IniFormat, QSettings::UserScope, "s
 void Utilities::setCommons() {
     QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled, true);
     win.ui->player->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
-
 }
 
 QString Utilities::execBinary(QString bin, int multiline = 0) {
@@ -230,6 +229,8 @@ void Utilities::configInit() {
     configSetValueIfBlank("show_ffmpeg_log", "true");
     configSetValueIfBlank("youtubedl_path", "");
     configSetValueIfBlank("ffmpeg_path", "");
+    configSetValueIfBlank("ffmpeg_params", "");
+    configSetValue("version", VERSION);
 }
 
 void Utilities::configSaveAll() {
@@ -273,8 +274,4 @@ void Utilities::removeRawVideo() {
 
 void Utilities::showFileInDirectory() {
     QDesktopServices::openUrl("file:///" + QFileInfo(getCurrentFilename()).absolutePath());
-}
-
-bool Utilities::checkBinaries() {
-
 }

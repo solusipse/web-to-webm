@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>web-to-webm v.0.6.0</string>
+   <string>web-to-webm</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../resources/Resources.qrc">
@@ -440,15 +440,14 @@
     <addaction name="menuDontConvert"/>
     <addaction name="menuRemoveAudio"/>
     <addaction name="menuRemoveRawVideo"/>
-    <addaction name="menuDefaultDownloadPath"/>
     <addaction name="separator"/>
-    <addaction name="menuYoutubedlCustomParams"/>
-    <addaction name="menuFfmpegCustomParams"/>
+    <addaction name="menuDefaultDownloadPath"/>
+    <addaction name="menuShowFile"/>
     <addaction name="separator"/>
     <addaction name="menuCustomYoutubedlPath"/>
     <addaction name="menuCustomFfmpegPath"/>
     <addaction name="separator"/>
-    <addaction name="menuShowFile"/>
+    <addaction name="menuFfmpegCustomParams"/>
     <addaction name="separator"/>
     <addaction name="menuResetAllSettings"/>
    </widget>
@@ -513,15 +512,15 @@
   </action>
   <action name="menuFfmpegCustomParams">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
-    <string>Add custom parameters for ffmpeg</string>
+    <string>Set custom parameters for ffmpeg</string>
    </property>
   </action>
   <action name="menuYoutubedlCustomParams">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Add custom parameters for youtube-dl</string>
@@ -609,6 +608,14 @@
   <action name="menuResetAllSettings">
    <property name="text">
     <string>Reset all settings</string>
+   </property>
+  </action>
+  <action name="actionAdvanced">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Advanced settings</string>
    </property>
   </action>
  </widget>

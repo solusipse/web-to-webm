@@ -18,12 +18,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     win.ui = ui;
 
+    this->setWindowTitle("web-to-webm v." VERSION);
+
     win.setTheme();
     utils.setCommons();
     utils.configInit();
     utils.configLoadAll();
     win.lockAllControls(true);
     win.setPlayerHtml();
+    utils.addToLog("Initialised.");
 }
 
 MainWindow::~MainWindow() {
@@ -154,4 +157,14 @@ void MainWindow::on_menuResetAllSettings_triggered() {
     for (int i = 0; i < settings.allKeys().length(); i++)
         settings.remove(settings.allKeys()[i]);
     utils.configInit();
+}
+
+void MainWindow::on_menuFfmpegCustomParams_triggered() {
+    bool ok;
+    QString path = QInputDialog::getText(this,
+            tr("Set custom ffmpeg parameters"),
+            tr("youtube-dl ffmpeg (e.g. -b:v 2M, leave blank for default):"), QLineEdit::Normal,
+            utils.configGetValue("ffmpeg_params"), &ok);
+    if (ok)
+        utils.configSetValue("ffmpeg_params", path);
 }

@@ -9,6 +9,8 @@ QT       += webkit webkitwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+VERSION = 0.7.0
+
 TARGET = web-to-webm
 TEMPLATE = app
 
@@ -26,6 +28,8 @@ HEADERS  += src/mainwindow.h \
             src/window.h
 
 FORMS    += src/mainwindow.ui
+
+DEFINES += VERSION=\\\"$$VERSION\\\"
 
 ICON = $${PWD}/resources/icons/web-to-webm.icns
 
