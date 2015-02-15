@@ -7,6 +7,7 @@
 
 #include <QMainWindow>
 #include <QProcess>
+#include <QSettings>
 
 #ifdef _WIN32
     #define SYSTEM 0
@@ -22,6 +23,8 @@ class Utilities : public QObject
 
 public:
     Utilities();
+
+    QSettings settings;
 
     QString getBinaryName();
     QString getVideoTitle(QString url);

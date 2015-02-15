@@ -11,7 +11,7 @@
 
 Utilities utils;
 
-Utilities::Utilities() {
+Utilities::Utilities() : settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "web-to-webm") {
     killed = false;
 }
 
@@ -231,7 +231,6 @@ void Utilities::configInit() {
 }
 
 void Utilities::configSaveAll() {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "web-to-webm");
     settings.setValue("remove_sound", win.ui->menuRemoveAudio->isChecked());
     settings.setValue("dont_convert", win.ui->menuDontConvert->isChecked());
     settings.setValue("remove_raw", win.ui->menuRemoveRawVideo->isChecked());
@@ -250,24 +249,19 @@ void Utilities::configLoadAll() {
 }
 
 void Utilities::configSetValue(QString k, QString v) {
-    // TODO: create a global pointer for these
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "web-to-webm");
     settings.setValue(k, v);
 }
 
 void Utilities::configSetValueIfBlank(QString k, QString v) {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "web-to-webm");
     if (!settings.contains(k))
         settings.setValue(k, v);
 }
 
 QString Utilities::configGetValue(QString k) {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "web-to-webm");
     return settings.value(k).toString();
 }
 
 bool Utilities::configGetValueBool(QString k) {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "web-to-webm");
     return settings.value(k).toBool();
 }
 
