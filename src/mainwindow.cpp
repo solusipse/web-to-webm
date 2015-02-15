@@ -126,7 +126,7 @@ void MainWindow::on_menuCustomYoutubedlPath_triggered() {
     bool ok;
     QString path = QInputDialog::getText(this,
             tr("Set custom youtube-dl path"),
-            tr("youtube-dl path (leave blank for default):"), QLineEdit::Normal,
+            tr("youtube-dl <b>absolute</b> path (leave blank for default):"), QLineEdit::Normal,
             utils.configGetValue("youtubedl_path"), &ok);
     if (ok)
         utils.configSetValue("youtubedl_path", path);
@@ -136,7 +136,7 @@ void MainWindow::on_menuCustomFfmpegPath_triggered() {
     bool ok;
     QString path = QInputDialog::getText(this,
             tr("Set custom ffmpeg path"),
-            tr("ffmpeg path (leave blank for default):"), QLineEdit::Normal,
+            tr("ffmpeg <b>absolute</b> path (leave blank for default):"), QLineEdit::Normal,
             utils.configGetValue("ffmpeg_path"), &ok);
     if (ok)
         utils.configSetValue("ffmpeg_path", path);

@@ -43,10 +43,9 @@ Since web-to-webm downloading mechanism is based on `yotube-dl` it supports same
 ## Changelog
 
 ### v.0.7.0 (in progress)
-- (todo) better accuracy with conversion percentage bar
+- higher accuracy of conversion percentage bar
 - (todo) add mechanism for checking if there are right binaries available (ffmpeg and youtube-dl)
-- (todo) fix binary setting mechanism on linux
-- (todo) improve downloading from other services than youtube
+- fixed downloading and conversion of clips downloaded from other services than youtube
 - (todo) autoupdate
 - (todo) installer
 
