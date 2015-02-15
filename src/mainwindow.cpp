@@ -3,6 +3,7 @@
 #include "downloader.h"
 #include "utilities.h"
 #include "window.h"
+#include "updater.h"
 
 #include <QFileDialog>
 #include <QInputDialog>
@@ -170,3 +171,9 @@ void MainWindow::on_menuFfmpegCustomParams_triggered() {
     if (ok)
         utils.configSetValue("ffmpeg_params", path);
 }
+
+void MainWindow::on_menuUpdate_triggered() {
+    Updater *u = new Updater(this);
+    u->show();
+}
+

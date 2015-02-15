@@ -32,6 +32,7 @@ private slots:
     void on_menuCustomYoutubedlPath_triggered();
     void on_menuResetAllSettings_triggered();
     void on_menuFfmpegCustomParams_triggered();
+    void on_menuUpdate_triggered();
 
 private:
     Ui::MainWindow *ui;

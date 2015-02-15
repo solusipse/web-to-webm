@@ -457,6 +457,8 @@
     </property>
     <addaction name="menuAbout"/>
     <addaction name="menuWebsite"/>
+    <addaction name="separator"/>
+    <addaction name="menuUpdate"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -616,6 +618,11 @@
    </property>
    <property name="text">
     <string>Advanced settings</string>
+   </property>
+  </action>
+  <action name="menuUpdate">
+   <property name="text">
+    <string>Check for updates</string>
    </property>
   </action>
  </widget>
