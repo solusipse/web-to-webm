@@ -74,7 +74,7 @@ bool Utilities::checkUrl() {
     return true;
 }
 
-QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
+QVector< QVector<QString> > Utilities::createQualityList(QString url) {
     QVector< QVector<QString> > list;
     QString formats = execBinary(getBinaryName() + " -F " + url, 1);
     QStringList formatsList = formats.split("\n");
@@ -92,15 +92,13 @@ QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
                 if (!formatsList[i].contains("video only")) {
                     QRegExp resolution("\\d{3,4}x\\d{3}");
                     resolution.indexIn(formatsList[i]);
-                    QRegExp code("\\d\\d");
-                    code.indexIn(formatsList[i]);
                     QRegExp format("\\w\\w\\w");
                     format.indexIn(formatsList[i]);
 
                     QString strResolution = resolution.capturedTexts()[0];
-                    QString strCode = code.capturedTexts()[0];
                     QString strFormat = format.capturedTexts()[0];
-                    if (strResolution != "" && strCode != "") {
+                    if (strResolution != "" && strFormat != "") {
+                        QString strCode = formatsList[i].split(" ")[0];
                         QVector<QString> single;
                         single.append(strResolution);
                         single.append(strCode);
@@ -213,7 +211,7 @@ void Utilities::loadVideo(QString url) {
 
     killProcesses();
     pathChanged = false;
-    currentQualityList = ytQualityList(url);
+    currentQualityList = createQualityList(url);
     win.setVideoDetails(url);
     addToLog("<b>Loaded video:</b> <br>" + win.ui->urlEdit->text());
 }

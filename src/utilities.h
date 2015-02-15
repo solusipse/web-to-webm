@@ -71,7 +71,7 @@ public:
     QString currentFileName;
     QString log;
 
-    QVector<QVector <QString> > ytQualityList(QString url);
+    QVector<QVector <QString> > createQualityList(QString url);
     QVector<QVector <QString> > currentQualityList;
 
     QProcess *downloadProcess;
