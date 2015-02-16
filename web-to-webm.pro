@@ -34,7 +34,20 @@ FORMS    += src/mainwindow.ui \
 
 DEFINES += VERSION=\\\"$$VERSION\\\"
 
-renamer.commands = mkdir $$OUT_PWD/$(dir $(TARGET)) && $(CXX) $$PWD/src/renamer.cpp -o $$OUT_PWD/$(dir $(TARGET))renamer
+win32 {
+    CONFIG(debug, debug|release) {
+        renamer.commands = $(CXX) $$PWD/src/renamer.cpp && move renamer.exe debug\renamer.exe
+    } else {
+        renamer.commands = $(CXX) $$PWD/src/renamer.cpp && move renamer.exe release\renamer.exe
+    }
+}
+unix:!macx {
+    renamer.commands = $(CXX) $$PWD/src/renamer.cpp -o $$OUT_PWD/$(dir $(TARGET))renamer
+}
+macx {
+    renamer.commands = mkdir $$OUT_PWD/$(dir $(TARGET)) && $(CXX) $$PWD/src/renamer.cpp -o $$OUT_PWD/$(dir $(TARGET))renamer
+}
+
 
 QMAKE_EXTRA_TARGETS += renamer
 POST_TARGETDEPS += renamer
