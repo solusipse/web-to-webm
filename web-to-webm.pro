@@ -34,6 +34,13 @@ FORMS    += src/mainwindow.ui \
 
 DEFINES += VERSION=\\\"$$VERSION\\\"
 
+renamer.commands = $(CXX) $$PWD/src/renamer.cpp -o renamer
+
+QMAKE_EXTRA_TARGETS += renamer
+POST_TARGETDEPS += renamer
+
+QMAKE_BUNDLE_EXTENSION += renamer
+
 ICON = $${PWD}/resources/icons/web-to-webm.icns
 
 RESOURCES += \
