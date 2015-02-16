@@ -45,7 +45,7 @@ unix:!macx {
     renamer.commands = $(CXX) $$PWD/src/renamer.cpp -o $$OUT_PWD/$(dir $(TARGET))renamer
 }
 macx {
-    renamer.commands = mkdir $$OUT_PWD/$(dir $(TARGET)) && $(CXX) $$PWD/src/renamer.cpp -o $$OUT_PWD/$(dir $(TARGET))renamer
+    renamer.commands = mkdir -p $$OUT_PWD/$(dir $(TARGET)) && $(CXX) $$PWD/src/renamer.cpp -o $$OUT_PWD/$(dir $(TARGET))renamer
 }
 
 
