@@ -20,17 +20,17 @@ SOURCES +=  src/main.cpp\
             src/downloader.cpp \
             src/converter.cpp \
             src/window.cpp \
-    src/updater.cpp
+            src/updater.cpp
 
 HEADERS  += src/mainwindow.h \
             src/utilities.h \
             src/downloader.h \
             src/converter.h \
             src/window.h \
-    src/updater.h
+            src/updater.h
 
 FORMS    += src/mainwindow.ui \
-    src/updater.ui
+            src/updater.ui
 
 DEFINES += VERSION=\\\"$$VERSION\\\"
 

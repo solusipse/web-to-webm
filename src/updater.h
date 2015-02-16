@@ -23,8 +23,13 @@ private:
     void start();
     void incrementProgressBar();
 
+    QString prepareBinaryName(QString v);
+
 public slots:
     void replyFinished(QNetworkReply *reply);
+    void downloadFinished(QNetworkReply *reply);
+private slots:
+    void on_buttonStart_clicked();
 };
 
 #endif // UPDATER_H
