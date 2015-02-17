@@ -13,14 +13,15 @@
     #define SYSTEM 2
 #endif
 
+
+void log(char *l);
 void windows_procedure(char *argv);
 void unix_procedure(char *argv);
-
 void windows_rename();
 void unix_rename();
 
 int main (int argc, char *argv[]) {
-    printf("Starting update procedure.\n");
+    log("Starting update procedure.");
     if (SYSTEM == 0)
         windows_procedure(argv[1]);
     else
@@ -29,8 +30,20 @@ int main (int argc, char *argv[]) {
     return 0;
 }
 
+void log(char *l) {
+    FILE *f = fopen("updatelog.txt", "a");
+    if (f == NULL) {
+        printf("Can't open updatelog.txt\n");
+        exit(1);
+    }
+    fprintf(f, "%s\n", l);
+    fclose(f);
+
+    printf("%s\n", l);
+}
+
 void windows_procedure(char *argv) {
-    printf("Detected WINDOWS system, waiting for main process to die.\n");
+    log("Detected WINDOWS system, waiting for main process to die.");
     printf("PID: %s\n", argv);
     DWORD dwExitCode = 259;
     while(1) {
@@ -54,17 +67,19 @@ void windows_rename() {
     char n[] = "web-to-webm.old";
     s = rename(o, n);
     if (s == 0)
-        printf("Created backup of an old binary\n");
+        log("Created backup of an old binary.");
     else
-        perror("Error renaming file");
+        log("Error on creating backup.");
 
     char o_[] = "update";
     char n_[] = "web-to-webm.exe";
     s = rename(o_ , n_);
     if (s == 0)
-        printf("New binary installed\n");
-    else
-        perror("Error renaming file");
+        log("New binary installed");
+    else {
+        log("Error on installing new binary. Abort.");
+        exit(1);
+    }
 
     printf("Starting web-to-webm...");
 
@@ -74,6 +89,8 @@ void windows_rename() {
     si.cb = sizeof(si);
     ZeroMemory(&pi, sizeof(pi));
     CreateProcess("web-to-webm.exe", NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+
+    log("Update complete!");
 }
 
 void unix_procedure(char *argv) {
