@@ -5,6 +5,13 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 
+/* TODO:
+ * In the future this class needs big improvements,
+ * such as checking checksum, xml parsing, adding
+ * download progress bar and some archive unpacker
+ * for updates. We'll probably need also some mirrors.
+ */
+
 Updater::Updater(QWidget *parent) : QDialog(parent), ui(new Ui::Updater) {
     ui->setupUi(this);
     ui->plainTextEdit->setStyleSheet("QPlainTextEdit{background:#888; color: #222;}");
@@ -57,7 +64,13 @@ void Updater::downloadFinished(QNetworkReply *reply) {
     }
     addToLog("Saved to file.");
     addToLog("Application will be restarted now.");
-    qApp->exit();
+
+    QString pid = QString::number(QCoreApplication::applicationPid());
+
+    QProcess *proc = new QProcess(this);
+    proc->startDetached(QCoreApplication::applicationDirPath() + "/renamer " + pid);
+
+    //qApp->exit();
 }
 
 void Updater::addToLog(QString s) {
