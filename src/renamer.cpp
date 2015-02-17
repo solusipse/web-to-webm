@@ -1,5 +1,8 @@
 /* This program replaces old binary with new,
  * downloaded from update serwer.
+ * This should be rewritten as standalone
+ * QT app which does the whole update
+ * procedure.
 */
 
 #include <stdio.h>
