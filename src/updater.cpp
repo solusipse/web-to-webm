@@ -16,7 +16,6 @@ Updater::Updater(QWidget *parent) : QDialog(parent), ui(new Ui::Updater) {
     ui->setupUi(this);
     ui->plainTextEdit->setStyleSheet("QPlainTextEdit{background:#888; color: #222;}");
     addToLog("After update restart is required, so finish your work before you start.");
-    qDebug() << QCoreApplication::applicationPid();
 }
 
 Updater::~Updater() {
@@ -70,7 +69,7 @@ void Updater::downloadFinished(QNetworkReply *reply) {
     QProcess *proc = new QProcess(this);
     proc->startDetached(QCoreApplication::applicationDirPath() + "/renamer " + pid);
 
-    //qApp->exit();
+    qApp->exit();
 }
 
 void Updater::addToLog(QString s) {
