@@ -42,6 +42,7 @@ void log(char *l) {
     printf("%s\n", l);
 }
 
+#ifdef _WIN32
 void windows_procedure(char *argv) {
     log("Detected WINDOWS system, waiting for main process to die.");
     printf("PID: %s\n", argv);
@@ -92,6 +93,7 @@ void windows_rename() {
 
     log("Update complete!");
 }
+#endif
 
 void unix_procedure(char *argv) {
 
