@@ -7,30 +7,30 @@
 #ifdef _WIN32
     #define SYSTEM 0
     #include <windows.h>
-#elif __APPLE__
-    #define SYSTEM 1
 #else
-    #define SYSTEM 2
+    #define SYSTEM 1
+    #include <stdlib.h>
+    #include <string.h>
+    #include <unistd.h>
 #endif
 
-
-void log(char *l);
+void log(const char *l);
 void windows_procedure(char *argv);
 void unix_procedure(char *argv);
 void windows_rename();
 void unix_rename();
+void change_directory();
 
 int main (int argc, char *argv[]) {
-    log("Starting update procedure.");
     if (SYSTEM == 0)
         windows_procedure(argv[1]);
     else
-        unix_procedure(argv[1]);
+        unix_procedure(argv[0]);
 
     return 0;
 }
 
-void log(char *l) {
+void log(const char *l) {
     FILE *f = fopen("updatelog.txt", "a");
     if (f == NULL) {
         printf("Can't open updatelog.txt\n");
@@ -95,6 +95,39 @@ void windows_rename() {
 }
 #endif
 
+#ifndef _WIN32
 void unix_procedure(char *argv) {
 
+    // This is necessary for app bundles on OS X
+    char path[1024];
+    strncpy(path, argv, strlen(argv)-7);
+    path[strlen(argv)-7] = NULL;
+    chdir(path);
+
+    remove("web-to-webm.old");
+
+    int s;
+    char o[] = "web-to-webm";
+    char n[] = "web-to-webm.old";
+    s = rename(o, n);
+    if (s == 0)
+        log("Created backup of an old binary.");
+    else
+        log("Error on creating backup.");
+
+    char o_[] = "update";
+    char n_[] = "web-to-webm";
+    s = rename(o_ , n_);
+    if (s == 0)
+        log("New binary installed");
+    else {
+        log("Error on installing new binary. Abort.");
+        exit(1);
+    }
+
+    system("chmod a+x web-to-webm");
+
+    printf("Starting web-to-webm...");
+    system("./web-to-webm");
 }
+#endif
