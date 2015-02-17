@@ -18,6 +18,8 @@
     #else
         #define WINARCH "64"
     #endif
+#else
+    #define WINARCH ""
 #endif
 
 
