@@ -95,9 +95,9 @@ void windows_rename() {
 }
 #endif
 
-#ifndef _WIN32
-void unix_procedure(char *argv) {
 
+void unix_procedure(char *argv) {
+#ifndef _WIN32
     // This is necessary for app bundles on OS X
     char path[1024];
     strncpy(path, argv, strlen(argv)-7);
@@ -129,5 +129,6 @@ void unix_procedure(char *argv) {
 
     printf("Starting web-to-webm...");
     system("./web-to-webm");
-}
 #endif
+}
+
