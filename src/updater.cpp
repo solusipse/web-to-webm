@@ -12,6 +12,15 @@
  * for updates. We'll probably need also some mirrors.
  */
 
+#if _WIN32 || _WIN64
+    #if _WIN64
+        #define WINARCH "32"
+    #else
+        #define WINARCH "64"
+    #endif
+#endif
+
+
 Updater::Updater(QWidget *parent) : QDialog(parent), ui(new Ui::Updater) {
     ui->setupUi(this);
     ui->plainTextEdit->setStyleSheet("QPlainTextEdit{background:#888; color: #222;}");
@@ -34,6 +43,12 @@ void Updater::checkForUpdates() {
 }
 
 void Updater::replyFinished(QNetworkReply *reply) {
+    if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 404) {
+        addToLog("Could not get current version. Aborting.");
+        ui->progressBar->setValue(0);
+        return;
+    }
+
     QString newestVersion = reply->readAll();
     addToLog("Connected to update server.");
     incrementProgressBar();
@@ -54,6 +69,11 @@ void Updater::replyFinished(QNetworkReply *reply) {
 }
 
 void Updater::downloadFinished(QNetworkReply *reply) {
+    if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 404) {
+        addToLog("Could not download proper binary. Aborting.");
+        ui->progressBar->setValue(0);
+        return;
+    }
     addToLog("Download complete.");
     incrementProgressBar();
     QFile f(QCoreApplication::applicationDirPath() + "/update");
@@ -82,7 +102,7 @@ void Updater::incrementProgressBar() {
 
 QString Updater::prepareBinaryName(QString v) {
     if (SYSTEM == 0)
-        return "win-web-to-webm-" + v;
+        return "win-" + QString(WINARCH) + "-web-to-webm-" + v;
     if (SYSTEM == 1)
         return "mac-web-to-webm-" + v;
     if (SYSTEM == 2)
