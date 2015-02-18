@@ -53,6 +53,7 @@ QMAKE_EXTRA_TARGETS += renamer
 POST_TARGETDEPS += renamer
 
 ICON = $${PWD}/resources/icons/web-to-webm.icns
+RC_FILE = $${PWD}/resources/web-to-webm.rc
 
 RESOURCES += \
     resources/Resources.qrc
