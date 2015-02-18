@@ -276,10 +276,9 @@ void Utilities::showFileInDirectory() {
 }
 
 void Utilities::updateBitrate() {
-    // TODO: implement actual algorithm, set max bitrate to yt limit
     if (!win.ui->cutFromEdit->text().trimmed().isEmpty() && !win.ui->cutToEdit->text().trimmed().isEmpty()) {
         int bitrate = win.ui->bitrateValue->text().toInt();
-            bitrate = bitrate*utils.getTrimmedVideoDuration();
+            bitrate = bitrate*utils.getTrimmedVideoDuration()/8;
 
             if (bitrate <= 0) {
                 win.ui->estSize->setText("");

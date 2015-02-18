@@ -16,10 +16,10 @@ void Converter::start() {
     QStringList arguments;
     arguments << "-y" << "-hide_banner";
     arguments << "-i" << utils.getCurrentRawFilename();
-    // TODO:
-    // arguments << "-metadata" << "encoder=webtowebm";
 
-    QString bitrate = win.ui->bitrateValue->text();
+    int bt = win.ui->bitrateValue->text().toInt() - 100;
+    if (bt <= 0) bt = 1;
+    QString bitrate = QString::number(bt);
 
     if (!bitrate.isEmpty()) {
         bitrate.append("K");
