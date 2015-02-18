@@ -18,6 +18,7 @@ Utilities::Utilities() : settings(QSettings::IniFormat, QSettings::UserScope, "s
 void Utilities::setCommons() {
     QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled, true);
     win.ui->player->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
+    win.populateBitrateList();
 }
 
 QString Utilities::execBinary(QString bin, int multiline = 0) {
@@ -178,7 +179,6 @@ int Utilities::getTrimmedVideoDuration() {
     QString cutFrom = win.ui->cutFromEdit->text();
     QString cutTo = win.ui->cutToEdit->text();
     int time = parseTime(cutFrom).secsTo(parseTime(cutTo));
-    utils.addToLog("Output video length: " + (QTime(0,0,0).addSecs(time)).toString("hh:mm:ss"));
     return time;
 }
 

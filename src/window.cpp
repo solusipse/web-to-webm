@@ -43,7 +43,8 @@ void Window::setStylesheet() {
         "QMessageBox{background:#222;}"
         "QToolButton{background:#222;border:none;width:35px;height:35px;}"
         "QToolButton:hover{background:#b31217;}"
-        "#logBox{background:#333;border: 1px solid #3a3a3a;}";
+        "#logBox{background:#333;border: 1px solid #3a3a3a;}"
+        "QSpinBox{background:#888;border:none;height:35px;}";
 
     qApp->setStyleSheet(css);
 }
@@ -102,6 +103,8 @@ void Window::lockAllControls(bool status) {
     win.ui->cutToEdit->setDisabled(status);
     win.ui->selectSavePath->setDisabled(status);
     win.ui->startConversion->setDisabled(status);
+    win.ui->bitrateValue->setDisabled(status);
+    win.ui->bitrateType->setDisabled(status);
 }
 
 void Window::setFilename() {
@@ -121,4 +124,9 @@ void Window::updateConversionButton() {
 void Window::toggleConversionButton() {
     ui->startConversion->toggle();
     updateConversionButton();
+}
+
+void Window::populateBitrateList() {
+    ui->bitrateType->addItem("kb/s");
+    ui->bitrateType->addItem("mb/s");
 }

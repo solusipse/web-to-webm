@@ -27,6 +27,7 @@ void Converter::start() {
     if (!win.ui->cutFromEdit->text().trimmed().isEmpty() && !win.ui->cutToEdit->text().trimmed().isEmpty()) {
         arguments << "-ss" << win.ui->cutFromEdit->text().trimmed();
         arguments << "-to" << win.ui->cutToEdit->text().trimmed();
+        utils.addToLog("Output video length: " + (QTime(0,0,0).addSecs(utils.getTrimmedVideoDuration())).toString("hh:mm:ss"));
         utils.currentDuration = utils.getTrimmedVideoDuration();
     }
 

@@ -33,6 +33,7 @@ private slots:
     void on_menuResetAllSettings_triggered();
     void on_menuFfmpegCustomParams_triggered();
     void on_menuUpdate_triggered();
+    void on_bitrateValue_textChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
