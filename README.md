@@ -27,7 +27,7 @@ Format is derived from `ffmpeg`. You have to use colons as separators. There are
 You can mix these standards (e.g. `55 - 01:15` which is equivalent of `00:55 - 01:15` or `55 - 75`).
 
 ## Interface
-![web-to-webm](http://solusipse.net/misc/web-to-webm.png)
+![web-to-webm](http://solusipse.net/misc/webtoweb-0.7.0-screen.png)
 
 ## Building
 You need `QT5` to build this software. To build web-to-webm, type these commands:
@@ -42,14 +42,14 @@ Since web-to-webm downloading mechanism is based on `yotube-dl` it supports same
 
 ## Changelog
 
-### v.0.7.0 (in progress)
+### v.0.7.0
 - higher accuracy of conversion percentage bar
 - fixed downloading and conversion of clips downloaded from other services than youtube
 - minor interface and binary detecting bugfixes
 - now it's possible to set custom ffmpeg parameters
-- (todo) autoupdate
-- (todo) installer (windows)
-- (todo) add widget for setting quality and estimating size of output video (now setting quality is possible via custom ffmpeg parameters mechanism)
+- autoupdate
+- installer for Windows
+- add widget for setting quality and estimating size of output video
 
 ### v.0.6.0
 - added support for other websites than Youtube
