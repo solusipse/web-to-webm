@@ -17,7 +17,13 @@ void Converter::start() {
     arguments << "-y" << "-hide_banner";
     arguments << "-i" << utils.getCurrentRawFilename();
 
-    int bt = win.ui->bitrateValue->text().toInt() - 100;
+    int bt = win.ui->bitrateValue->text().toInt();
+
+    if (win.ui->menuRemoveAudio->isChecked())
+        arguments << "-an";
+    else
+        bt -= 100;
+
     if (bt <= 0) bt = 1;
     QString bitrate = QString::number(bt);
 
@@ -38,9 +44,6 @@ void Converter::start() {
         utils.addToLog("Output video length: " + (QTime(0,0,0).addSecs(utils.getTrimmedVideoDuration())).toString("hh:mm:ss"));
         utils.currentDuration = utils.getTrimmedVideoDuration();
     }
-
-    if (win.ui->menuRemoveAudio->isChecked())
-        arguments << "-an";
 
     arguments << utils.getCurrentFilename();
 
