@@ -247,9 +247,6 @@
                <property name="placeholderText">
                 <string>Bitrate</string>
                </property>
-               <property name="clearButtonEnabled">
-                <bool>false</bool>
-               </property>
               </widget>
              </item>
              <item>
