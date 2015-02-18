@@ -21,7 +21,6 @@ public:
     void toggleConversionButton();
     void setPlayerHtml();
     void openUrlInPlayer(QString url);
-    void populateBitrateList();
 };
 
 extern Window win;

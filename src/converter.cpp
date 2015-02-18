@@ -19,6 +19,14 @@ void Converter::start() {
     // TODO:
     // arguments << "-metadata" << "encoder=webtowebm";
 
+    QString bitrate = win.ui->bitrateValue->text();
+
+    if (!bitrate.isEmpty()) {
+        bitrate.append("K");
+        arguments << "-b:v" << bitrate;
+        utils.addToLog("Bitrate set to: " + bitrate);
+    }
+
     if (!utils.configGetValue("ffmpeg_params").isEmpty()) {
         arguments << utils.configGetValue("ffmpeg_params").split(" ");
         utils.addToLog("Used custom parameters: " + utils.configGetValue("ffmpeg_params"));

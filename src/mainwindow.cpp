@@ -177,22 +177,14 @@ void MainWindow::on_menuUpdate_triggered() {
     u->show();
 }
 
-void MainWindow::on_bitrateValue_textChanged(const QString &arg1)
-{
-    if (!win.ui->cutFromEdit->text().trimmed().isEmpty() && !win.ui->cutToEdit->text().trimmed().isEmpty()) {
-        int bitrate = arg1.toInt();
-        if (win.ui->bitrateType->currentIndex() == 0)
-            bitrate = bitrate*utils.getTrimmedVideoDuration();
-        else
-            bitrate = bitrate*utils.getTrimmedVideoDuration() * 1000;
+void MainWindow::on_bitrateValue_textChanged() {
+    utils.updateBitrate();
+}
 
-        if (bitrate == 0)
-            ui->sizeLabel->setText("n/a");
+void MainWindow::on_cutFromEdit_textChanged() {
+    utils.updateBitrate();
+}
 
-        if (bitrate < 1000) {
-            ui->sizeLabel->setText(QString::number(bitrate) + " kB");
-        } else {
-            ui->sizeLabel->setText(QString::number(bitrate/1000) + " MB");
-        }
-    }
+void MainWindow::on_cutToEdit_textChanged() {
+    utils.updateBitrate();
 }

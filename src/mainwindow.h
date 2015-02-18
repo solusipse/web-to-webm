@@ -33,8 +33,9 @@ private slots:
     void on_menuResetAllSettings_triggered();
     void on_menuFfmpegCustomParams_triggered();
     void on_menuUpdate_triggered();
-    void on_bitrateValue_textChanged(const QString &arg1);
-
+    void on_bitrateValue_textChanged();
+    void on_cutFromEdit_textChanged();
+    void on_cutToEdit_textChanged();
 private:
     Ui::MainWindow *ui;
 };

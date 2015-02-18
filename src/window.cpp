@@ -104,7 +104,6 @@ void Window::lockAllControls(bool status) {
     win.ui->selectSavePath->setDisabled(status);
     win.ui->startConversion->setDisabled(status);
     win.ui->bitrateValue->setDisabled(status);
-    win.ui->bitrateType->setDisabled(status);
 }
 
 void Window::setFilename() {
@@ -124,9 +123,4 @@ void Window::updateConversionButton() {
 void Window::toggleConversionButton() {
     ui->startConversion->toggle();
     updateConversionButton();
-}
-
-void Window::populateBitrateList() {
-    ui->bitrateType->addItem("kb/s");
-    ui->bitrateType->addItem("mb/s");
 }

@@ -51,6 +51,7 @@ public:
     void configSaveAll();
     void configLoadAll();
     void loadVideo(QString url);
+    void updateBitrate();
 
     QString configGetValue(QString k);
     bool configGetValueBool(QString k);

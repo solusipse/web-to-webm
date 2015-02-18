@@ -18,7 +18,6 @@ Utilities::Utilities() : settings(QSettings::IniFormat, QSettings::UserScope, "s
 void Utilities::setCommons() {
     QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled, true);
     win.ui->player->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
-    win.populateBitrateList();
 }
 
 QString Utilities::execBinary(QString bin, int multiline = 0) {
@@ -274,4 +273,19 @@ void Utilities::removeRawVideo() {
 
 void Utilities::showFileInDirectory() {
     QDesktopServices::openUrl("file:///" + QFileInfo(getCurrentFilename()).absolutePath());
+}
+
+void Utilities::updateBitrate() {
+    // TODO: implement actual algorithm, set max bitrate to yt limit
+    if (!win.ui->cutFromEdit->text().trimmed().isEmpty() && !win.ui->cutToEdit->text().trimmed().isEmpty()) {
+        int bitrate = win.ui->bitrateValue->text().toInt();
+            bitrate = bitrate*utils.getTrimmedVideoDuration();
+
+            if (bitrate <= 0) {
+                win.ui->estSize->setText("");
+                return;
+            }
+
+            win.ui->estSize->setText(QString::number(float(bitrate)/1000) + " MB");
+    }
 }
