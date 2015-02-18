@@ -25,7 +25,7 @@
 
 Updater::Updater(QWidget *parent) : QDialog(parent), ui(new Ui::Updater) {
     ui->setupUi(this);
-    ui->plainTextEdit->setStyleSheet("QPlainTextEdit{background:#888; color: #222;}");
+    ui->plainTextEdit->setStyleSheet("QPlainTextEdit{background:#383838; color: #888;}");
     addToLog("After update restart is required, so finish your work before you start.");
 }
 
