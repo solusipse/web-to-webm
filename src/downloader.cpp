@@ -8,6 +8,7 @@ Downloader::Downloader(QObject *parent) : QObject(parent) {
 
 void Downloader::start(QString c, QStringList l) {
     utils.downloadProcess = new QProcess;
+    utils.downloadProcess->setProcessChannelMode(QProcess::MergedChannels);
     utils.downloadProcess->start(c, l);
 
     connect(utils.downloadProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(read()));

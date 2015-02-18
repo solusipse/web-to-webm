@@ -3,6 +3,7 @@
 #include "downloader.h"
 #include "utilities.h"
 #include "window.h"
+#include "updater.h"
 
 #include <QFileDialog>
 #include <QInputDialog>
@@ -18,12 +19,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     win.ui = ui;
 
+    this->setWindowTitle("web-to-webm v." VERSION);
+
     win.setTheme();
     utils.setCommons();
     utils.configInit();
     utils.configLoadAll();
     win.lockAllControls(true);
     win.setPlayerHtml();
+    utils.addToLog("Initialised.");
 }
 
 MainWindow::~MainWindow() {
@@ -63,15 +67,15 @@ void MainWindow::on_startConversion_clicked() {
 
         utils.download.start(utils.getBinaryName(), arguments);
     } else {
+        win.toggleConversionButton();
         utils.killProcesses();
     }
 }
 
 void MainWindow::on_menuAbout_triggered() {
     QMessageBox::about(this, "web-to-webm about",
-        "web-to-webm v.0.6.0\n\n"
+        "web-to-webm " VERSION "\n\n"
         "This software is open source (MIT licensed). "
-        "It was build with QT (LGPL), youtube-dl (Public Domain) and ffmpeg (LGPL).\n\n"
         "For more informations see:\n"
         "https://github.com/solusipse/web-to-webm.");
 }
@@ -120,13 +124,14 @@ void MainWindow::on_menuNew_triggered() {
     win.ui->titleEdit->clear();
     win.ui->urlEdit->clear();
     win.reset();
+    win.lockAllControls(true);
 }
 
 void MainWindow::on_menuCustomYoutubedlPath_triggered() {
     bool ok;
     QString path = QInputDialog::getText(this,
             tr("Set custom youtube-dl path"),
-            tr("youtube-dl path (leave blank for default):"), QLineEdit::Normal,
+            tr("youtube-dl <b>absolute</b> path (leave blank for default):"), QLineEdit::Normal,
             utils.configGetValue("youtubedl_path"), &ok);
     if (ok)
         utils.configSetValue("youtubedl_path", path);
@@ -136,7 +141,7 @@ void MainWindow::on_menuCustomFfmpegPath_triggered() {
     bool ok;
     QString path = QInputDialog::getText(this,
             tr("Set custom ffmpeg path"),
-            tr("ffmpeg path (leave blank for default):"), QLineEdit::Normal,
+            tr("ffmpeg <b>absolute</b> path (leave blank for default):"), QLineEdit::Normal,
             utils.configGetValue("ffmpeg_path"), &ok);
     if (ok)
         utils.configSetValue("ffmpeg_path", path);
@@ -154,4 +159,31 @@ void MainWindow::on_menuResetAllSettings_triggered() {
     for (int i = 0; i < settings.allKeys().length(); i++)
         settings.remove(settings.allKeys()[i]);
     utils.configInit();
+}
+
+void MainWindow::on_menuFfmpegCustomParams_triggered() {
+    bool ok;
+    QString path = QInputDialog::getText(this,
+            tr("Set custom ffmpeg parameters"),
+            tr("youtube-dl ffmpeg (e.g. -b:v 2M, leave blank for default):"), QLineEdit::Normal,
+            utils.configGetValue("ffmpeg_params"), &ok);
+    if (ok)
+        utils.configSetValue("ffmpeg_params", path);
+}
+
+void MainWindow::on_menuUpdate_triggered() {
+    Updater *u = new Updater(this);
+    u->show();
+}
+
+void MainWindow::on_bitrateValue_textChanged() {
+    utils.updateBitrate();
+}
+
+void MainWindow::on_cutFromEdit_textChanged() {
+    utils.updateBitrate();
+}
+
+void MainWindow::on_cutToEdit_textChanged() {
+    utils.updateBitrate();
 }

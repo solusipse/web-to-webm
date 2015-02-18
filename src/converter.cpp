@@ -17,14 +17,33 @@ void Converter::start() {
     arguments << "-y" << "-hide_banner";
     arguments << "-i" << utils.getCurrentRawFilename();
 
-    if (!win.ui->cutFromEdit->text().trimmed().isEmpty() && !win.ui->cutToEdit->text().trimmed().isEmpty()) {
-        arguments << "-ss" << win.ui->cutFromEdit->text().trimmed();
-        arguments << "-to" << win.ui->cutToEdit->text().trimmed();
-        utils.currentDuration = utils.getTrimmedVideoDuration();
-    }
+    int bt = win.ui->bitrateValue->text().toInt();
 
     if (win.ui->menuRemoveAudio->isChecked())
         arguments << "-an";
+    else
+        bt -= 100;
+
+    if (bt <= 0) bt = 1;
+    QString bitrate = QString::number(bt);
+
+    if (!bitrate.isEmpty()) {
+        bitrate.append("K");
+        arguments << "-b:v" << bitrate;
+        utils.addToLog("Bitrate set to: " + bitrate);
+    }
+
+    if (!utils.configGetValue("ffmpeg_params").isEmpty()) {
+        arguments << utils.configGetValue("ffmpeg_params").split(" ");
+        utils.addToLog("Used custom parameters: " + utils.configGetValue("ffmpeg_params"));
+    }
+
+    if (!win.ui->cutFromEdit->text().trimmed().isEmpty() && !win.ui->cutToEdit->text().trimmed().isEmpty()) {
+        arguments << "-ss" << win.ui->cutFromEdit->text().trimmed();
+        arguments << "-to" << win.ui->cutToEdit->text().trimmed();
+        utils.addToLog("Output video length: " + (QTime(0,0,0).addSecs(utils.getTrimmedVideoDuration())).toString("hh:mm:ss"));
+        utils.currentDuration = utils.getTrimmedVideoDuration();
+    }
 
     arguments << utils.getCurrentFilename();
 
@@ -51,7 +70,7 @@ void Converter::read() {
             progress = time.capturedTexts()[0];
             if (progress != "") {
                 progressTime = QTime::fromString(progress, "hh:mm:ss.z");
-                int percent = double((QTime(0,0).secsTo(progressTime)) / double(utils.currentDuration))*100;
+                int percent = double((QTime(0,0).msecsTo(progressTime)) / double(utils.currentDuration*1000))*100;
                 win.ui->conversionProgressBar->setValue(percent);
             }
         }

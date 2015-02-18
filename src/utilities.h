@@ -7,6 +7,7 @@
 
 #include <QMainWindow>
 #include <QProcess>
+#include <QSettings>
 
 #ifdef _WIN32
     #define SYSTEM 0
@@ -22,6 +23,8 @@ class Utilities : public QObject
 
 public:
     Utilities();
+
+    QSettings settings;
 
     QString getBinaryName();
     QString getVideoTitle(QString url);
@@ -48,6 +51,7 @@ public:
     void configSaveAll();
     void configLoadAll();
     void loadVideo(QString url);
+    void updateBitrate();
 
     QString configGetValue(QString k);
     bool configGetValueBool(QString k);
@@ -66,7 +70,7 @@ public:
     QString currentFileName;
     QString log;
 
-    QVector<QVector <QString> > ytQualityList(QString url);
+    QVector<QVector <QString> > createQualityList(QString url);
     QVector<QVector <QString> > currentQualityList;
 
     QProcess *downloadProcess;
@@ -74,7 +78,6 @@ public:
 
     Downloader download;
     Converter convert;
-
 };
 
 extern Utilities utils;

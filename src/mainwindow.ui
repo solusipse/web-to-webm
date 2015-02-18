@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>web-to-webm v.0.6.0</string>
+   <string>web-to-webm</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../resources/Resources.qrc">
@@ -188,6 +188,12 @@
              </property>
              <item>
               <widget class="QLineEdit" name="cutFromEdit">
+               <property name="toolTip">
+                <string/>
+               </property>
+               <property name="maxLength">
+                <number>16</number>
+               </property>
                <property name="alignment">
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                </property>
@@ -198,11 +204,61 @@
              </item>
              <item>
               <widget class="QLineEdit" name="cutToEdit">
+               <property name="maxLength">
+                <number>16</number>
+               </property>
                <property name="alignment">
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                </property>
                <property name="placeholderText">
                 <string>Cut to</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_7">
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLineEdit" name="bitrateValue">
+               <property name="inputMask">
+                <string/>
+               </property>
+               <property name="maxLength">
+                <number>5</number>
+               </property>
+               <property name="placeholderText">
+                <string>Bitrate (k)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="estSize">
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+               <property name="placeholderText">
+                <string>Est. size</string>
                </property>
               </widget>
              </item>
@@ -440,15 +496,14 @@
     <addaction name="menuDontConvert"/>
     <addaction name="menuRemoveAudio"/>
     <addaction name="menuRemoveRawVideo"/>
-    <addaction name="menuDefaultDownloadPath"/>
     <addaction name="separator"/>
-    <addaction name="menuYoutubedlCustomParams"/>
-    <addaction name="menuFfmpegCustomParams"/>
+    <addaction name="menuDefaultDownloadPath"/>
+    <addaction name="menuShowFile"/>
     <addaction name="separator"/>
     <addaction name="menuCustomYoutubedlPath"/>
     <addaction name="menuCustomFfmpegPath"/>
     <addaction name="separator"/>
-    <addaction name="menuShowFile"/>
+    <addaction name="menuFfmpegCustomParams"/>
     <addaction name="separator"/>
     <addaction name="menuResetAllSettings"/>
    </widget>
@@ -458,6 +513,8 @@
     </property>
     <addaction name="menuAbout"/>
     <addaction name="menuWebsite"/>
+    <addaction name="separator"/>
+    <addaction name="menuUpdate"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -513,15 +570,15 @@
   </action>
   <action name="menuFfmpegCustomParams">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
-    <string>Add custom parameters for ffmpeg</string>
+    <string>Set custom parameters for ffmpeg</string>
    </property>
   </action>
   <action name="menuYoutubedlCustomParams">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Add custom parameters for youtube-dl</string>
@@ -609,6 +666,19 @@
   <action name="menuResetAllSettings">
    <property name="text">
     <string>Reset all settings</string>
+   </property>
+  </action>
+  <action name="actionAdvanced">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Advanced settings</string>
+   </property>
+  </action>
+  <action name="menuUpdate">
+   <property name="text">
+    <string>Check for updates</string>
    </property>
   </action>
  </widget>

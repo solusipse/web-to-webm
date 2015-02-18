@@ -43,7 +43,8 @@ void Window::setStylesheet() {
         "QMessageBox{background:#222;}"
         "QToolButton{background:#222;border:none;width:35px;height:35px;}"
         "QToolButton:hover{background:#b31217;}"
-        "#logBox{background:#333;border: 1px solid #3a3a3a;}";
+        "#logBox{background:#333;border: 1px solid #3a3a3a;}"
+        "QSpinBox{background:#888;border:none;height:35px;}";
 
     qApp->setStyleSheet(css);
 }
@@ -90,6 +91,8 @@ void Window::reset() {
     win.ui->qualityComboBox->blockSignals(true);
     win.ui->qualityComboBox->clear();
     win.ui->qualityComboBox->blockSignals(false);
+    win.ui->bitrateValue->clear();
+    win.ui->estSize->clear();
 }
 
 void Window::resetProgress() {
@@ -102,6 +105,7 @@ void Window::lockAllControls(bool status) {
     win.ui->cutToEdit->setDisabled(status);
     win.ui->selectSavePath->setDisabled(status);
     win.ui->startConversion->setDisabled(status);
+    win.ui->bitrateValue->setDisabled(status);
 }
 
 void Window::setFilename() {

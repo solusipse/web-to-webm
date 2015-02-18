@@ -11,26 +11,26 @@
 
 Utilities utils;
 
-Utilities::Utilities() {
+Utilities::Utilities() : settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "web-to-webm") {
     killed = false;
 }
 
 void Utilities::setCommons() {
     QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled, true);
     win.ui->player->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
-
 }
 
 QString Utilities::execBinary(QString bin, int multiline = 0) {
     QProcess program;
     program.start(bin);
     while(program.waitForFinished(-1)) {
-        if (multiline == 0)
+        if (multiline == 0) {
             return QString::fromLocal8Bit(program.readAllStandardOutput().simplified());
+        }
         return program.readAllStandardOutput();
     }
     utils.addToLog("Error on executing command: " + bin);
-    return "Error on executing.";
+    return "error_exec";
 }
 
 QString Utilities::getVideoTitle(QString url) {
@@ -38,14 +38,15 @@ QString Utilities::getVideoTitle(QString url) {
 }
 
 QString Utilities::getVideoID(QString url) {
-    currentID = execBinary(getBinaryName() + " --get-id " + url);
-    return currentID;
+    return execBinary(getBinaryName() + " --get-id " + url);
 }
 
 QString Utilities::prepareUrl(QString url) {
     currentID = getVideoID(url);
+    if (currentID == "error_exec")
+        return currentID;
     if (currentID.isEmpty())
-        return "error";
+        return "error_url";
     return url;
 }
 
@@ -72,7 +73,7 @@ bool Utilities::checkUrl() {
     return true;
 }
 
-QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
+QVector< QVector<QString> > Utilities::createQualityList(QString url) {
     QVector< QVector<QString> > list;
     QString formats = execBinary(getBinaryName() + " -F " + url, 1);
     QStringList formatsList = formats.split("\n");
@@ -88,17 +89,19 @@ QVector< QVector<QString> > Utilities::ytQualityList(QString url) {
         if (!formatsList[i].contains("webm"))
             if (!formatsList[i].contains("audio only"))
                 if (!formatsList[i].contains("video only")) {
-                    QRegExp resolution("\\d{3,4}x\\d{3}");
+                    QRegExp resolution("\\d{3,4}x\\d{3,4}");
                     resolution.indexIn(formatsList[i]);
-                    QRegExp code("\\d\\d");
-                    code.indexIn(formatsList[i]);
                     QRegExp format("\\w\\w\\w");
                     format.indexIn(formatsList[i]);
 
                     QString strResolution = resolution.capturedTexts()[0];
-                    QString strCode = code.capturedTexts()[0];
                     QString strFormat = format.capturedTexts()[0];
-                    if (strResolution != "" && strCode != "") {
+
+                    if (strFormat != "" && formatsList[i].contains("unknown"))
+                        strResolution = "unknown";
+
+                    if (strResolution != "" && strFormat != "") {
+                        QString strCode = formatsList[i].split(" ")[0];
                         QVector<QString> single;
                         single.append(strResolution);
                         single.append(strCode);
@@ -175,7 +178,6 @@ int Utilities::getTrimmedVideoDuration() {
     QString cutFrom = win.ui->cutFromEdit->text();
     QString cutTo = win.ui->cutToEdit->text();
     int time = parseTime(cutFrom).secsTo(parseTime(cutTo));
-    utils.addToLog("Output video length: " + (QTime(0,0,0).addSecs(time)).toString("hh:mm:ss"));
     return time;
 }
 
@@ -198,14 +200,12 @@ QTime Utilities::parseTime(QString s) {
 void Utilities::loadVideo(QString url) {
     url = utils.prepareUrl(url);
 
-    if (url.contains("Error on executing.")) {
-        win.ui->titleEdit->setText("Error: no executable found (missing youtube-dl or ffmpeg).");
+    if (url == "error_exec") {
         utils.currentVideoUrl = "";
         return;
     }
 
-    if (url == "error") {
-        win.ui->titleEdit->setText("Error: provided url is incorrect.");
+    if (url == "error_url") {
         utils.addToLog("<b>Error:</b> provided url is incorrect.");
         utils.currentVideoUrl = "";
         return;
@@ -213,7 +213,7 @@ void Utilities::loadVideo(QString url) {
 
     killProcesses();
     pathChanged = false;
-    currentQualityList = ytQualityList(url);
+    currentQualityList = createQualityList(url);
     win.setVideoDetails(url);
     addToLog("<b>Loaded video:</b> <br>" + win.ui->urlEdit->text());
 }
@@ -228,10 +228,11 @@ void Utilities::configInit() {
     configSetValueIfBlank("show_ffmpeg_log", "true");
     configSetValueIfBlank("youtubedl_path", "");
     configSetValueIfBlank("ffmpeg_path", "");
+    configSetValueIfBlank("ffmpeg_params", "");
+    configSetValue("version", VERSION);
 }
 
 void Utilities::configSaveAll() {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "web-to-webm");
     settings.setValue("remove_sound", win.ui->menuRemoveAudio->isChecked());
     settings.setValue("dont_convert", win.ui->menuDontConvert->isChecked());
     settings.setValue("remove_raw", win.ui->menuRemoveRawVideo->isChecked());
@@ -250,24 +251,19 @@ void Utilities::configLoadAll() {
 }
 
 void Utilities::configSetValue(QString k, QString v) {
-    // TODO: create a global pointer for these
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "web-to-webm");
     settings.setValue(k, v);
 }
 
 void Utilities::configSetValueIfBlank(QString k, QString v) {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "web-to-webm");
     if (!settings.contains(k))
         settings.setValue(k, v);
 }
 
 QString Utilities::configGetValue(QString k) {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "web-to-webm");
     return settings.value(k).toString();
 }
 
 bool Utilities::configGetValueBool(QString k) {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "web-to-webm");
     return settings.value(k).toBool();
 }
 
@@ -277,4 +273,18 @@ void Utilities::removeRawVideo() {
 
 void Utilities::showFileInDirectory() {
     QDesktopServices::openUrl("file:///" + QFileInfo(getCurrentFilename()).absolutePath());
+}
+
+void Utilities::updateBitrate() {
+    if (!win.ui->cutFromEdit->text().trimmed().isEmpty() && !win.ui->cutToEdit->text().trimmed().isEmpty()) {
+        int bitrate = win.ui->bitrateValue->text().toInt();
+            bitrate = bitrate*utils.getTrimmedVideoDuration()/8;
+
+            if (bitrate <= 0) {
+                win.ui->estSize->setText("");
+                return;
+            }
+
+            win.ui->estSize->setText(QString::number(float(bitrate)/1000) + " MB");
+    }
 }
