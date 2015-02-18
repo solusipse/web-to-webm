@@ -91,6 +91,8 @@ void Window::reset() {
     win.ui->qualityComboBox->blockSignals(true);
     win.ui->qualityComboBox->clear();
     win.ui->qualityComboBox->blockSignals(false);
+    win.ui->bitrateValue->clear();
+    win.ui->estSize->clear();
 }
 
 void Window::resetProgress() {

@@ -188,6 +188,9 @@
              </property>
              <item>
               <widget class="QLineEdit" name="cutFromEdit">
+               <property name="toolTip">
+                <string/>
+               </property>
                <property name="maxLength">
                 <number>16</number>
                </property>
