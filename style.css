@@ -1,0 +1,79 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed&subset=latin-ext);
+
+body {
+    background: #f0f2f3; color: #555;
+    font-family: "Roboto Condensed";
+}
+a {
+    color: #333;
+}
+
+#main {
+    border-radius: 8px;
+    background: #333;
+    margin-top: 30px;
+}
+#logo {
+    text-align: center;
+    margin-bottom: 2em;
+}
+#logo h1 {
+    display: inline;
+}
+#logo h2 {
+    font-size: 1.2em;
+    font-weight: 100;
+}
+#brand-logo {
+    width: 50px;
+}
+#download-table {
+    margin: 0px auto;
+}
+#download-table td {
+    padding: 5px;
+    padding-right: 40px;
+}
+#tut{
+    list-style-type: decimal;
+    font-size: 1.75em;
+    text-align: justify;
+}
+#tutsub {
+    font-size: .75em;
+    list-style-type: lower-alpha;
+}
+#usul {
+    font-size: 1.25em;
+}
+.jumbotron {
+    background: #FFF;
+    border: 1px solid #DDD;
+}
+.navbar {
+    background: #FFF;
+}
+.scrcont {
+    text-align: center;
+}
+.scrcont img {
+    width: 70%;
+    margin-bottom: 2em;
+}
+.title {
+    color: #333;
+    text-align: center;
+    margin: 1em;
+}
+.navbar .navbar-nav {
+    display: inline-block;
+    float: none;
+    vertical-align: top;
+}
+.center {
+    margin: 0px auto;
+    display: block;
+}
+.navbar .navbar-collapse {
+    text-align: center;
+}
