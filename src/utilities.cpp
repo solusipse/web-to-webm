@@ -11,7 +11,7 @@
 
 Utilities utils;
 
-Utilities::Utilities() : settings(QSettings::IniFormat, QSettings::UserScope, "solusipse", "web-to-webm") {
+Utilities::Utilities() : settings("solusipse", "web-to-webm") {
     killed = false;
 }
 
