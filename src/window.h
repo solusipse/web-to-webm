@@ -20,6 +20,7 @@ public:
     void updateConversionButton();
     void toggleConversionButton();
     void setPlayerHtml();
+    void setLoaderHtml();
     void openUrlInPlayer(QString url);
 };
 

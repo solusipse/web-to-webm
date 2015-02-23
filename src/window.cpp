@@ -58,6 +58,15 @@ void Window::setPlayerHtml() {
     win.ui->player->setHtml(html);
 }
 
+void Window::setLoaderHtml() {
+    const char *html =
+        "<style>body{background:#222;color:#888;font-family: 'Lucida Console', Monaco, monospace;}"
+        "#banner{width:100%;height:100%;text-align:center;font-size:2em;}</style>"
+        "<table id='banner'><tr><td><img src='qrc:///icons/spinner.gif'><br><br></td></tr></table>";
+
+    win.ui->player->setHtml(html);
+}
+
 void Window::setQualityList() {
     win.ui->qualityComboBox->blockSignals(true);
     for (int i=0; i < utils.currentQualityList.size(); i++)

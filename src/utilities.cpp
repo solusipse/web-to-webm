@@ -187,6 +187,7 @@ QTime Utilities::parseTime(QString s) {
 
 void Utilities::startProcessQueue(QString url) {
     addToLog("Loading video details.");
+    win.setLoaderHtml();
 
     currentVideoUrl = url;
 
@@ -209,6 +210,7 @@ void Utilities::startProcessQueue(QString url) {
 
 void Utilities::errorProcessQueue() {
     addToLog("Could not open youtube-dl. Check if binary exists.");
+    win.setPlayerHtml();
 }
 
 void Utilities::readProcessQueue() {
@@ -248,12 +250,8 @@ void Utilities::nextProcessQueue(int c) {
 void Utilities::loadVideo(QString url) {
     url = utils.prepareUrl(url);
 
-    if (url == "error_exec") {
-        utils.currentVideoUrl = "";
-        return;
-    }
-
     if (url == "error_url") {
+        win.setPlayerHtml();
         utils.addToLog("<b>Error:</b> provided url is incorrect.");
         utils.currentVideoUrl = "";
         return;
