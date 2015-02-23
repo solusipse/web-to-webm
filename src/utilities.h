@@ -33,7 +33,6 @@ public:
     QString getCurrentRawFilename();
     QString getCurrentFilename();
     QString execBinary(QString bin, int multiline);
-    QString prepareUrl(QString url);
     QString getDefaultFilename();
 
     bool checkUrl();

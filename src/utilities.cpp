@@ -33,12 +33,6 @@ QString Utilities::execBinary(QString bin, int multiline = 0) {
     return "error_exec";
 }
 
-QString Utilities::prepareUrl(QString url) {
-    if (currentID == "error_exec")
-        return currentID;
-    return url;
-}
-
 void Utilities::addToLog(QString line, bool display) {
     if (line.length() < 3)
         return;
@@ -248,7 +242,6 @@ void Utilities::nextProcessQueue(int c) {
 }
 
 void Utilities::loadVideo(QString url) {
-    url = utils.prepareUrl(url);
 
     if (url == "error_url") {
         win.setPlayerHtml();

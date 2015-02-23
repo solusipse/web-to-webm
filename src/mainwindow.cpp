@@ -37,7 +37,6 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_urlEdit_returnPressed() {
-    //utils.loadVideo(win.ui->urlEdit->text());
     utils.startProcessQueue(win.ui->urlEdit->text());
 }
 
