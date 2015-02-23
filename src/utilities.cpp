@@ -214,7 +214,7 @@ void Utilities::readProcessQueue() {
     if (cmdsProcessQueue.length() >= 1) {
 
         if (cmdsProcessQueue.length() == 3) {
-            if (line.contains("is not a valid URL."))
+            if (line.contains("is not a valid URL.") || line.contains("ERROR: Unable to download webpage: "))
                 currentVideoUrl = "error_url";
             else
                 currentTitle = line.simplified();
@@ -245,7 +245,7 @@ void Utilities::nextProcessQueue(int c) {
 
 void Utilities::loadVideo(QString url) {
 
-    if (url == "error_url") {
+    if (url == "error_url" || url.isEmpty()) {
         win.setPlayerHtml();
         utils.addToLog("<b>Error:</b> provided url is incorrect.");
         utils.currentVideoUrl = "";
