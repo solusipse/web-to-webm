@@ -32,7 +32,6 @@ public:
     QString ffmpegBinaryName();
     QString getCurrentRawFilename();
     QString getCurrentFilename();
-    QString execBinary(QString bin, int multiline);
     QString getDefaultFilename();
 
     bool checkUrl();
@@ -50,6 +49,7 @@ public:
     void loadVideo(QString url);
     void updateBitrate();
     void startProcessQueue(QString url);
+    void newVideo();
 
     QString configGetValue(QString k);
     bool configGetValueBool(QString k);

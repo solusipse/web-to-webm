@@ -20,19 +20,6 @@ void Utilities::setCommons() {
     win.ui->player->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
 }
 
-QString Utilities::execBinary(QString bin, int multiline = 0) {
-    QProcess program;
-    program.start(bin);
-    while(program.waitForFinished(-1)) {
-        if (multiline == 0) {
-            return QString::fromLocal8Bit(program.readAllStandardOutput().simplified());
-        }
-        return program.readAllStandardOutput();
-    }
-    utils.addToLog("Error on executing command: " + bin);
-    return "error_exec";
-}
-
 void Utilities::addToLog(QString line, bool display) {
     if (line.length() < 3)
         return;
@@ -193,6 +180,10 @@ void Utilities::startProcessQueue(QString url) {
     // Quality list
     cmdsProcessQueue << getBinaryName() + " -F " + url;
 
+    if (processQueue != NULL) {
+        processQueue->kill();
+    }
+
     processQueue = new QProcess;
     processQueue->setProcessChannelMode(QProcess::MergedChannels);
     processQueue->start(cmdsProcessQueue[0]);
@@ -207,8 +198,17 @@ void Utilities::errorProcessQueue() {
     win.setPlayerHtml();
 }
 
+void Utilities::newVideo() {
+    utils.killProcesses();
+    win.setPlayerHtml();
+    win.ui->titleEdit->clear();
+    win.ui->urlEdit->clear();
+    win.reset();
+    win.lockAllControls(true);
+}
+
 void Utilities::readProcessQueue() {
-    QString line = processQueue->readAll();
+    QString line = QString::fromLocal8Bit(processQueue->readAll());
     if (cmdsProcessQueue.length() >= 1) {
 
         if (cmdsProcessQueue.length() == 3) {
@@ -228,10 +228,12 @@ void Utilities::readProcessQueue() {
 }
 
 void Utilities::nextProcessQueue(int c) {
-    if (cmdsProcessQueue.length() <= 0 || currentVideoUrl == "error_url") {
+    if (cmdsProcessQueue.length() <= 0 || currentVideoUrl == "error_url" || c != 0) {
         loadVideo(currentVideoUrl);
         return;
     }
+
+    qDebug() << "DALEJ";
 
     processQueue->kill();
     processQueue = new QProcess;
