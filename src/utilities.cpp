@@ -86,7 +86,6 @@ QString Utilities::getVideoQuality() {
     return currentQualityList[win.ui->qualityComboBox->currentIndex()][1];
 }
 
-
 QString Utilities::getFileName() {
     return currentID + "-" + currentQualityList[win.ui->qualityComboBox->currentIndex()][1] + "." + currentQualityList[win.ui->qualityComboBox->currentIndex()][2];
 }
@@ -233,8 +232,6 @@ void Utilities::nextProcessQueue(int c) {
         return;
     }
 
-    qDebug() << "DALEJ";
-
     processQueue->kill();
     processQueue = new QProcess;
     processQueue->start(cmdsProcessQueue[0]);
@@ -320,12 +317,10 @@ void Utilities::updateBitrate() {
     if (!win.ui->cutFromEdit->text().trimmed().isEmpty() && !win.ui->cutToEdit->text().trimmed().isEmpty()) {
         int bitrate = win.ui->bitrateValue->text().toInt();
             bitrate = bitrate*utils.getTrimmedVideoDuration()/8;
-
             if (bitrate <= 0) {
                 win.ui->estSize->setText("");
                 return;
             }
-
             win.ui->estSize->setText(QString::number(float(bitrate)/1000) + " MB");
     }
 }
