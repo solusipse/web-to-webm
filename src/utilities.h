@@ -27,8 +27,6 @@ public:
     QSettings settings;
 
     QString getBinaryName();
-    QString getVideoTitle(QString url);
-    QString getVideoID(QString url);
     QString getVideoQuality();
     QString getFileName();
     QString ffmpegBinaryName();
@@ -52,6 +50,7 @@ public:
     void configLoadAll();
     void loadVideo(QString url);
     void updateBitrate();
+    void startProcessQueue(QString url);
 
     QString configGetValue(QString k);
     bool configGetValueBool(QString k);
@@ -65,19 +64,29 @@ public:
 
     QString defaultFilename;
     QString currentID;
+    QString currentTitle;
     QString currentVideoUrl;
     QString currentSavePath;
     QString currentFileName;
     QString log;
 
-    QVector<QVector <QString> > createQualityList(QString url);
+    QVector<QVector <QString> > createQualityList(QString formats);
     QVector<QVector <QString> > currentQualityList;
 
     QProcess *downloadProcess;
     QProcess *conversionProcess;
+    QProcess *processQueue;
+
+    QStringList cmdsProcessQueue;
 
     Downloader download;
     Converter convert;
+
+private slots:
+    void readProcessQueue();
+    void nextProcessQueue(int c);
+    void errorProcessQueue();
+
 };
 
 extern Utilities utils;

@@ -68,17 +68,17 @@ void Window::setQualityList() {
 void Window::setVideoDetails(QString url) {
     reset();
     openUrlInPlayer(url);
-    ui->titleEdit->setText(utils.getVideoTitle(url));
+    ui->titleEdit->setText(utils.currentTitle);
     setQualityList();
     utils.currentFileName = utils.getDefaultFilename();
     setFilename();
-    utils.currentVideoUrl = url;
     win.lockAllControls(false);
 }
 
 void Window::openUrlInPlayer(QString url) {
-    if (url.contains("youtu"))
+    if (url.contains("youtu")) {
         win.ui->player->load("https://www.youtube.com/embed/" + utils.currentID);
+    }
     else
         win.ui->player->load(url);
 }

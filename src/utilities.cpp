@@ -33,20 +33,9 @@ QString Utilities::execBinary(QString bin, int multiline = 0) {
     return "error_exec";
 }
 
-QString Utilities::getVideoTitle(QString url) {
-    return execBinary(getBinaryName() + " -e " + url);
-}
-
-QString Utilities::getVideoID(QString url) {
-    return execBinary(getBinaryName() + " --get-id " + url);
-}
-
 QString Utilities::prepareUrl(QString url) {
-    currentID = getVideoID(url);
     if (currentID == "error_exec")
         return currentID;
-    if (currentID.isEmpty())
-        return "error_url";
     return url;
 }
 
@@ -73,9 +62,8 @@ bool Utilities::checkUrl() {
     return true;
 }
 
-QVector< QVector<QString> > Utilities::createQualityList(QString url) {
+QVector< QVector<QString> > Utilities::createQualityList(QString formats) {
     QVector< QVector<QString> > list;
-    QString formats = execBinary(getBinaryName() + " -F " + url, 1);
     QStringList formatsList = formats.split("\n");
 
     /*
@@ -197,6 +185,66 @@ QTime Utilities::parseTime(QString s) {
     return QTime();
 }
 
+void Utilities::startProcessQueue(QString url) {
+    addToLog("Loading video details.");
+
+    currentVideoUrl = url;
+
+    cmdsProcessQueue.clear();
+    // Title
+    cmdsProcessQueue << getBinaryName() + " -e " + url;
+    // ID
+    cmdsProcessQueue << getBinaryName() + " --get-id " + url;
+    // Quality list
+    cmdsProcessQueue << getBinaryName() + " -F " + url;
+
+    processQueue = new QProcess;
+    processQueue->setProcessChannelMode(QProcess::MergedChannels);
+    processQueue->start(cmdsProcessQueue[0]);
+
+    connect(processQueue, SIGNAL(readyReadStandardOutput()), this, SLOT(readProcessQueue()));
+    connect(processQueue, SIGNAL(finished(int)), this, SLOT(nextProcessQueue(int)));
+    connect(processQueue, SIGNAL(error(QProcess::ProcessError)), this, SLOT(errorProcessQueue()));
+}
+
+void Utilities::errorProcessQueue() {
+    addToLog("Could not open youtube-dl. Check if binary exists.");
+}
+
+void Utilities::readProcessQueue() {
+    QString line = processQueue->readAll();
+    if (cmdsProcessQueue.length() >= 1) {
+
+        if (cmdsProcessQueue.length() == 3) {
+            if (line.contains("is not a valid URL."))
+                currentVideoUrl = "error_url";
+            else
+                currentTitle = line.simplified();
+        }
+        if (cmdsProcessQueue.length() == 2)
+            currentID = line.simplified();
+
+        cmdsProcessQueue.removeFirst();
+    }
+    else {
+        currentQualityList = createQualityList(line);
+    }
+}
+
+void Utilities::nextProcessQueue(int c) {
+    if (cmdsProcessQueue.length() <= 0 || currentVideoUrl == "error_url") {
+        loadVideo(currentVideoUrl);
+        return;
+    }
+
+    processQueue->kill();
+    processQueue = new QProcess;
+    processQueue->start(cmdsProcessQueue[0]);
+
+    connect(processQueue, SIGNAL(readyReadStandardOutput()), this, SLOT(readProcessQueue()));
+    connect(processQueue, SIGNAL(finished(int)), this, SLOT(nextProcessQueue(int)));
+}
+
 void Utilities::loadVideo(QString url) {
     url = utils.prepareUrl(url);
 
@@ -213,9 +261,9 @@ void Utilities::loadVideo(QString url) {
 
     killProcesses();
     pathChanged = false;
-    currentQualityList = createQualityList(url);
     win.setVideoDetails(url);
     addToLog("<b>Loaded video:</b> <br>" + win.ui->urlEdit->text());
+
 }
 
 void Utilities::configInit() {
