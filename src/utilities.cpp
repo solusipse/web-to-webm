@@ -180,12 +180,15 @@ void Utilities::startProcessQueue(QString url) {
     cmdsProcessQueue << getBinaryName() + " -F " + url;
 
     if (processQueue != NULL) {
+        processQueue->blockSignals(true);
         processQueue->kill();
     }
 
     processQueue = new QProcess;
     processQueue->setProcessChannelMode(QProcess::MergedChannels);
     processQueue->start(cmdsProcessQueue[0]);
+
+    processQueue->blockSignals(false);
 
     connect(processQueue, SIGNAL(readyReadStandardOutput()), this, SLOT(readProcessQueue()));
     connect(processQueue, SIGNAL(finished(int)), this, SLOT(nextProcessQueue(int)));
