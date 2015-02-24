@@ -185,16 +185,12 @@ void MainWindow::on_cutToEdit_textChanged() {
 
 void MainWindow::on_menuLtMode_triggered() {
     if (win.ui->player == NULL) {
+        utils.configSetValue("light_mode", "false");
         qApp->quit();
         QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
         return;
     }
 
-    win.ui->player->deleteLater();
-    win.ui->player = NULL;
-    win.ui->horizontalLayout_3->setDirection(QBoxLayout::TopToBottom);
-    win.ui->frame_2->setMaximumWidth(QWIDGETSIZE_MAX);
-    this->setMinimumWidth(300);
-    this->setMaximumWidth(300);
-    this->setMaximumWidth(QWIDGETSIZE_MAX);
+    utils.configSetValue("light_mode", "true");
+    win.setLightMode(this);
 }

@@ -3,6 +3,7 @@
 #include "window.h"
 
 #include <QStyleFactory>
+#include <QDesktopWidget>
 
 Window win;
 
@@ -151,4 +152,15 @@ void Window::updateConversionButton() {
 void Window::toggleConversionButton() {
     ui->startConversion->toggle();
     updateConversionButton();
+}
+
+void Window::setLightMode(MainWindow *mw) {
+    win.ui->player->deleteLater();
+    win.ui->player = NULL;
+    win.ui->horizontalLayout_3->setDirection(QBoxLayout::TopToBottom);
+    win.ui->frame_2->setMaximumWidth(QWIDGETSIZE_MAX);
+    mw->setMinimumWidth(300);
+    mw->setMaximumWidth(300);
+    mw->setMaximumWidth(QWIDGETSIZE_MAX);
+    mw->move(QApplication::desktop()->screen()->rect().center() - mw->rect().center());
 }

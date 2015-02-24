@@ -270,6 +270,7 @@ void Utilities::configInit() {
     configSetValueIfBlank("youtubedl_path", "");
     configSetValueIfBlank("ffmpeg_path", "");
     configSetValueIfBlank("ffmpeg_params", "");
+    configSetValueIfBlank("light_mode", "false");
     configSetValue("version", VERSION);
 }
 
