@@ -23,6 +23,7 @@ public:
     void setLoaderHtml();
     void openUrlInPlayer(QString url);
     void setLightMode(MainWindow *mw);
+    void detectMode(MainWindow *mw);
     bool isModeLight();
 };
 

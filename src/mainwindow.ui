@@ -496,7 +496,6 @@
     <addaction name="menuDontConvert"/>
     <addaction name="menuRemoveAudio"/>
     <addaction name="menuRemoveRawVideo"/>
-    <addaction name="menuLtMode"/>
     <addaction name="separator"/>
     <addaction name="menuDefaultDownloadPath"/>
     <addaction name="menuShowFile"/>
@@ -505,6 +504,8 @@
     <addaction name="menuCustomFfmpegPath"/>
     <addaction name="separator"/>
     <addaction name="menuFfmpegCustomParams"/>
+    <addaction name="separator"/>
+    <addaction name="menuLtMode"/>
     <addaction name="separator"/>
     <addaction name="menuResetAllSettings"/>
    </widget>
@@ -683,6 +684,9 @@
    </property>
   </action>
   <action name="menuLtMode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Lightweight mode</string>
    </property>

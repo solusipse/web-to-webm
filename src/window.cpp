@@ -164,3 +164,12 @@ void Window::setLightMode(MainWindow *mw) {
     mw->setMaximumWidth(QWIDGETSIZE_MAX);
     mw->move(QApplication::desktop()->screen()->rect().center() - mw->rect().center());
 }
+
+void Window::detectMode(MainWindow *mw) {
+    if (utils.configGetValueBool("light_mode")) {
+        win.ui->menuLtMode->setChecked(true);
+        setLightMode(mw);
+    } else {
+        win.ui->menuLtMode->setChecked(false);
+    }
+}

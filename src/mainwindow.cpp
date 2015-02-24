@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     utils.configLoadAll();
     win.lockAllControls(true);
     win.setPlayerHtml();
+    win.detectMode(this);
     utils.addToLog("Initialised.");
 }
 
