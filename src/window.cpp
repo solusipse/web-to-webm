@@ -49,7 +49,17 @@ void Window::setStylesheet() {
     qApp->setStyleSheet(css);
 }
 
+bool Window::isModeLight() {
+    if (win.ui->player == NULL)
+        return true;
+    return false;
+}
+
 void Window::setPlayerHtml() {
+    if (isModeLight()) {
+        return;
+    }
+
     const char *html =
         "<style>body{background:#222;color:#888;font-family: 'Lucida Console', Monaco, monospace;}"
         "#banner{width:100%;height:100%;text-align:center;font-size:2em;}</style>"
@@ -59,6 +69,10 @@ void Window::setPlayerHtml() {
 }
 
 void Window::setLoaderHtml() {
+    if (isModeLight()) {
+        return;
+    }
+
     const char *html =
         "<style>body{background:#222;color:#888;font-family: 'Lucida Console', Monaco, monospace;}"
         "#banner{width:100%;height:100%;text-align:center;font-size:2em;}</style>"
@@ -85,6 +99,9 @@ void Window::setVideoDetails(QString url) {
 }
 
 void Window::openUrlInPlayer(QString url) {
+    if (isModeLight())
+        return;
+
     if (url.contains("youtu")) {
         win.ui->player->load("https://www.youtube.com/embed/" + utils.currentID);
     }

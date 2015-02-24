@@ -32,7 +32,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QFrame" name="frame_4">
+     <widget class="QFrame" name="topInputFrame">
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -496,6 +496,7 @@
     <addaction name="menuDontConvert"/>
     <addaction name="menuRemoveAudio"/>
     <addaction name="menuRemoveRawVideo"/>
+    <addaction name="menuLtMode"/>
     <addaction name="separator"/>
     <addaction name="menuDefaultDownloadPath"/>
     <addaction name="menuShowFile"/>
@@ -679,6 +680,11 @@
   <action name="menuUpdate">
    <property name="text">
     <string>Check for updates</string>
+   </property>
+  </action>
+  <action name="menuLtMode">
+   <property name="text">
+    <string>Lightweight mode</string>
    </property>
   </action>
  </widget>
