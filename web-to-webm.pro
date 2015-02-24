@@ -9,7 +9,7 @@ QT       += webkit webkitwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-VERSION = 0.7.0
+VERSION = 0.7.2
 
 TARGET = web-to-webm
 TEMPLATE = app

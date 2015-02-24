@@ -36,6 +36,8 @@ private slots:
     void on_bitrateValue_textChanged();
     void on_cutFromEdit_textChanged();
     void on_cutToEdit_textChanged();
+    void on_menuLtMode_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

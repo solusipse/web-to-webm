@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     utils.configLoadAll();
     win.lockAllControls(true);
     win.setPlayerHtml();
+    win.detectMode(this);
     utils.addToLog("Initialised.");
 }
 
@@ -181,4 +182,16 @@ void MainWindow::on_cutFromEdit_textChanged() {
 
 void MainWindow::on_cutToEdit_textChanged() {
     utils.updateBitrate();
+}
+
+void MainWindow::on_menuLtMode_triggered() {
+    if (win.ui->player == NULL) {
+        utils.configSetValue("light_mode", "false");
+        qApp->quit();
+        QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
+        return;
+    }
+
+    utils.configSetValue("light_mode", "true");
+    win.setLightMode(this);
 }

@@ -3,6 +3,7 @@
 #include "window.h"
 
 #include <QStyleFactory>
+#include <QDesktopWidget>
 
 Window win;
 
@@ -49,7 +50,17 @@ void Window::setStylesheet() {
     qApp->setStyleSheet(css);
 }
 
+bool Window::isModeLight() {
+    if (win.ui->player == NULL)
+        return true;
+    return false;
+}
+
 void Window::setPlayerHtml() {
+    if (isModeLight()) {
+        return;
+    }
+
     const char *html =
         "<style>body{background:#222;color:#888;font-family: 'Lucida Console', Monaco, monospace;}"
         "#banner{width:100%;height:100%;text-align:center;font-size:2em;}</style>"
@@ -59,6 +70,10 @@ void Window::setPlayerHtml() {
 }
 
 void Window::setLoaderHtml() {
+    if (isModeLight()) {
+        return;
+    }
+
     const char *html =
         "<style>body{background:#222;color:#888;font-family: 'Lucida Console', Monaco, monospace;}"
         "#banner{width:100%;height:100%;text-align:center;font-size:2em;}</style>"
@@ -85,6 +100,9 @@ void Window::setVideoDetails(QString url) {
 }
 
 void Window::openUrlInPlayer(QString url) {
+    if (isModeLight())
+        return;
+
     if (url.contains("youtu")) {
         win.ui->player->load("https://www.youtube.com/embed/" + utils.currentID);
     }
@@ -134,4 +152,24 @@ void Window::updateConversionButton() {
 void Window::toggleConversionButton() {
     ui->startConversion->toggle();
     updateConversionButton();
+}
+
+void Window::setLightMode(MainWindow *mw) {
+    win.ui->player->deleteLater();
+    win.ui->player = NULL;
+    win.ui->horizontalLayout_3->setDirection(QBoxLayout::TopToBottom);
+    win.ui->frame_2->setMaximumWidth(QWIDGETSIZE_MAX);
+    mw->setMinimumWidth(300);
+    mw->setMaximumWidth(300);
+    mw->setMaximumWidth(QWIDGETSIZE_MAX);
+    mw->move(QApplication::desktop()->screen()->rect().center() - mw->rect().center());
+}
+
+void Window::detectMode(MainWindow *mw) {
+    if (utils.configGetValueBool("light_mode")) {
+        win.ui->menuLtMode->setChecked(true);
+        setLightMode(mw);
+    } else {
+        win.ui->menuLtMode->setChecked(false);
+    }
 }
