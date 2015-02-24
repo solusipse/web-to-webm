@@ -42,6 +42,9 @@ Since web-to-webm downloading mechanism is based on `yotube-dl` it supports same
 
 ## Changelog
 
+### v.0.7.3 (in progress)
+- create external updater application
+
 ### v.0.7.2
 - lightweight mode (no player)
 
