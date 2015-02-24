@@ -42,6 +42,9 @@ Since web-to-webm downloading mechanism is based on `yotube-dl` it supports same
 
 ## Changelog
 
+### v.0.7.1
+- asynchronous loading of video details
+
 ### v.0.7.0
 - higher accuracy of conversion percentage bar
 - fixed downloading and conversion of clips downloaded from other services than youtube

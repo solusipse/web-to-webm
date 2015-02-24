@@ -4,5 +4,6 @@
         <file>icons/convert.png</file>
         <file>icons/open.png</file>
         <file>icons/web-to-webm.ico</file>
+        <file>icons/spinner.gif</file>
     </qresource>
 </RCC>

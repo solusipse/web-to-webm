@@ -37,7 +37,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_urlEdit_returnPressed() {
-    utils.loadVideo(win.ui->urlEdit->text());
+    utils.startProcessQueue(win.ui->urlEdit->text());
 }
 
 void MainWindow::on_selectSavePath_clicked() {
@@ -119,12 +119,7 @@ void MainWindow::on_menuShowLog_triggered() {
 }
 
 void MainWindow::on_menuNew_triggered() {
-    utils.killProcesses();
-    win.setPlayerHtml();
-    win.ui->titleEdit->clear();
-    win.ui->urlEdit->clear();
-    win.reset();
-    win.lockAllControls(true);
+    utils.newVideo();
 }
 
 void MainWindow::on_menuCustomYoutubedlPath_triggered() {
