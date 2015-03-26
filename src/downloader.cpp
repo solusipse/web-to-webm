@@ -53,6 +53,7 @@ void Downloader::complete(int code) {
 
     if (win.ui->menuDontConvert->isChecked()) {
         utils.addToLog("<b>User decided not to convert.</b> Downloaded video saved to: " + utils.getCurrentRawFilename());
+        win.toggleConversionButton();
         return;
     }
 
