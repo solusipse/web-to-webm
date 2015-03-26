@@ -42,6 +42,11 @@ Since web-to-webm downloading mechanism is based on `yotube-dl` it supports same
 
 ## Changelog
 
+### v.0.8.0 (in progress)
+- (todo) replace QWebView with QMediaPlayer
+- (todo) create external QT updater application
+- (todo) add possibility to open and convert local videos
+
 ### v.0.7.2
 - lightweight mode (no player)
 
